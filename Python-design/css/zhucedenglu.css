@@ -8,7 +8,7 @@ body{
     height:450px;
     margin:10% auto;
 }
-.signin img{
+.signin .title{
     margin:0px auto;
     margin-top:20px;
     width:50%;
@@ -28,4 +28,8 @@ body{
 .signin a{
     display:inline-block;
     margin:10px 50px;
+}
+.denglu{
+	margin:20px;
+    width:10%;
 }
