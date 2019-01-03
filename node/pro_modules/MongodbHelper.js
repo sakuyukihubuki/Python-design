@@ -27,8 +27,6 @@ class MongodbHelper {
                 }
             });
         });
-        
-        return db.collection(cName);
     }
     getCollection(db, cName) {
         return db.collection(cName);
@@ -50,17 +48,77 @@ class MongodbHelper {
             })
         });
     }
-    delete() {
-
+    deleteCollection(db, cName) {
+        return db.collection(cName).drop();
     }
-    rewrite() {
-
+    connectCollection(db, left, right, newField) {
+        return db.collection(left.name).aggregate([
+            {
+                $lookup: {
+                    from: right.name,        
+                    localField: left.filed, 
+                    foreignField: right.filed,
+                    as: newField
+                }
+            }
+        ]);
     }
-    search() {
-
+    insertDocument(collect, data) {
+        if(data instanceof Array) {
+            return collect.insertMany(data);
+        }else if(typeof data === "object") {
+            return collect.insertOne(data);
+        }else {
+            return Promise.reject(() => {
+                throw "插入文档数据格式错误！";
+            });
+        } 
     }
-    sort() {
-
+    findDocument(collect, condition) {
+        let findResult;
+        if(!condition) {
+            findResult = collect.find();   
+        }else {
+            findResult = collect.find(condition.where);
+            if(condition.skip) {
+                findResult = findResult.skip(condition.skip);
+            }
+            if(condition.limit) {
+                findResult = findResult.limit(condition.limit);
+            }
+            if(condition.sort) {
+                findResult = findResult.sort(condition.sort);
+            }
+        }
+        return findResult;
+    }
+    updateDocument(collect, where, data) {
+        if(where) {
+            return Promise.reject(() => {
+                throw "没有设置更新文档的匹配条件";
+            });
+        }
+        if(data instanceof Array) {
+            return collect.updateMany(where, data);
+        }else if(typeof data === "object") {
+            return collect.updateOne(where, data);
+        }else {
+            return Promise.reject(() => {
+                throw "更新文档数据格式错误！";
+            });
+        }
+    }
+    deleteDocument(collect, where, isMany) {
+        if(where) {
+            return Promise.reject(() => {
+                throw "没有设置删除文档的匹配条件！";
+            });
+        }
+        if(!isMany) {
+            return collect.deleteOne(where);
+        }else {
+            return collect.deleteMany(where);
+        }
     }
 };
 
