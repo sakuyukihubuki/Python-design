@@ -1,3 +1,3 @@
 const app = require("./app");
 
-app.init().listen(80, "localhost");
+app.init().listen(80);
