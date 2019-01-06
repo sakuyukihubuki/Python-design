@@ -1,3 +1,3 @@
-const app = require("./app");
+const App = require("./app");
 
-app.init().listen(80);
+App.init().listen(80);

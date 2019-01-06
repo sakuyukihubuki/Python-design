@@ -4,10 +4,10 @@ class MongodbHelper {
     constructor(url) {
         this.url = url || "mongodb://localhost:27017";
     }
-    connect(dbName) {
+    connect() {
         return new Promise((reslove, reject) => {
             MongoClient.connect(this.url).then((client) => {
-                reslove(client.db(dbName));
+                reslove(client);
             }).catch((err) => {
                 reject(err);
             });

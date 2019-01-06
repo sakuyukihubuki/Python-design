@@ -17,7 +17,9 @@
   },
   "homepage": "https://github.com/sakuyukihubuki/Python-design#readme",
   "dependencies": {
+    "chance": "^1.0.18",
     "express": "^4.16.4",
+    "express-session": "^1.15.6",
     "mongodb": "^3.1.10"
   }
 }
