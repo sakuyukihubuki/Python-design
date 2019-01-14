@@ -120,6 +120,10 @@ class MongodbHelper {
             return collect.deleteMany(where);
         }
     }
+    aggregateDocument(collect, pipeline) {
+        
+        return collect.aggregate(pipeline);
+    }
 };
 
 module.exports = MongodbHelper;

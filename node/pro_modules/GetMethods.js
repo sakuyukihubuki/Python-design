@@ -8,6 +8,10 @@ let pagePath = path.resolve(__dirname, "../public");
 
 const router = express.Router();
 
+router.get("/codemirror", (req, res) => {
+    res.sendFile(path.join(pagePath, "codemirror-demo/index.html"));
+})
+
 router.get("/", (req, res) => {
     res.redirect("/index");
 });
@@ -52,23 +56,66 @@ router.get("/api/paperList", (req, res) => {
 
 // 获取试卷题目
 router.get("/api/paperDetail", (req, res) => {
+    // 获取试卷id
+    let _id = req.query.paperId;
     
+    // 查询数据库
+    let findPromise = common.findDocumentToArray("paper", "paperDetail", { _id });
 
-    res.end();
+    findPromise.then((result) => {
+        let json = result[0];
+        res.send(json);
+    });
 });
 
 // 获取专题题目
-router.get("/api/questionByContent", (req, res) => {
+// router.get("/api/questionByContent", (req, res) => {
 
-});
+// });
 
 // 按题目类别获取题目
 router.get("/api/questionByType", (req, res) => {
     // 获取请求信息
-    let _id = req.query.paperId;
+    let type = req.query.type;
+    let limit = parseInt(req.query.count);
+    let page = req.query.page;
+
+    let skip = (page-1) * limit;
+    console.log(skip)
 
     // 查询数据库
-    let 
+    // count
+    // let countPromise = common.countDocument("paper", "paperDetail");
+
+    // list
+    let findPromise = common.aggregateDocument("paper", "paperDetail", [
+        {
+            $project: { 
+                questions: { 
+                    $filter: { 
+                        input: "$questions",
+                        as: "item",
+                        cond: {
+                            $eq: ["$$item.type", type]
+                        }
+                    }
+                }
+            }
+        },
+        // { $limit: limit },
+        // { $skip: skip }
+    ]);
+    
+    // let allPromise = Promise.all([countPromise, findPromise]);
+    findPromise.then((result) => {
+        let tmp = [];
+        result.forEach((val, idx, arr) => {
+            tmp = tmp.concat(val.questions);
+        });
+        let totalCount = tmp.length;
+        tmp = tmp.slice(skip, skip+limit);
+        res.send({ totalCount, result: tmp });
+    });
 });
 
 module.exports = router;

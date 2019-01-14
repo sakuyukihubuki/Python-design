@@ -60,9 +60,36 @@ function findDocumentToArray(dbName, cName, condition) {
     });
 }
 
+// 分页查询
+function findDocumentByPages(dbName, cName, count, page) {
+    return new Promise((reslove, reject) => {
+        let findPromise = findDocumentToArray(dbName, cName, condition);
+        
+    });
+}
+
+
+function aggregateDocument(dbName, cName, pipeline) {
+    return new Promise((reslove, reject) => {
+        let connectPromise = m.connect(dbName);
+        connectPromise.then((client) => {
+            let db = client.db(dbName);
+            let collectPromise = m.collection(db, cName);
+            collectPromise.then((collect) => {
+                let aggCursor = m.aggregateDocument(collect, pipeline);
+                let aggPromise = aggCursor.toArray();
+                aggPromise.then((result) => {
+                    reslove(result);
+                });
+            });
+        });
+    });
+}
+
 module.exports = {
     insertDocument,
     findDocument,
     countDocument,
-    findDocumentToArray
+    findDocumentToArray,
+    aggregateDocument
 }
