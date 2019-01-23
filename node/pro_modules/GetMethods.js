@@ -81,40 +81,23 @@ router.get("/api/questionByType", (req, res) => {
     let page = req.query.page;
 
     let skip = (page-1) * limit;
-    console.log(skip)
-
-    // 查询数据库
-    // count
-    // let countPromise = common.countDocument("paper", "paperDetail");
-
-    // list
+  
     let findPromise = common.aggregateDocument("paper", "paperDetail", [
+        { $unwind: "$questions" }, 
         {
-            $project: { 
-                questions: { 
-                    $filter: { 
-                        input: "$questions",
-                        as: "item",
-                        cond: {
-                            $eq: ["$$item.type", type]
-                        }
-                    }
+            $group: {
+                _id: { type },
+                totalCount: { $sum: 1 },
+                result: { 
+                    $push: "$questions"
                 }
             }
         },
-        // { $limit: limit },
-        // { $skip: skip }
+        { $skip: skip },
+        { $limit: limit }
     ]);
-    
-    // let allPromise = Promise.all([countPromise, findPromise]);
     findPromise.then((result) => {
-        let tmp = [];
-        result.forEach((val, idx, arr) => {
-            tmp = tmp.concat(val.questions);
-        });
-        let totalCount = tmp.length;
-        tmp = tmp.slice(skip, skip+limit);
-        res.send({ totalCount, result: tmp });
+        res.send(result)
     });
 });
 
