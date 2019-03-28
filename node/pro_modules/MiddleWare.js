@@ -41,8 +41,6 @@ function sessionHandler(basePath, public, page) {
     }
 }
 
-
-
 module.exports = {
     notFoundHandler,
     errorHandler,

@@ -8,16 +8,17 @@ let pagePath = path.resolve(__dirname, "../public");
 
 const router = express.Router();
 
+// test
 router.get("/codemirror", (req, res) => {
     res.sendFile(path.join(pagePath, "codemirror-demo/index.html"));
-})
+});
 
 router.get("/", (req, res) => {
     res.redirect("/index");
 });
 
 router.get("/index", (req, res) => {
-    res.sendFile(path.join(pagePath, "index.html"));
+    res.sendFile(path.join(pagePath, "homepage.html"));
 });
 
 router.get("/login", (req, res) => {
@@ -68,11 +69,6 @@ router.get("/api/paperDetail", (req, res) => {
     });
 });
 
-// 获取专题题目
-// router.get("/api/questionByContent", (req, res) => {
-
-// });
-
 // 按题目类别获取题目
 router.get("/api/questionByType", (req, res) => {
     // 获取请求信息
@@ -82,21 +78,26 @@ router.get("/api/questionByType", (req, res) => {
 
     let skip = (page-1) * limit;
   
-    let findPromise = common.aggregateDocument("paper", "paperDetail", [
+    let findPromise = common.aggregateDocumentToArray("paper", "paperDetail", [
         { $unwind: "$questions" }, 
         {
             $group: {
                 _id: { type },
                 totalCount: { $sum: 1 },
-                result: { 
-                    $push: "$questions"
-                }
+                result: { $push: {questions: "$questions", _id: "$_id"} }
             }
         },
         { $skip: skip },
         { $limit: limit }
     ]);
-    findPromise.then((result) => {
+    findPromise.then((arr) => {
+        let result = arr[0];
+        delete result._id;
+        let ques = result.result;
+        for(let i = 0; i < ques.length; i++) {
+            let curQues = ques[i];
+            ques[i] = { _id: curQues._id, ...curQues.questions };
+        }
         res.send(result)
     });
 });

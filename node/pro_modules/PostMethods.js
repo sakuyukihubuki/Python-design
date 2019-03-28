@@ -1,11 +1,10 @@
 const express = require("express");
 const common = require("./common");
-const { ObjectID } = require("mongodb");
-const exec = require("child_process").exec;
+const { exec } = require("child_process");
 const fs = require("fs");
+const dataCreator = require("./dataCreator");
 
 const router = express.Router();
-let objectId = new ObjectID();
 
 // 登录
 router.post("/api/login", (req, res) => {
@@ -80,9 +79,22 @@ router.post("/api/runcode", (req, res) => {
     });
 });
 
-// extend
-router.post("/api/backend/addPaperList", (req, res) => {
+// 答题提交
+router.post("/api/commitPaper", (req, res) => {
+    // 获取试卷信息
+    let paperId = req.body.paperId;
+    // 如果可以出现用户没有填写题目的情况，不能跳过该题目答案，应将其置为undefined
+    let answers = req.body.answers; 
+    
+    // 将信息写入数据库
+    common.updateDocument("paper", "paperList", {"_id": paperId}, { $set: { "questions": answers } });
+    res.send({"result": true});
+});
 
+// extend
+router.post("/api/backend/addPaper", (req, res) => {
+    let id = dataCreator.createObjectId();
+    
 });
 
 module.exports =router;

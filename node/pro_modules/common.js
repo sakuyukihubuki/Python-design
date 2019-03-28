@@ -60,16 +60,7 @@ function findDocumentToArray(dbName, cName, condition) {
     });
 }
 
-// 分页查询
-function findDocumentByPages(dbName, cName, count, page) {
-    return new Promise((reslove, reject) => {
-        let findPromise = findDocumentToArray(dbName, cName, condition);
-        
-    });
-}
-
-
-function aggregateDocument(dbName, cName, pipeline) {
+function aggregateDocumentToArray(dbName, cName, pipeline) {
     return new Promise((reslove, reject) => {
         let connectPromise = m.connect(dbName);
         connectPromise.then((client) => {
@@ -86,10 +77,26 @@ function aggregateDocument(dbName, cName, pipeline) {
     });
 }
 
+function updateDocument(dbName, cName, condition, updateStr) {
+    return new Promise((reslove, reject) => {
+        let connectPromise = m.connect(dbName);
+        connectPromise.then((client) => {
+            let db = client.db(dbName);
+            let collectPromise = m.collection(db, cName);
+            collectPromise.then((collect) => {
+                // 更新
+                m.updateDocument(condition, updateStr);
+                reslove();
+            });
+        });
+    });
+}
+
 module.exports = {
     insertDocument,
     findDocument,
     countDocument,
     findDocumentToArray,
-    aggregateDocument
+    aggregateDocumentToArray,
+    updateDocument
 }
