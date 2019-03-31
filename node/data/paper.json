@@ -1,36 +1,55 @@
 [
     {
-        "name": "name",
+        "_id": "5ca06e9201257519105a7882",
+        "name": "paper1",
         "questions": [
             {
+                "index": 0,
                 "type": "select",
                 "content": "content",
-                "user_answer": "B",
                 "correct_answer": "A"
             },
             {
+                "index": 1,
+                "type": "operation",
+                "content": "content",
+                "correct_answer": "corrent_answer"
+            }
+        ]
+    },
+    {
+        "_id": "5ca06e9201257519105a7883",
+        "name": "paper2",
+        "questions": [
+            {
+                "index": 0,
                 "type": "select",
                 "content": "content",
-                "user_answer": "B",
-                "correct_answer": "A"
+                "correct_answer": "B"
             },
             {
+                "index": 1,
+                "type": "operation",
+                "content": "content",
+                "correct_answer": "corrent_answer"
+            }
+        ]
+    },
+    {
+        "_id": "5ca06e9201257519105a7884",
+        "name": "paper3",
+        "questions": [
+            {
+                "index": 0,
                 "type": "select",
                 "content": "content",
-                "user_answer": "B",
-                "correct_answer": "A"
+                "correct_answer": "C"
             },
             {
-                "type": "select",
+                "index": 1,
+                "type": "operation",
                 "content": "content",
-                "user_answer": "B",
-                "correct_answer": "A"
-            },
-            {
-                "type": "select",
-                "content": "content",
-                "user_answer": "B",
-                "correct_answer": "A"
+                "correct_answer": "corrent_answer"
             }
         ]
     }

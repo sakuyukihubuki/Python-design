@@ -13,10 +13,9 @@ router.post("/api/login", (req, res) => {
     let pwd = req.body.pwd;
 
     // 查找数据库
-    let findPromise = common.findDocumentToArray("paper", "account", { username, pwd });
+    let findPromise = common.findDocumentToArray("paper", "user", { where: {username, pwd} });
     findPromise.then((result) => {
         // 用户密码正确
-        console.log(result)
         if(result.length) {
             req.session.username = username;
             res.send(true); 
@@ -29,7 +28,7 @@ router.post("/api/login", (req, res) => {
 // 注册
 router.post("/api/register", (req, res) => {
     // 生成ObjectId
-    let _id = objectId.toHexString();
+    // let _id = objectId.toHexString();
 
     // 获取用户账号信息
     let username = req.body.username;
@@ -39,24 +38,26 @@ router.post("/api/register", (req, res) => {
 
     // 验证
     if(!username) {
-        res.send("用户名为空！");
+        res.send("0");
+        return;
     }
     if(!pwd) {
-        res.send("密码为空！");
+        res.send("1");
+        return;
     }
     // 查询用户名
-    let findPromise = common.findDocumentToArray("paper", "account", { where: { username } });
+    let findPromise = common.findDocumentToArray("paper", "user", { where: { username } });
     findPromise.then((result) => {
         if(!result.length) {
             // 存入数据库
-            let promise = common.insertDocument("paper", "account", { _id, username, pwd });
+            let promise = common.insertDocument("paper", "user", { username, pwd, answers: [] });
             promise.then(() => {
                 res.send(true);
             }).catch(() => {
                 res.send(false);
             }); 
         }else {
-            res.send("用户名已存在");
+            res.send("2");
         }   
     });
 });
@@ -81,13 +82,19 @@ router.post("/api/runcode", (req, res) => {
 
 // 答题提交
 router.post("/api/commitPaper", (req, res) => {
+    // 从session中获取用户名
+    let username = req.session.username;
+    username = "password2";
     // 获取试卷信息
     let paperId = req.body.paperId;
     // 如果可以出现用户没有填写题目的情况，不能跳过该题目答案，应将其置为undefined
     let answers = req.body.answers; 
-    
+    // $set
+    let setObject = {};
+    let answersField = "anwsers." + paperId;
+    setObject[answersField] = answers;
     // 将信息写入数据库
-    common.updateDocument("paper", "paperList", {"_id": paperId}, { $set: { "questions": answers } });
+    common.updateDocument("paper", "user", { username }, { $set: setObject });
     res.send({"result": true});
 });
 

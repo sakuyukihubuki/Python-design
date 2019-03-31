@@ -51,7 +51,8 @@ router.get("/api/paperList", (req, res) => {
     let allPromise = Promise.all([countPromise, findPromise]);
     allPromise.then((arr) => {
         let [ totalCount, result ] = arr;
-        res.send({ totalCount, result });
+        let totalPage = Math.ceil(totalCount / limit) || 1;
+        res.send({ totalPage, result });
     });
 });
 
@@ -80,6 +81,7 @@ router.get("/api/questionByType", (req, res) => {
   
     let findPromise = common.aggregateDocumentToArray("paper", "paperDetail", [
         { $unwind: "$questions" }, 
+        { $match: {"questions.type": type } },
         {
             $group: {
                 _id: { type },
@@ -92,7 +94,9 @@ router.get("/api/questionByType", (req, res) => {
     ]);
     findPromise.then((arr) => {
         let result = arr[0];
+        result.totalPage = Math.ceil(result.totalCount/limit);
         delete result._id;
+        delete result.totalCount;
         let ques = result.result;
         for(let i = 0; i < ques.length; i++) {
             let curQues = ques[i];
