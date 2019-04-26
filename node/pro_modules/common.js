@@ -85,7 +85,7 @@ function updateDocument(dbName, cName, condition, updateStr) {
             let collectPromise = m.collection(db, cName);
             collectPromise.then((collect) => {
                 // 更新
-                m.updateDocument(condition, updateStr);
+                m.updateDocument(collect, condition, updateStr);
                 reslove();
             });
         });

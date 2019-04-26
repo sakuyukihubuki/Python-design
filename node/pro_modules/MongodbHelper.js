@@ -93,7 +93,7 @@ class MongodbHelper {
         return findResult;
     }
     updateDocument(collect, where, data) {
-        if(where) {
+        if(!where) {
             return Promise.reject(() => {
                 throw "没有设置更新文档的匹配条件";
             });

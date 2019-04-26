@@ -29,8 +29,22 @@ router.get("/register", (req, res) => {
     res.sendFile(path.join(pagePath, "register.html"));
 });
 
+/***********************************
+
+    backend-manager API
+
+************************************/
+router.get("/api/backend/paperList", (req, res) => {
+    let findPromise = common.findDocumentToArray("paper", "paperList");
+    findPromise.then((arr) => {
+        res.send({ result: arr, state: true });
+    }).catch(() => {
+        res.send({ result: null, state: false });
+    });
+});
+
 // 检查登录会话是否存在
-// router.get("*", middleware.sessionHandler(path.resolve(__dirname, ".."), "public"));
+router.get("*", middleware.sessionHandler(path.resolve(__dirname, ".."), "public"));
 
 // 获取试卷列表
 router.get("/api/paperList", (req, res) => {
