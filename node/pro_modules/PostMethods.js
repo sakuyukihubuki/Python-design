@@ -151,8 +151,73 @@ router.post("/api/commitAnswersByType", (req, res) => {
 
 ******************************/
 // extend
+router.post("/api/backend/deleteUser", (req, res) => {
+    let username = req.body.username;
+    let deletePromise = common.deleteDocument("paper", "user", { username }, false);
+    deletePromise.then(() => {
+        res.send({ result: true });
+    }).catch(() => {
+        res.send({ result: false });
+    });
+});
+
+router.post("/api/backend/addUser", (req, res) => {
+    let obj = JSON.parse(req.body.obj);
+    let insertPromise = common.insertDocument("paper", "user", obj);
+    insertPromise.then(() => {
+        res.send({ result: true });
+    }).catch(() => {
+        res.send({ result: false });
+    });
+});
+
+router.post("/api/backend/rewriteUser", (req, res) => {
+    let obj = JSON.parse(req.body.obj);
+    let updatePromise = common.updateDocument("paper", "user", { username: obj.username }, obj);
+    updatePromise.then(() => {
+        res.send({ result: true });
+    }).catch(() => {
+        res.send({ result: false });
+    });
+});
+
+router.post("/api/backend/deletePaper", (req, res) => {
+    let _id = req.body.paperId;
+    let deletePaperList = common.deleteDocument("paper", "paperList", { _id }, false);
+    let deletePaperDetail = common.deleteDocument("paper", "paperDetail", { _id }, false);
+    let promise = Promise.all([ deletePaperList, deletePaperDetail ]);
+    promise.then(() => {
+        res.send({ result: true });
+    }).catch(() => {
+        res.send({ result: false });
+    });
+});
+
 router.post("/api/backend/addPaper", (req, res) => {
-    
+    let { list, detail } = JSON.parse(req.body.obj);
+    let _id = dataCreator.createObjectId();
+    list._id = _id;
+    detail._id = _id;
+    let insertPaperList = common.insertDocument("paper", "paperList", list);
+    let insertPaperDetail = common.insertDocument("paper", "paperDetail", detail);
+    let promise = Promise.all([ insertPaperList, insertPaperDetail ]);
+    promise.then(() => {
+        res.send({ result: true });
+    }).catch(() => {
+        res.send({ result: false });
+    });
+});
+
+router.post("/api/backend/rewritePaper", (req, res) => {
+    let { _id, list, detail } = JSON.parse(req.body.obj);
+    let updatePaperList = common.updateDocument("paper", "paperList", { _id }, list);
+    let updatePaperDetail = common.updateDocument("paper", "paperDetail", { _id }, detail);
+    let promise = Promise.all([ updatePaperList, updatePaperDetail ]);
+    promise.then(() => {
+        res.send({ result: true });
+    }).catch(() => {
+        res.send({ result: false });
+    });
 });
 
 module.exports =router;

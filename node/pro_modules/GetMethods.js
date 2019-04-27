@@ -43,6 +43,15 @@ router.get("/api/backend/paperList", (req, res) => {
     });
 });
 
+router.get("/api/backend/userList", (req, res) => {
+    let findPromise = common.findDocumentToArray("paper", "user");
+    findPromise.then((arr) => {
+        res.send({ result: arr, state: true })
+    }).catch(() => {
+        res.send({ result: null, state: false })
+    });
+});
+
 // 检查登录会话是否存在
 router.get("*", middleware.sessionHandler(path.resolve(__dirname, ".."), "public"));
 
