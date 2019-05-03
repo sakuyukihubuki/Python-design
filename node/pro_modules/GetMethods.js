@@ -4,30 +4,34 @@ const path = require("path");
 const middleware = require("./MiddleWare");
 const common = require("./common");
 
+let pageTable = require("../pageReflectTable"); 
+
 let pagePath = path.resolve(__dirname, "../public");
 
 const router = express.Router();
 
+router.use(middleware.getPageReflectHandler(path.resolve(__dirname, "../"), "public", pageTable));
+
 // test
-router.get("/codemirror", (req, res) => {
-    res.sendFile(path.join(pagePath, "codemirror-demo/index.html"));
-});
+// router.get("/codemirror", (req, res) => {
+//     res.sendFile(path.join(pagePath, "codemirror-demo/index.html"));
+// });
 
-router.get("/", (req, res) => {
-    res.redirect("/index");
-});
+// router.get("/", (req, res) => {
+//     res.redirect("/index");
+// });
 
-router.get("/index", (req, res) => {
-    res.sendFile(path.join(pagePath, "homepage.html"));
-});
+// router.get("/index", (req, res) => {
+//     res.sendFile(path.join(pagePath, "homepage.html"));
+// });
 
-router.get("/login", (req, res) => {
-    res.sendFile(path.join(pagePath, "login.html"));
-});
+// router.get("/login", (req, res) => {
+//     res.sendFile(path.join(pagePath, "login.html"));
+// });
 
-router.get("/register", (req, res) => {
-    res.sendFile(path.join(pagePath, "register.html"));
-});
+// router.get("/register", (req, res) => {
+//     res.sendFile(path.join(pagePath, "register.html"));
+// });
 
 /***********************************
 
