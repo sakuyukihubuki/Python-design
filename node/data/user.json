@@ -2,37 +2,6 @@
     {
         "username": "username1",
         "pwd": "password1",
-        "answers": {
-            "5ca06e9201257519105a7882": [
-                {
-                    "index": 0,
-                    "answer": "C"
-                },
-                {
-                    "index": 1,
-                    "answer": "print('paper1')"
-                }
-            ],
-            "5ca06e9201257519105a7883": [
-                {
-                    "index": 0,
-                    "answer": "D"
-                },
-                {
-                    "index": 1,
-                    "answer": "print('paper2')"
-                }
-            ],
-            "5ca06e9201257519105a7884": [
-                {
-                    "index": 0,
-                    "answer": "C"
-                },
-                {
-                    "index": 1,
-                    "answer": "print('paper3')"
-                }
-            ]
-        }
+        "answers": {}
     }
 ]
