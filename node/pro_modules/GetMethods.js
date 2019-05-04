@@ -57,7 +57,7 @@ router.get("/api/backend/userList", (req, res) => {
 });
 
 // 检查登录会话是否存在
-router.get("*", middleware.sessionHandler(path.resolve(__dirname, ".."), "public"));
+// router.get("*", middleware.sessionHandler(path.resolve(__dirname, ".."), "public"));
 
 // 获取试卷列表
 router.get("/api/paperList", (req, res) => {
