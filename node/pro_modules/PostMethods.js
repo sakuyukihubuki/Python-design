@@ -4,7 +4,7 @@ const cookieParser = require("cookie-parser");
 const common = require("./common");
 const { exec } = require("child_process");
 const fs = require("fs");
-const dataCreator = require("./dataCreator");
+const { ObjectId } = require("mongodb")
 
 const router = express.Router();
 
@@ -50,6 +50,9 @@ router.post("/api/register", (req, res) => {
     let username = req.body.username;
     let pwd = req.body.pwd;
     
+    // 注册时间
+    let registerTime = (new Date()).getTime()
+
     // 获取用户基本信息
 
     // 验证
@@ -66,7 +69,7 @@ router.post("/api/register", (req, res) => {
     findPromise.then((result) => {
         if(!result.length) {
             // 存入数据库
-            let promise = common.insertDocument("paper", "user", { username, pwd, answers: {} });
+            let promise = common.insertDocument("paper", "user", { username, pwd, registerTime });
             promise.then(() => {
                 res.send(true);
             }).catch(() => {
@@ -75,6 +78,62 @@ router.post("/api/register", (req, res) => {
         }else {
             res.send("2");
         }   
+    });
+});
+
+// discuss
+router.post("/api/discuss/commit", (req, res) => {
+    // id 
+    let discussId = (new ObjectId()).toHexString();
+    // username
+    let username = req.session.username;
+    // 注册时间
+    let time = (new Date()).getTime();
+    // paperId
+    let paperId = req.body.paperId;
+    // index
+    let index = req.body.index;
+    // say
+    let comment = req.body.comment;
+
+    let obj = {
+        paperId,
+        index,
+        discussId,
+        star: 0,
+        cai: 0,
+        username,
+        time,
+        comment
+    };
+    
+    let insertProimse = common.insertDocument("paper", "discuss", obj);
+    insertProimse.then(() => {
+        res.send(true);
+    }).catch(() => {
+        res.send(false);
+    });
+});
+
+// star
+router.post("/api/discuss/star", (req, res) => {
+    let discussId = req.body.discussId;
+    let updatePromise = common.updateDocument("paper", "discuss", { discussId }, { $inc: { star: 1 } })
+    updatePromise.then(() => {
+        res.send(true);
+    }).catch(() => {
+        res.send(false);
+    });
+});
+
+// cai
+router.post("/api/discuss/cai", (req, res) => {
+    let discussId = req.body.discussId;
+    let updatePromise = common.updateDocument("paper", "discuss", { discussId }, { $inc: { cai: 1 } })
+    updatePromise.then(() => {
+        res.send(true);
+    }).catch(() => {
+        res.send(false);
     });
 });
 

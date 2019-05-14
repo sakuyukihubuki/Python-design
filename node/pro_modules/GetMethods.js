@@ -69,15 +69,21 @@ router.get("/api/paperList", (req, res) => {
 
     // 查询数据库
     // count
-    let countPromise = common.countDocument("paper", "paperList");
+    let countPromise = common.countDocument("paper", "paperDetail");
 
     // limit
-    let findPromise = common.findDocumentToArray("paper", "paperList", { limit, skip });
+    let findPromise = common.findDocumentToArray("paper", "paperDetail", { limit, skip });
 
     // all
     let allPromise = Promise.all([countPromise, findPromise]);
     allPromise.then((arr) => {
         let [ totalCount, result ] = arr;
+        result.forEach(item, idx => {
+            result[idx] = {
+                _id: item._id,
+                name: item.name
+            }
+        })
         let totalPage = Math.ceil(totalCount / limit) || 1;
         res.send({ totalPage, result });
     });
@@ -87,9 +93,8 @@ router.get("/api/paperList", (req, res) => {
 router.get("/api/paperDetail", (req, res) => {
     // 获取试卷id
     let _id = req.query.paperId;
-    
     // 查询数据库
-    let findPromise = common.findDocumentToArray("paper", "paperDetail", { _id });
+    let findPromise = common.findDocumentToArray("paper", "paperDetail", { where: { _id } });
 
     findPromise.then((result) => {
         let json = result[0];
@@ -130,6 +135,44 @@ router.get("/api/questionByType", (req, res) => {
             ques[i] = { _id: curQues._id, ...curQues.questions };
         }
         res.send(result)
+    });
+});
+
+// 获取特定题目评论
+router.get("/api/discussForQuestion", (req, res) => {
+    function convert (result) {
+       return result.forEach(item => {
+           delete item["paperId"];
+           delete item["index"];
+           return item
+       })   
+    }
+    let paperId = req.query.paperId;
+    let index = req.query.index;
+    let findPromise = common.findDocumentToArray("paper", "discuss", { where: { paperId, index } });
+    findPromise.then(result => {
+        res.send(convert(result));
+    }).catch(() => {
+        res.send(false);
+    });
+});
+
+// 获取特定试卷评论
+router.get("/api/discussForPaper", (req, res) => {
+    const paperId = req.query.paperId;
+    const aggregatePromise = common.aggregateDocumentToArray("paper", "discuss", [
+        { $match: { paperId } },
+        {
+            $group: {
+                _id: null,
+                totalCount: { $sum: 1 }
+            }
+        }
+    ]);
+    aggregatePromise.then(result => {
+        res.send(result)
+    }).catch(() => {
+        res.send(false)
     });
 });
 
