@@ -148,7 +148,7 @@ router.get("/api/discussForQuestion", (req, res) => {
        })   
     }
     let paperId = req.query.paperId;
-    let index = req.query.index;
+    let index = parseInt(req.query.index);
     let findPromise = common.findDocumentToArray("paper", "discuss", { where: { paperId, index } });
     findPromise.then(result => {
         res.send(convert(result));

@@ -92,7 +92,7 @@ router.post("/api/discuss/commit", (req, res) => {
     // paperId
     let paperId = req.body.paperId;
     // index
-    let index = req.body.index;
+    let index = parseInt(req.body.index);
     // say
     let comment = req.body.comment;
 
