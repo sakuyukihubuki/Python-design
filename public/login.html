@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" id="username" />
+    <input type="password" id="pwd" />
+    <button type="button" id="loginBtn">登录</button>
+</body>
+</html>
+<script src="jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $("#loginBtn").click(function() {
+            var username = $("#username").val();
+            var pwd = $("#pwd").val();
+            $.ajax({
+                url: "http://localhost/login",
+                data: {
+                    username: username,
+                    pwd: pwd
+                },
+                success: function(res) {
+                    console.log(res)
+                }
+            })
+        });
+    });
+</script>

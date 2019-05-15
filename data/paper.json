@@ -1,0 +1,1189 @@
+[
+    {
+        "_id": "5ca06e9201257519105a7882",
+        "name": "2019 Python计算机二级考试模拟试卷一",
+        "questions": [
+            {
+                "index": 0,
+                "type": "select",
+                "content": "关于数据的存储结构，以下选项描述正确的是（）",
+                "options": [
+                    "数据所占的存储空间量",
+                    "存储在外存中的数据",
+                    "数据在计算机中的顺序存储方式",
+                    "数据的逻辑结构在计算机中的表示"
+                ],
+                "correct_answer": "D"
+            },
+            {
+                "index": 1,
+                "type": "select",
+                "content": "关于线性链表的描述，以下选项中正确的是（）",
+                "options": [
+                    "存储空间不一定连续，且各元素的存储顺序是任意的",
+                    "存储空间必须连续，且各元素的存储顺序是任意的",
+                    "存储空间不一定连续，且前件元素一定存储在后件元素的前面",
+                    "存储空间必须连续，且前件元素一定存储在后件元素的前面"
+                ],
+                "correct_answer": "A"
+            },
+            {
+                "index": 2,
+                "type": "select",
+                "content": "关于软件危机，以下选项中描述错误的是 ()",
+                "options": [
+                    "软件过程不规范",
+                    "软件质量难以控制",
+                    "软件开发生产率低",
+                    "软件成本不断提高"
+                ],
+                "correct_answer": "A"
+            },
+            {
+                "index": 3,
+                "type": "select",
+                "content": "设有如下关系表：<img src='/paper/5ca06e9201257519105a7882/4.png' />以下选项中正确地描述了关系表 R、S、T 之间关系的是 ()",
+                "options": [
+                    "T＝R∪S",
+                    "T＝R×S",
+                    "T＝R–S",
+                    "T＝R∩S"
+                ],
+                "correct_answer": "C"
+            },
+            {
+                "index": 4,
+                "type": "select",
+                "content": "关于 Python 程序格式框架的描述，以下选项中错误的是 ()",
+                "options": [
+                    "Python 语言不采用严格的“缩进”来表明程序的格式框架",
+                    "Python 单层缩进代码属于之前最邻近的一行非缩进代码，多层缩进代码根据缩进关系决定所属范围",
+                    "Python 语言的缩进可以采用 Tab 键实现",
+                    "判断、循环、函数等语法形式能够通过缩进包含一批 Python 代码，进而表达对应的语义"
+                ],
+                "correct_answer": "A"
+            },
+            {
+                "index": 5,
+                "type": "select",
+                "content": "关于 Python 组合数据类型，以下选项中描述错误的是 ()",
+                "options": [
+                    "Python 的 str、tuple 和 list 类型都属于序列类型",
+                    "Python 组合数据类型能够将多个同类型或不同类型的数据组织起来，通过单一的表示使数据操作更有序、更容易",
+                    "组合数据类型可以分为 3 类：序列类型、集合类型和映射类型",
+                    "序列类型是二维元素向量，元素之间存在先后关系，通过序号访问"
+                ],
+                "correct_answer": "D"
+            },
+            {
+                "index": 6,
+                "type": "select",
+                "content": "以下选项中不是 Python 对文件的写操作方法的是 （）",
+                "options": [
+                    "writelines",
+                    "write",
+                    "write 和 seek",
+                    "writetext"
+                ],
+                "correct_answer": "D"
+            },
+            {
+                "index": 7,
+                "type": "select",
+                "content": "下面代码的输出结果是 （）<pre lang='python'>d ={'大海':'蓝色', '天空':'灰色', '大地':'黑色'\nprint(d['大地'], d.get('大地', '黄色'))}</pre>",
+                "options": [
+                    "黑色 黄色",
+                    "黑色 黑色",
+                    "黑的 灰色",
+                    "黑色 蓝色"
+                ],
+                "correct_answer": "B",
+                "explain": "dict.get(key, default=None) #返回指定键的值，如果值不在字典中返回default值"
+            },
+            {
+                "index": 8,
+                "type": "select",
+                "content": "关于算法的描述，以下选项中错误的是 （)",
+                "options": [
+                    "算法是指解题方案的准确而完整的描述",
+                    "算法的复杂度主要包括时间复杂度和数据复杂度",
+                    "算法具有可行性、确定性、有穷性的基本特征",
+                    "算法的基本要素包括数据对象的运算和操作及算法的控制结构"
+                ],
+                "correct_answer": "B",
+                "explain": "算法复杂度是指算法在编写成可执行程序后，运行时所需要的资源，资源包括时间资源和内存资源。"
+            },
+            {
+                "index": 9,
+                "type": "select",
+                "content": "关于数据结构的描述，以下选项中正确的是 （）",
+                "options": [
+                    "数据结构指相互有关联的数据元素的集合",
+                    "数据的存储结构是指反映数据元素之间逻辑关系的数据结构",
+                    "数据结构不可以直观地用图形表示",
+                    "数据的逻辑结构有顺序、链接、索引等存储方式"
+                ],
+                "correct_answer": "A"
+            },
+            {
+                "index": 10,
+                "type": "select",
+                "content": "关于结构化程序设计方法原则的描述，以下选项中错误的是 （）",
+                "options": [
+                    "自顶向下",
+                    "多态继承",
+                    "逐步求精",
+                    "模块化"
+                ],
+                "correct_answer": "B"
+            },
+            {
+                "index": 11,
+                "type": "select",
+                "content": "与信息隐蔽的概念直接相关的概念是 （）",
+                "options": [
+                    "模块耦合度",
+                    "软件结构定义",
+                    "模块独立性",
+                    "模块类型划分"
+                ],
+                "correct_answer": "D"
+            },
+            {
+                "index": 12,
+                "type": "select",
+                "content": "关于软件工程的描述，以下选项中描述正确的是 （）",
+                "options": [
+                    "软件工程是应用于计算机软件的定义、开发和维护的一整套方案、工具、文档和实践标准和工序",
+                    "软件工程包括3要素：结构化、模块化、面向对象",
+                    "软件工程工具是完成软件工程项目的技术手段",
+                    "软件工程方法支持软件的开发、管理、文档生成"
+                ],
+                "correct_answer": "A",
+                "explain": "软件工程包括3要素：方法、工具 和 过程。"
+            },
+            {
+                "index": 13,
+                "type": "select",
+                "content": "以下选项中表示关系表中的每一横行的是 （）",
+                "options": [
+                    "元组",
+                    "码",
+                    "列",
+                    "属性"
+                ],
+                "correct_answer": "A"
+            },
+            {
+                "index": 14,
+                "type": "select",
+                "content": "将E-R图转换为关系模式时，可以表示实体与联系的是 （）",
+                "options": [
+                    "属性",
+                    "域",
+                    "关系",
+                    "键"
+                ],
+                "correct_answer": "C"
+            },
+            {
+                "index": 15,
+                "type": "select",
+                "content": "关于Python循环结构，以下选项中描述错误的是 （）",
+                "options": [
+                    "每个continue语句只有能力跳出当前层次的循环",
+                    "break用来跳出最内层for或者while循环，脱离该循环后程序从循环代码后继续执行",
+                    "遍历循环中的遍历结构可以是字符串、文件、组合数据类型和range()函数等",
+                    "Python通过for、while等保留字提供遍历循环和无限循环结构"
+                ],
+                "correct_answer": "A"
+            },
+            {
+                "index": 16,
+                "type": "select",
+                "content": "关于Python的lambda函数，以下选项中描述错误的是 （）",
+                "options": [
+                    "lambda函数将函数名作为函数结果返回",
+                    "f = lambda x,y:x+y 执行后，f的类型为数字类型",
+                    "lambda用于定义简单的、能够在一行内表示的函数",
+                    "可以使用lambda函数定义列表的排序原则"
+                ],
+                "correct_answer": "B"
+            },
+            {
+                "index": 17,
+                "type": "select",
+                "content": "下面代码实现的功能描述的是 ()<pre>def fact(n):\n\tif n==0:\n\treturn 1\nelse:\n\treturn n*fact(n-1)\nnum =eval(input('请输入一个整数：'))\nprint(fact(abs(int(num))))</pre>",
+                "options": [
+                    "接受用户输入的整数 n，输出 n 的阶乘值",
+                    "接受用户输入的整数 n，判断 n 是否是素数并输出结论",
+                    "接受用户输入的整数 n，判断 n 是否是水仙花数",
+                    "接受用户输入的整数 n，判断 n 是否是完数并输出结论"
+                ],
+                "correct_answer": "A"
+            },
+            {
+                "index": 18,
+                "type": "select",
+                "content": "执行后可以查看Python的版本的是 ()",
+                "options": [
+                    "<pre>import sys\nprint(sys.version)</pre>",
+                    "<pre>import system\nprint(system.version)</pre>",
+                    "<pre>import system\nprint(sys.Version)</pre>",
+                    "<pre>import sys\nprint(sys.Version)</pre>"
+                ],
+                "correct_answer": "A"
+            },
+            {
+                "index": 19,
+                "type": "select",
+                "content": "以下选项中，不是Python对文件的打开模式的是 ()",
+                "options": [
+                    "'r'",
+                    "'+'",
+                    "'w'",
+                    "'c'"
+                ],
+                "correct_answer": "D"
+            },
+            {
+                "index": 20,
+                "type": "select",
+                "content": "下面代码的执行结果是：（）<pre>d = {}\nfor i in range(26):\n\td[chr(i+ord('a'))] = chr((i+13) % 26 + ord('a'))\nfor c in 'Python':\n\tprint(d.get(c, c), end='')</pre>",
+                "options": [
+                    "Plguba",
+                    "Cabugl",
+                    "Python",
+                    "Pabugl"
+                ],
+                "correct_answer": "A",
+                "explain": "ord() 函数是 chr() 函数（对于8位的ASCII字符串）或 unichr() 函数（对于Unicode对象）的配对函数，它以一个字符（长度为1的字符串）作为参数，返回对应的 ASCII 数值，或者 Unicode 数值，如果所给的 Unicode 字符超出了你的 Python 定义范围，则会引发一个 TypeError 的异常。chr() 用一个范围在 range（256）内的（就是0～255）整数作参数，返回一个对应的字符。"
+            },
+            {
+                "index": 21,
+                "type": "select",
+                "content": "abs(-3+4i) 或者 |-3+4i|的结果是 （）",
+                "options": [
+                    "3.0",
+                    "执行错误",
+                    "4.0",
+                    "5.0"
+                ],
+                "correct_answer": "D",
+                "explain": "复数z=a+bi，它的模：∣z∣=√(a^2 + b^2)"
+            },
+            {
+                "index": 22,
+                "type": "select",
+                "content": "以下选项中，不属于结构化程序设计方法的是 （）",
+                "options": [
+                    "可封装",
+                    "自顶向下",
+                    "逐步求精",
+                    "模块化"
+                ],
+                "correct_answer": "A"
+            },
+            {
+                "index": 23,
+                "type": "select",
+                "content": "数据独立性是数据库技术的重要特点之一，关于数据独立性，以下选项中描述正确的是 （）",
+                "options": [
+                    "数据与程序独立存放",
+                    "不同数据只能被对应的应用程序所使用",
+                    "不同数据被存放在不同的文件中",
+                    "以上三种说法都不对"
+                ],
+                "correct_answer": "D"
+            },
+            {
+                "index": 24,
+                "type": "select",
+                "content": "关于Python语言的浮点数类型，以下选项中描述错误的是 （）",
+                "options": [
+                    "Python语言要求所有浮点数必须带有小数部分",
+                    "浮点数类型与数学中实数的概念一致",
+                    "小数部分不可以为0",
+                    "浮点数类型表示带有小数的类型"
+                ],
+                "correct_answer": "C"
+            },
+            {
+                "index": 25,
+                "type": "select",
+                "content": "以下选项中说法不正确的是 （）",
+                "options": [
+                    "解释是将源代码逐条转换成目标代码同时逐条运行目标代码的过程",
+                    "编译是将源代码转换成目标代码的过程",
+                    "C语言是静态语言，Python语言是脚本语言",
+                    "静态语言采用解释方式执行，脚本语言采用编译方式执行"
+                ],
+                "correct_answer": "D"
+            },
+            {
+                "index": 26,
+                "type": "select",
+                "content": "哪个选项是下面代码的执行结果 （）<pre>1.23e+4+9.87e+6j.real</pre>",
+                "options": [
+                    "12300.0",
+                    "123e-4",
+                    "9882300.0",
+                    "9.87e+6"
+                ],
+                "correct_answer": "A",
+                "explain": "1.23e+4 + 0 即9.87e+6j.real的实部其实是0, 9.87e+6全是虚部，1.23e+4 =1.23 * 10^4 =12300.0"
+            },
+            {
+                "index": 27,
+                "type": "select",
+                "content": "哪个选项是下面代码的执行结果 （）<pre>1.23e+4+9.87e+6j.imag</pre>",
+                "options": [
+                    "12300.0",
+                    "123e-4",
+                    "9882300.0",
+                    "9.87e+6"
+                ],
+                "correct_answer": "A",
+                "explain": "1.23e+4 + 9.87e+6,即加了9.87e+6j.imag的虚部的数值9.87e+6 == 9.87*10^6 = 9870000,即：1.23e+4+9.87e+6j.imag = 1.23*10^4 + 9.87*10^6 = 12300.0+ 9870000 = 9882300.0"
+            },
+            {
+                "index": 28,
+                "type": "select",
+                "content": "以下选项中不属于线性数据结构的是 （）",
+                "options": [
+                    "线性表",
+                    "二叉树",
+                    "队列",
+                    "栈"
+                ],
+                "correct_answer": "B",
+                "explain": "二叉树是非线性数据结构。"
+            },
+            {
+                "index": 29,
+                "type": "select",
+                "content": "关于算法的空间复杂度，以下选项中描述正确的是 （）",
+                "options": [
+                    "算法程序所占的存储空间",
+                    "算法执行过程中所需要的存储空间",
+                    "算法程序中的指令条数",
+                    "算法程序的长度"
+                ],
+                "correct_answer": "B"
+            },
+            {
+                "index": 30,
+                "type": "select",
+                "content": "设有一个已按各元素的值排好序的线性表（长度大于2），对给定的值k，分别用顺序查找法和二分查找法查找，比较的次数分别是s和b，在查找不成功的情况下，s和b的关系是 （）",
+                "options": [
+                    "s>b",
+                    "s<b",
+                    "s=b",
+                    "s<=b"
+                ],
+                "correct_answer": "A"
+            },
+            {
+                "index": 31,
+                "type": "select",
+                "content": "一个算法一般应该具有的基本特征不包括 （）",
+                "options": [
+                    "无穷性",
+                    "拥有足够多的情报",
+                    "确定性",
+                    "可行性"
+                ],
+                "correct_answer": "A"
+            },
+            {
+                "index": 32,
+                "type": "select",
+                "content": "关于希尔排序，以下描述正确的是 （）",
+                "options": [
+                    "希尔排序属于交换类排序法",
+                    "希尔排序法属于选择类排序法",
+                    "希尔排序法属于建堆排序法",
+                    "希尔排序法属于插入类排序法"
+                ],
+                "correct_answer": "D",
+                "explain": "希尔排序(Shell's Sort)是插入排序的一种又称“缩小增量排序”（Diminishing Increment Sort），是直接插入排序算法的一种更高效的改进版本。希尔排序是非稳定排序算法。"
+            },
+            {
+                "index": 33,
+                "type": "select",
+                "content": "关于队列的描述中，以下描述正确的是 （）",
+                "options": [
+                    "在队列中只能删除数据",
+                    "队列是先进后出的线性表",
+                    "在队列中只能插入数据",
+                    "队列是先进先出的线性表"
+                ],
+                "correct_answer": "D"
+            },
+            {
+                "index": 34,
+                "type": "select",
+                "content": "栈和队列的共同点是 （）",
+                "options": [
+                    "只允许在端点处插入和删除数据",
+                    "都是先进后出",
+                    "都是先进先出",
+                    "没有共同点"
+                ],
+                "correct_answer": "A"
+            },
+            {
+                "index": 35,
+                "type": "select",
+                "content": "在下列几种排序方法中，要求内存量最大的是 （）",
+                "options": [
+                    "快速排序",
+                    "归并排序",
+                    "插入排序",
+                    "选择排序"
+                ],
+                "correct_answer": "B"
+            },
+            {
+                "index": 36,
+                "type": "select",
+                "content": "在数据结构中，所使用的计算机无关的是 （）",
+                "options": [
+                    "数据的存储结构",
+                    "数据的逻辑结构",
+                    "数据的物理结构和存储结构",
+                    "数据的物理结构"
+                ],
+                "correct_answer": "B"
+            },
+            {
+                "index": 37,
+                "type": "select",
+                "content": "关于线性表的顺序存储结构和线性表的链式存储结构，以下选项中描述正确的是 （）",
+                "options": [
+                    "任意存取的存储结构、任意存取的存储结构",
+                    "随机存取的存储结构、顺序存取的存储结构",
+                    "随机存取的存储结构、随机存取的存储结构",
+                    "顺序存取的存储结构、顺序存取的存储结构"
+                ],
+                "correct_answer": "B"
+            },
+            {
+                "index": 38,
+                "type": "select",
+                "content": "已知数据表A中每个元素距其位置不远，为节省时间，宜采用的算法是 （）",
+                "options": [
+                    "直接选择排序",
+                    "堆排序",
+                    "直接插入排序",
+                    "快速排序"
+                ],
+                "correct_answer": "C"
+            },
+            {
+                "index": 39,
+                "type": "select",
+                "content": "已知数据表A中每个元素距其位置不远，为节省时间，宜采用的算法是 （）",
+                "options": [
+                    "直接选择排序",
+                    "堆排序",
+                    "直接插入排序",
+                    "快速排序"
+                ],
+                "correct_answer": "C"
+            },
+            {
+                "index": 40,
+                "type": "base",
+                "content": "给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那 两个 整数，并返回他们的数组下标。你可以假设每种输入只会对应一个答案。但是，你不能重复利用这个数组中同样的元素。",
+                "example": [
+                    {
+                        "input": "nums = [2, 7, 11, 15], target = 9",
+                        "output": "[0, 1]",
+                        "explain": "nums[0] + nums[1] = 2 + 7 = 9"
+                    }
+                ],
+                "correct_answer": "/paper/5ca06e9201257519105a7882/41-code.py"
+            },
+            {
+                "index": 41,
+                "type": "base",
+                "content": "给出一个 32 位的有符号整数，你需要将这个整数中每位上的数字进行反转。",
+                "example": [
+                    {
+                        "input": "123",
+                        "output": "321"
+                    },
+                    {
+                        "input": "-123",
+                        "output": "-321"
+                    },
+                    {
+                        "input": "120",
+                        "output": "21"
+                    }
+                ],
+                "attention": "假设我们的环境只能存储得下 32 位的有符号整数，则其数值范围为 [−231,  231 − 1]。请根据这个假设，如果反转后整数溢出那么就返回 0。",
+                "correct_answer": "/paper/5ca06e9201257519105a7882/42-code.py"
+            },
+            {
+                "index": 42,
+                "type": "base",
+                "content": "给出一个 32 位的有符号整数，你需要将这个整数中每位上的数字进行反转。",
+                "example": [
+                    {
+                        "input": "123",
+                        "output": "321"
+                    },
+                    {
+                        "input": "-123",
+                        "output": "-321"
+                    },
+                    {
+                        "input": "120",
+                        "output": "21"
+                    }
+                ],
+                "correct_answer": "/paper/5ca06e9201257519105a7882/43-code.py"
+            },
+            {
+                "index": 43,
+                "type": "base",
+                "content": "编写一个函数来查找字符串数组中的最长公共前缀。\n如果不存在公共前缀，返回空字符串。",
+                "example": [
+                    {
+                        "input": "['flower', 'flow', 'flight']",
+                        "output": "fl"
+                    },
+                    {
+                        "input": "['dog', 'racecar', 'car']",
+                        "output": "",
+                        "explain": "输入不存在公共前缀。"
+                    }
+                ],
+                "attention": "所有输入只包含小写字母 a-z 。",
+                "correct_answer": "/paper/5ca06e9201257519105a7882/44-code.py"
+            },
+            {
+                "index": 44,
+                "type": "base",
+                "content": "给定一个链表，两两交换其中相邻的节点，并返回交换后的链表。\n你不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。",
+                "example": [
+                    {
+                        "input": "1->2->3->4",
+                        "output": "2->1->4->3"
+                    }
+                ],
+                "correct_answer": "/paper/5ca06e9201257519105a7882/44-code.py"
+            },
+            {
+                "index": 45,
+                "type": "synthesis",
+                "content": "给出一个无重叠的 ，按照区间起始端点排序的区间列表。\n在列表中插入一个新的区间，你需要确保列表中的区间仍然有序且不重叠（如果有必要的话，可以合并区间）。",
+                "example": [
+                    {
+                        "input": "intervals = [[1,3],[6,9]], newInterval = [2,5]",
+                        "output": "[[1,5],[6,9]]"
+                    },
+                    {
+                        "input": "intervals = [[1,2],[3,5],[6,7],[8,10],[12,16]], newInterval = [4,8]",
+                        "output": "[[1,2],[3,10],[12,16]]",
+                        "explain": "这是因为新的区间 [4,8] 与 [3,5],[6,7],[8,10] 重叠。"
+                    }
+                ],
+                "correct_answer": "/paper/5ca06e9201257519105a7882/46-code.py"
+            }
+        ]
+    },
+    {
+        "_id": "5ca06e9201257519105a7883",
+        "name": "2019 Python计算机二级考试模拟试卷二",
+        "questions": [
+            {
+                "index": 0,
+                "type": "select",
+                "content": "用链表表示线性表的优点是 （）",
+                "options": [
+                    "便于插入和删除操作",
+                    "便于随机存储",
+                    "数据元素的物理结构和逻辑结构相同",
+                    "花费的存储空间较顺序存储少"
+                ],
+                "correct_answer": "A"
+            },
+            {
+                "index": 1,
+                "type": "select",
+                "content": "支持子程序调用的数据结构是 （）",
+                "options": [
+                    "树",
+                    "栈",
+                    "二叉树",
+                    "队列"
+                ],
+                "correct_answer": "B"
+            },
+            {
+                "index": 2,
+                "type": "select",
+                "content": "以下选项中，描述了算法的时间复杂度的是 （）",
+                "options": [
+                    "算法的时间复杂度是指执行算法程序所需要的时间",
+                    "算法的时间复杂度是指算法程序的长度",
+                    "算法的时间复杂度是指算法程序中的指令条数",
+                    "算法的时间复杂度是指算法执行过程中所需要的基本运算次数"
+                ],
+                "correct_answer": "A"
+            },
+            {
+                "index": 3,
+                "type": "select",
+                "content": "对长度为n的线性表作快速排序，在最坏情况下，比较次数为 （）",
+                "options": [
+                    "n(n–1)",
+                    "n-1",
+                    "n",
+                    "n(n–1)/2"
+                ],
+                "correct_answer": "D"
+            },
+            {
+                "index": 4,
+                "type": "select",
+                "content": "关于算法的有穷性，以下选项中描述正确的是 （）",
+                "options": [
+                    "算法的长度是有限的",
+                    "算法程序的运行时间是有限的",
+                    "算法程序所处理的数据量是有限的",
+                    "算法只能被有限的用户使用"
+                ],
+                "correct_answer": "B"
+            },
+            {
+                "index": 5,
+                "type": "select",
+                "content": "关于结构化程序设计风格，以下选项中描述正确的是 （）",
+                "options": [
+                    "不适用goto语句",
+                    "模块只有一个入口，可以有多个出口",
+                    "使用顺序、选择和重复（循环）3种基本控制结构表示程序的控制逻辑",
+                    "注重提高程序的执行效率"
+                ],
+                "correct_answer": "C"
+            },
+            {
+                "index": 6,
+                "type": "select",
+                "content": "结构化程序设计主要强调的是 （）",
+                "options": [
+                    "程序的可移植性",
+                    "程序的规模",
+                    "程序的执行效率",
+                    "程序的易读性"
+                ],
+                "correct_answer": "D"
+            },
+            {
+                "index": 7,
+                "type": "select",
+                "content": "在面向对象方法中，一个对象请求另一对象为其服务的方式是通过哪个选项发送",
+                "options": [
+                    "消息",
+                    "调用语句",
+                    "命令",
+                    "口令"
+                ],
+                "correct_answer": "A"
+            },
+            {
+                "index": 8,
+                "type": "select",
+                "content": "在结构化方法的软件开发阶段中，软件功能分解所处的阶段是 （）",
+                "options": [
+                    "详细设计",
+                    "编程调试",
+                    "总体设计",
+                    "需求分析"
+                ],
+                "correct_answer": "C"
+            },
+            {
+                "index": 9,
+                "type": "select",
+                "content": "下列工具中，不属于结构化分析常用的是 （）",
+                "options": [
+                    "PAD图",
+                    "数据字典",
+                    "数据流图",
+                    "判定树"
+                ],
+                "correct_answer": "A"
+            },
+            {
+                "index": 10,
+                "type": "select",
+                "content": "源程序的文档化不包括 （）",
+                "options": [
+                    "符号的命名要有实际意义",
+                    "良好的视觉组织",
+                    "正确的文档格式",
+                    "正确的程序注释"
+                ],
+                "correct_answer": "C"
+            },
+            {
+                "index": 11,
+                "type": "select",
+                "content": "在软件生命周期中，能准确地确定软件系统必须做什么和必须具备哪些功能的阶段是 （）",
+                "options": [
+                    "可行性分析",
+                    "需求分析",
+                    "概要设计",
+                    "详细设计"
+                ],
+                "correct_answer": "B"
+            },
+            {
+                "index": 12,
+                "type": "select",
+                "content": "检查软件产品是否符合需求定义的测试是 （）",
+                "options": [
+                    "确认测试",
+                    "集成测试",
+                    "验证测试",
+                    "系统测试"
+                ],
+                "correct_answer": "A"
+            },
+            {
+                "index": 13,
+                "type": "select",
+                "content": "软件调试的目的是 （）",
+                "options": [
+                    "发现错误",
+                    "挖掘软件的潜能",
+                    "改正错误",
+                    "改善软件的性能"
+                ],
+                "correct_answer": "C"
+            },
+            {
+                "index": 14,
+                "type": "select",
+                "content": "将E-以下选项中，不属于软件调试技术的是 （）",
+                "options": [
+                    "强行排错法",
+                    "原因排除法",
+                    "集成测试法",
+                    "回溯法"
+                ],
+                "correct_answer": "C"
+            },
+            {
+                "index": 15,
+                "type": "select",
+                "content": "软件测试实施步骤中不包括 （）",
+                "options": [
+                    "集成测试",
+                    "回归测试",
+                    "单元测试",
+                    "确认测试"
+                ],
+                "correct_answer": "B"
+            },
+            {
+                "index": 16,
+                "type": "select",
+                "content": "软件设计包括软件的结构、数据接口和过程设计，下列选项中属于软件的过程设计的是 （）",
+                "options": [
+                    "模块间的关系",
+                    "软件开发过程",
+                    "系统结构部件转换成软件的过程描述",
+                    "软件层次结构"
+                ],
+                "correct_answer": "C"
+            },
+            {
+                "index": 17,
+                "type": "select",
+                "content": "需求分析阶段的任务是确定 （）",
+                "options": [
+                    "软件开发费用",
+                    "软件开发方法",
+                    "软件开发工具",
+                    "软件系统功能"
+                ],
+                "correct_answer": "D"
+            },
+            {
+                "index": 18,
+                "type": "select",
+                "content": "Python 3.x 版本的保留字总数是 （）",
+                "options": [
+                    "16",
+                    "29",
+                    "27",
+                    "33"
+                ],
+                "correct_answer": "D"
+            },
+            {
+                "index": 19,
+                "type": "select",
+                "content": "以下选项中，不是 Python 语言保留字的是 （）",
+                "options": [
+                    "do",
+                    "pass",
+                    "except",
+                    "while"
+                ],
+                "correct_answer": "A"
+            },
+            {
+                "index": 20,
+                "type": "select",
+                "content": "下面代码的输出结果是 （）<pre>print（0.1+0.2==0.3）</pre>",
+                "options": [
+                    "True",
+                    "False",
+                    "true",
+                    "false"
+                ],
+                "correct_answer": "B",
+                "explain": "解释： 0.1+0.2 = 0.30000000000000004"
+            },
+            {
+                "index": 21,
+                "type": "select",
+                "content": "给出如下代码,可以输出“python”的是 （）<pre>s = 'Python is beautiful!'</pre>",
+                "options": [
+                    "print(s[:–14])",
+                    "print(s[0:6].lower())",
+                    "print(s[0:6])",
+                    "print(s[–21: –14].lower)"
+                ],
+                "correct_answer": "B",
+                "explain": "Python lower() 方法转换字符串中所有大写字符为小写。 Python upper() 方法将字符串中的小写字母转为大写字母。"
+            },
+            {
+                "index": 22,
+                "type": "select",
+                "content": "关于Python注释，以下选项中描述错误的是 （）",
+                "options": [
+                    "Python注释语句不被解释器过滤掉，也不被执行",
+                    "注释可以辅助程序调试",
+                    "注释可用于标明作者和版权信息",
+                    "注释用于解释代码原理或者用途"
+                ],
+                "correct_answer": "A"
+            },
+            {
+                "index": 23,
+                "type": "select",
+                "content": "关于Python赋值语句，以下选项中不合法的是 （）",
+                "options": [
+                    "x=1;y=1",
+                    "x=y=1",
+                    "x=(y=1)",
+                    "x,y=y,x"
+                ],
+                "correct_answer": "C"
+            },
+            {
+                "index": 24,
+                "type": "select",
+                "content": "关于Python程序中与“缩进”有关的说法中，以下选项中正确的是 （）",
+                "options": [
+                    "缩进统一为4个空格",
+                    "缩进是非强制性的，仅为了提高代码可读性",
+                    "缩进在程序中长度统一且强制使用",
+                    "缩进可以用在任何语句之后，表示语句间的包含关系"
+                ],
+                "correct_answer": "C"
+            },
+            {
+                "index": 25,
+                "type": "select",
+                "content": "Python3.0正式发布的年份是 （）",
+                "options": [
+                    "2002",
+                    "2008",
+                    "1990",
+                    "2018"
+                ],
+                "correct_answer": "B"
+            },
+            {
+                "index": 26,
+                "type": "select",
+                "content": "给标识符关联名字的过程是（）",
+                "options": [
+                    "生成语句",
+                    "命名",
+                    "赋值语句",
+                    "表达"
+                ],
+                "correct_answer": "B"
+            },
+            {
+                "index": 27,
+                "type": "select",
+                "content": "以下选项中，不是Python IDE的是 （）",
+                "options": [
+                    "PyCharm",
+                    "Jupyter Notebook",
+                    "Spyder",
+                    "R studio"
+                ],
+                "correct_answer": "D",
+                "explain": "R-Studio是一个功能强大、节省成本的反删除和数据恢复软件系列。"
+            },
+            {
+                "index": 28,
+                "type": "select",
+                "content": "关于Python的数字类型，以下选项中描述错误的是 （）",
+                "options": [
+                    "1.0是浮点数，不是整数",
+                    "复数类型虚部为0时，表示为1+0j",
+                    "整数类型的数值一定不会出现小数点",
+                    "浮点数也有十进制、二进制、八进制和十六进制等表示方式"
+                ],
+                "correct_answer": "D"
+            },
+            {
+                "index": 29,
+                "type": "select",
+                "content": "下面代码的输出结果是 （）<pre>x=10\ny=3\nprint(divmod(x,y))</pre>",
+                "options": [
+                    "1, 3",
+                    "(1, 3)",
+                    "3, 1",
+                    "(3, 1)"
+                ],
+                "correct_answer": "D",
+                "explain": "python divmod() 函数把除数和余数运算结果结合起来，返回一个包含商和余数的元组(a // b, a % b)。"
+            },
+            {
+                "index": 30,
+                "type": "select",
+                "content": "下面代码的执行结果是 （）<pre>a = 10.99\nprint(complex(a))</pre>",
+                "options": [
+                    "0.99",
+                    "(10.99+0j)",
+                    "10.99+0j",
+                    "10.99"
+                ],
+                "correct_answer": "A",
+                "explain": "complex() 函数用于创建一个值为 real + imag * j 的复数或者转化一个字符串或数为复数。如果第一个参数为字符串，则不需要指定第二个参数。"
+            },
+            {
+                "index": 31,
+                "type": "select",
+                "content": "给出如下代码，下述代码的输出结果是 ()<pre>s = 'Alice'\nprint(s[::–1])</pre>",
+                "options": [
+                    "ALICE",
+                    "ecilA",
+                    "Alic",
+                    "Alice"
+                ],
+                "correct_answer": "B"
+            },
+            {
+                "index": 32,
+                "type": "select",
+                "content": "下面代码的输出结果是 （）<pre>s = 'The python language is a cross platform language.'\nprint(s.find('language',30))</pre>",
+                "options": [
+                    "11",
+                    "40",
+                    "10",
+                    "系统报错"
+                ],
+                "correct_answer": "B",
+                "explain": " Python find() 方法检测字符串中是否包含子字符串 str ，如果指定 beg（开始） 和 end（结束） 范围，则检查是否包含在指定范围内，如果包含子字符串返回开始的索引值，否则返回-1。"
+            },
+            {
+                "index": 33,
+                "type": "select",
+                "content": "下面代码的输出结果是 （）<pre>a = 'alex'\nb = a.capitalize()\nprint(a,end=',')\nprint(b)</pre>",
+                "options": [
+                    "alex,Alex",
+                    "Alex,Alex",
+                    "alex,ALEX",
+                    "ALEX,alex"
+                ],
+                "correct_answer": "A",
+                "explain": "Python capitalize()将字符串的第一个字母变成大写,其他字母变小写。对于 8 位字节编码需要根据本地环境。"
+            },
+            {
+                "index": 34,
+                "type": "select",
+                "content": "关于Python循环结构，以下选项中描述错误的是 （）",
+                "options": [
+                    "Python通过for、while等保留字提供遍历循环和无限循环结构",
+                    "break用来跳出最内层for或者while循环，脱离该循环后程序从循环代码后继续执行",
+                    "每个continue语句只有能力跳出当前层次的循环",
+                    "遍历循环中的遍历结构可以是字符串、文件、组合数据类型和range()函数等"
+                ],
+                "correct_answer": "C"
+            },
+            {
+                "index": 35,
+                "type": "select",
+                "content": "下列快捷键中能够中断（Interrupt Execution）Python程序运行的是 （）",
+                "options": [
+                    "F6",
+                    "Ctrl + C",
+                    "Ctrl + F6",
+                    "Ctrl + Q"
+                ],
+                "correct_answer": "B"
+            },
+            {
+                "index": 36,
+                "type": "select",
+                "content": "random.uniform(a,b)的作用是 （）",
+                "options": [
+                    "生成一个[a, b]之间的随机整数",
+                    "生成一个(a, b)之间的随机数",
+                    "生成一个[a, b]之间的随机小数",
+                    "生成一个均值为a，方差为b的正态分布"
+                ],
+                "correct_answer": "C"
+            },
+            {
+                "index": 37,
+                "type": "select",
+                "content": "以下选项中描述正确的是 （）",
+                "options": [
+                    "条件24<=28<25是不合法的",
+                    "条件24<=28<25是合法的，且输出为True",
+                    "条件35<=45<75是合法的，且输出为False",
+                    "条件24<=28<25是合法的，且输出为False"
+                ],
+                "correct_answer": "D"
+            },
+            {
+                "index": 38,
+                "type": "select",
+                "content": "以下选项中，不属于函数的作用的是 （）",
+                "options": [
+                    "提高代码执行速度",
+                    "降低编程复杂度",
+                    "增强代码可读性",
+                    "复用代码"
+                ],
+                "correct_answer": "A"
+            },
+            {
+                "index": 39,
+                "type": "select",
+                "content": "假设函数中不包括global保留字，对于改变参数值的方法，以下选项中错误的是 （）",
+                "options": [
+                    "参数是列表类型时，改变原参数的值",
+                    "参数的值是否改变与函数中对变量的操作有关，与参数类型无关",
+                    "参数是整数类型时，不改变原参数的值",
+                    "参数是组合类型（可变对象）时，改变原参数的值"
+                ],
+                "correct_answer": "B"
+            },
+            {
+                "index": 40,
+                "type": "base",
+                "content": "给定两个二进制字符串，返回他们的和（用二进制表示）。\n输入为非空字符串且只包含数字 1 和 0。",
+                "example": [
+                    {
+                        "input": "a = '11', b = '1'",
+                        "output": "'100'"
+                    },
+                    {
+                        "input": "a = '1010', b = '1011'",
+                        "output": "'10101'"
+                    }
+                ],
+                "correct_answer": "/paper/5ca06e9201257519105a7883/41-code.py"
+            },
+            {
+                "index": 41,
+                "type": "base",
+                "content": "给定两个有序整数数组 nums1 和 nums2，将 nums2 合并到 nums1 中，使得 num1 成为一个有序数组。",
+                "example": [
+                    {
+                        "input": "nums1 = [1,2,3,0,0,0], m = 3\nnums2 = [2,5,6], n = 3",
+                        "output": "[1,2,2,3,5,6]"
+                    }
+                ],
+                "attention": "初始化 nums1 和 nums2 的元素数量分别为 m 和 n。\n你可以假设 nums1 有足够的空间（空间大小大于或等于 m + n）来保存 nums2 中的元素。",
+                "correct_answer": "/paper/5ca06e9201257519105a7883/42-code.py"
+            },
+            {
+                "index": 42,
+                "type": "base",
+                "content": "实现 strStr() 函数。\n给定一个 haystack 字符串和一个 needle 字符串，在 haystack 字符串中找出 needle 字符串出现的第一个位置 (从0开始)。如果不存在，则返回  -1。",
+                "example": [
+                    {
+                        "input": "haystack = 'hello', needle = 'll'",
+                        "output": "2"
+                    },
+                    {
+                        "input": "haystack = 'aaaaa', needle = 'bba'",
+                        "output": "-1"
+                    }
+                ],
+                "attention": "当 needle 是空字符串时，我们应当返回什么值呢？这是一个在面试中很好的问题。\n对于本题而言，当 needle 是空字符串时我们应当返回 0 。这与C语言的 strstr() 以及 Java的 indexOf() 定义相符。",
+                "correct_answer": "/paper/5ca06e9201257519105a7883/43-code.py"
+            },
+            {
+                "index": 43,
+                "type": "base",
+                "content": "假设你正在爬楼梯。需要 n 阶你才能到达楼顶。\n每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？",
+                "example": [
+                    {
+                        "input": "2",
+                        "output": "2",
+                        "explain": " 有两种方法可以爬到楼顶。1.  1 阶 + 1 阶\n2.  2 阶"
+                    },
+                    {
+                        "input": "3",
+                        "output": "3",
+                        "explain": "有三种方法可以爬到楼顶。\n1.  1 阶 + 1 阶 + 1 阶\n2.  1 阶 + 2 阶\n3.  2 阶 + 1 阶"
+                    }
+                ],
+                "attention": "给定 n 是一个正整数。",
+                "correct_answer": "/paper/5ca06e9201257519105a7883/44-code.py"
+            },
+            {
+                "index": 44,
+                "type": "base",
+                "content": "给定两个以字符串形式表示的非负整数 num1 和 num2，返回 num1 和 num2 的乘积，它们的乘积也表示为字符串形式。",
+                "example": [
+                    {
+                        "input": "num1 = '2', num2 = '3'",
+                        "output": "'6'"
+                    },
+                    {
+                        "input": "num1 = '123', num2 = '456'",
+                        "output": "'56088'"
+                    }
+                ],
+                "attention": "1. num1 和 num2 的长度小于110。\n2. num1 和 num2 只包含数字 0-9。\n3. num1 和 num2 均不以零开头，除非是数字 0 本身。\n4. 不能使用任何标准库的大数类型（比如 BigInteger）或直接将输入转换为整数来处理。",
+                "correct_answer": "/paper/5ca06e9201257519105a7883/44-code.py"
+            },
+            {
+                "index": 45,
+                "type": "synthesis",
+                "content": "给定两个大小为 m 和 n 的有序数组 nums1 和 nums2。\n请你找出这两个有序数组的中位数，并且要求算法的时间复杂度为 O(log(m + n))。\n你可以假设 nums1 和 nums2 不会同时为空。",
+                "example": [
+                    {
+                        "input": "nums1 = [1, 3]\nnums2 = [2]",
+                        "output": "2.0"
+                    },
+                    {
+                        "input": "nums1 = [1, 2]\nnums2 = [3, 4]",
+                        "output": "2.5"
+                    }
+                ],
+                "correct_answer": "/paper/5ca06e9201257519105a7883/46-code.py"
+            }
+        ]
+    }
+]

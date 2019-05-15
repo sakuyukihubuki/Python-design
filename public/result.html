@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .result-table, .result-table th, .result-table td {
+            border: 1px solid #aaa;
+        }
+        .result-table {
+            border-collapse: collapse;
+            border-spacing: 0;
+            empty-cells: show;
+            table-layout: auto;
+            width: 100%;
+        }
+        .result-table caption {
+            caption-side: top;
+        }
+        .result-table th {
+            background-color: #e9eaec;
+        }
+        .result-table td {
+            text-align: center;
+        }
+        .result-table tr:nth-child(2n+1) {
+            background-color: #fefefe;
+        }   
+        .result-table tr:nth-child(2n) {
+            background-color: #f6f6f6;
+        }
+        .result-table .active,
+        .result-table tr:hover{
+            background-color: #ccc;
+        }
+        .result-table .error {
+            background-color: #fa8072;
+            color: #fff;
+        }
+        .result-table .right {
+            background-color: #98fb98;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <table class="result-table">
+        <caption><h3>2019年Python二级考试模拟试卷一</h3></caption>
+        <thead>
+            <th>index</th>
+            <th>answer</th>
+            <th>correct answer</th>
+        </thead>
+        <tbody></tbody>
+    </table>
+</body>
+
+</html>
+
+<script src="jquery.min.js"></script>
+
+<script>
+    
+    function Processor(data) {
+        this.data = data;
+    }
+    // 转化数组为html string
+    Processor.prototype.toHtmlStr = function() {
+        var resultStr = ""
+        var arr = this.data;
+        for (var i = 0, len = arr.length; i <len; i++) {
+            var trData = arr[i];
+            var trStr = "";
+            var tdStr = "";
+            var indexData = trData.index;
+            var answerData = trData.answer;
+            var correctData = trData.correct_answer;
+            var answerClass = answerData === correctData ? "right" : "error";
+            tdStr += "<td>" + indexData + "</td>";
+            tdStr += "<td class='" + answerClass + "'>" + answerData + "</td>";
+            tdStr += "<td>" + correctData + "</td>";
+            if (i === 0) {
+                trStr += "<tr class='active'>" + tdStr + "</tr>";
+            }else {
+                trStr += "<tr>" + tdStr + "</tr>";
+            }
+            resultStr += trStr;
+        }
+        this.htmlStr = resultStr;
+        return this;
+    }
+    Processor.prototype.toHtml = function() {
+        if (!this.htmlStr) {
+            this.toHtmlStr();
+        }
+        this.html = $(this.htmlStr);
+        return this;
+    }
+    Processor.prototype.appendTo = function(selector) {
+        if (!this.html) {
+            this.toHtml();
+        }
+        this.html.appendTo($(selector));
+        return this;
+    }
+    var processor = new Processor([
+        {
+            index: 0,
+            answer: 'A',
+            correct_answer: 'C'
+        },
+        {
+            index: 0,
+            answer: 'A',
+            correct_answer: 'C'
+        },
+        {
+            index: 0,
+            answer: 'A',
+            correct_answer: 'C'
+        },
+        {
+            index: 0,
+            answer: 'A',
+            correct_answer: 'C'
+        },
+        {
+            index: 0,
+            answer: 'A',
+            correct_answer: 'C'
+        },
+        {
+            index: 1,
+            answer: 'C',
+            correct_answer: 'C'
+        },
+        {
+            index: 1,
+            answer: 'C',
+            correct_answer: 'C'
+        },
+        {
+            index: 1,
+            answer: 'C',
+            correct_answer: 'C'
+        },
+        {
+            index: 1,
+            answer: 'C',
+            correct_answer: 'C'
+        },
+        {
+            index: 1,
+            answer: 'C',
+            correct_answer: 'C'
+        }
+    ]);
+    processor.appendTo('tbody');
+</script>
