@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<button>
+			dian
+		</button>
+	</body>
+	<script type="text/javascript" src="../lib/jq.js">
+		
+	</script>
+	<script>
+	$(document).ready(function(){
+  $("button").click(function(){
+    $.get("../js/demo_test_post.asp",function(data,status){
+      alert("数据：" + data + "\n状态：" + status);
+    });
+  });
+});
+	</script>
+</html>

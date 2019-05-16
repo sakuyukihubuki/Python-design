@@ -1,0 +1,23 @@
+{
+	"question1":[
+	{
+		"timu":"这是python题目1",
+		type:"danxuan",
+		"A":"这是A选项",
+		"B":"这是B选项",
+		"C":"这是C选项",
+		"D":"这是D选项",
+		"anwser":"D"
+	}
+	,
+	{
+		"timu":"这是python题目2",
+		type:"danxuan",
+		"A":"这是A选项",
+		"B":"这是B选项",
+		"C":"这是C选项",
+		"D":"这是D选项",
+		"anwser":"A"
+	}
+	]
+}

@@ -4,7 +4,7 @@ const fs = require("fs");
 function getPageReflectHandler(basePath, public, table) {
     let publicPath = path.join(basePath, public);
     return (req, res, next) => {
-        let requestPath = req.originalUrl.substr(1);
+        let requestPath = req.originalUrl;
         let to = table[requestPath];
         let url = path.join(publicPath, req.originalUrl + ".html");
         if(to !== undefined) {
@@ -31,7 +31,6 @@ function notFoundHandler(basePath, public, page) {
             res.status("404");
             res.sendFile(path.join(publicPath, page));
         }else { 
-            // to err handler
             next();
         }
     };
@@ -53,8 +52,13 @@ function sessionHandler(basePath, public, page) {
     page = page || "login";
     page = page + ".html";
     return (req, res, next) => {
-        if(req.session.username) {
-            console.log(2)
+    	var url = req.originalUrl.replace('.html', '');
+    	var publicVisit = {
+    		"/zhuce": true,
+    		"/api/login": true,
+    		"/api/register": true
+    	}
+        if(req.session.username || publicVisit[url]) {
             next();
         }else {
             res.header('Content-Type', 'text/html;charset=utf-8');

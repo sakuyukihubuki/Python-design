@@ -1,0 +1,42 @@
+.context-title{
+	text-align: center;
+	margin-top:40px ;
+	width: 800px;
+	height: 700px;
+}
+.context{
+	width: 800px;
+	margin-top:30px ;
+	border: 1px solid;
+}
+.contextli{
+	margin-left:0px ;
+	margin-right: 70px;
+}
+.contextdiv{
+	height: 30px;
+	text-align: center;
+	background: #e8e8e8;
+	margin-bottom: 2px;
+}
+li{
+	color: black;
+	display: inline-block;
+	margin: 4px 62px 0 52px;
+	cursor: pointer;
+}
+.contextdanxuan{
+	display: inline-block;
+	margin: 4px 70px 0 0px;
+}
+.contextli-title-index{
+	text-align: center;
+	color: black;
+	display: inline-block;
+	margin: 4px 120px 0px 106px;
+}
+.contextli-title{
+	font-size: 14px;
+	width: 40px;
+	margin: 4px 50px 0 40px;
+}

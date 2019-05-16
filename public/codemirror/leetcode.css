@@ -21,5 +21,6 @@
 }
 
 .CodeMirror{
+	text-align: left;
     font-family: 'Monaco','Menlo','Ubuntu Mono','Consolas','source-code-pro',monospace;
 }

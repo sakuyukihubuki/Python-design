@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 const middleware = require("./pro_modules/MiddleWare");
 const getRouter = require("./pro_modules/GetMethods");
 const postRouter = require("./pro_modules/PostMethods");
+let pageTable = require("./pageReflectTable"); 
 
 let App =  {
     init() {
@@ -29,6 +30,8 @@ let App =  {
             resave: true,
             saveUninitialized: true
         }));
+		app.use("*", middleware.sessionHandler(__dirname, "public", 'denglu'));
+        app.use(middleware.getPageReflectHandler(__dirname, "public", pageTable));
         app.use(getRouter);
         app.use(postRouter);
         app.use(middleware.notFoundHandler(__dirname, "public"));

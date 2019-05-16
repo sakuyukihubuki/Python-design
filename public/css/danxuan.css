@@ -1,0 +1,195 @@
+﻿body{
+    background:#d5d5d5;
+    text-align:center;
+    background-image: url(../img/背景.jpg);
+}
+.question-box{
+	position: relative;
+	width: 500px;
+	height:400px;
+	background: white;
+	opacity: 0.9;
+	border-radius: 20px;
+	border: solid 0.4px;
+	margin: 50px auto;
+	overflow: auto;
+}
+.question-box li{
+	margin:2px 0 20px 8px;
+}
+#no-list{
+	text-align: left;
+	display: block;
+	margin:40px 10px 0px 10px;
+	word-break: break-all;
+	word-wrap: break-word;
+}
+.option{
+	height: 200px;
+	margin-top:40px ;
+}
+.sumbit{
+	text-align: right;
+	width: 600px;
+
+}
+.sumbit button{
+	width: 70px;
+	height: 30px;
+	color: white;
+	box-shadow: 0 0px 9px black inset;
+	margin-left: 20px;
+	background: orange;
+	border-radius: 20px;
+	outline: none;
+}
+form{
+	text-align: left;
+}
+img{
+	width: 100%;
+}
+
+.question-box2 > div{
+	position: absolute;
+	border-radius: 10px;
+	border:gray 1px solid;
+	margin-top: 20px;
+	height: 760px;
+}
+.left{
+	position: relative;
+	left: 10px;
+	float: left;
+	width: 30%;
+}
+.right{
+	position: relative;
+	width: 68.4%;
+	right: 0px;
+}
+.question-box2{
+	position: relative;
+	width: 100%;
+	height: 800px;
+	background: white;
+
+	border-radius: 20px;
+	border: solid 0.4px;
+	margin: 50px auto;
+	background: rgb(0,0,0,0.1);
+}
+.left div{
+	border: none;
+	padding: 10px 0px 0px 6px;
+	text-align: left;
+	line-height: 30px;
+	width: 94%;
+	height: 200px;
+}
+#example{
+	border-radius: 0px;
+	border-top: solid 1px;
+	top: 220px;
+	line-height: 40px;
+}
+#attention{
+	
+	top: 440px;
+}
+textarea{
+	display: block;
+	margin: 6px;
+	width: 98%;
+	height: 98%;
+	background-color: white;
+	opacity: 1;
+}
+.question-box2{
+	position: relative;
+	width: 100%;
+	height: 800px;
+	background: white;
+	opacity: 0.9;
+	border-radius: 20px;
+	border: solid 0.4px;
+	margin: 50px auto;
+}
+.commit{
+	opacity: 0.9;
+	border-radius:10px ;
+	margin-bottom: 40px;
+	margin-top:20px ;
+	text-align: center;
+	position: relative;
+	width: 600px;
+	background: white;
+	height: 210px;
+	
+}
+.pingluntext{
+	position: relative;
+	top:10px;
+	border: 1px solid;
+	height: 120px;
+	border-radius:10px ;
+	padding-top: 8px;
+	width: 96%;
+	display: block;
+	
+}
+#pinglun{
+	
+	outline:none;
+	font-size: 16px;
+	width: 96%;
+	height: 110px;
+	resize: none;
+	border: none;
+}
+#pingluntijiao{
+	margin-top:20px;
+	cursor: pointer;
+	position: absolute;
+	right: 11px;
+	line-height: 36px;
+	font-size: 18px;
+	width: 100px;
+	height: 36px;
+	background-color: orange;
+	color: white;
+	transition: 0.2s all;
+}
+.pinglun:hover{
+	
+	background-color: #865600;
+}
+
+.hljs {
+	margin: 15px;
+	padding: 10px 15px;
+}
+.pinglunqu{
+	width: 600px;
+	height: 100px;
+	background: white;
+	opacity: 0.9;
+	border-radius:10px ;
+	border-bottom: 0.6px solid;
+}
+.zancai{
+	text-align: center;
+	width: 160px;
+	float: right;
+}
+.pinglundehua{
+	text-align: left;
+	width: 560px;
+	height: 54px;
+}
+.usernames{
+	text-align: left;
+}
+.time{
+	width: 200px;
+}

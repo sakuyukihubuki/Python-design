@@ -1,0 +1,18 @@
+{
+	"shijuan1":{
+		"nianfen":"2018年试题",
+		"danxuan":"单选题",
+		"panduan":"判断题",
+		"biancheng":"编程题",
+		"anwser":"答案参考"
+	}
+	,
+	"shijuan2":{
+		"nianfen":"2017年试题",
+		"danxuan":"单选题",
+		"panduan":"判断题",
+		"biancheng":"编程题",
+		"anwser":"答案参考"
+	}
+	
+}

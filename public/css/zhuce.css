@@ -1,0 +1,51 @@
+.sex{
+	width: 300px;
+}
+.date{
+	width: 50px;
+}
+.datebox{
+	text-align: left;
+}
+.signup{
+	border:grey solid 1px;
+	border-radius: 25px;
+    background:none;
+    width:360px;
+    height:500px;
+    margin:10% auto;
+}
+.user,.psw,.emal{
+	outline: none;
+	opacity: 0.8;
+    height:6%;
+    width:62%;
+    margin-top:20px ;
+    float: right;
+    display: block;
+    margin-right:60px;
+    background: white;
+    border-radius: 10px;
+    padding-left:8px;
+    font-size: 8px;
+}
+.title{
+    margin:0px auto;
+    margin-top:20px;
+  	width: 128px;
+  	height: 128px;
+}
+button{
+	outline: none;
+    border:0;
+    width:180px;
+    height:25px;
+    background:#69bbdc;
+    margin-top:10px ;
+    border-radius: 25px;
+    transition: all 1s;
+    cursor: pointer;
+}
+button:hover{
+	background:#1987b1;
+}

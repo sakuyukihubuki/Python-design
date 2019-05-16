@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="../css/style.css" />
+		<link rel="stylesheet" href="../css/danxuan.css" />
+		<script type="text/javascript" src="../js/danxuan.js" ></script>
+		<script type="text/javascript" src="../lib/jq.js" ></script>
+	</head>
+	<body>
+		<div class="hold">
+			<div class="title">
+				<ol>
+					<li><a href="homepage.html">Python</a></li>
+					<li><a href="danxuan.html">考试试卷</a></li>
+					<li>题型选择</li>
+					<li>联络我们</li>
+					<li><a href="zhucedenglu.html">登录注册</a></li>
+				</ol>
+			</div>
+		</div>
+		
+		<div class="question-box">
+			<ol>
+				<div class="question"><li id="no-list"><span id="no"></span></li></div>
+				<div class="option">
+					<form action="../php/question.php" >
+						<li><input name="xuanze1" type="radio" value="A" class="xuanxiang">A.<span class="txt" id="A"></span></li>
+						<li><input name="xuanze1" type="radio" value="B" class="xuanxiang">B.<span class="txt" id="B"></span></li>
+						<li><input name="xuanze1" type="radio" value="C" class="xuanxiang">C.<span class="txt" id="C"></span></li>
+						<li><input name="xuanze1" type="radio" value="D" class="xuanxiang">D.<span class="txt" id="D"></span></li>
+					</form>
+				</div>
+			</ol>
+		</div>
+		<div class="sumbit">
+			<button id="before">上一题</button>
+			<button id="after">下一题</button>
+			<button id="exit" onclick="location.href='homepage.html'">查看答案</button>
+			<button id="exit" onclick="location.href='homepage.html'">退出答题</button>
+		</div>
+	</body>
+</html>

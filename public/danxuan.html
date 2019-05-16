@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="../css/style.css" />
+		<link rel="stylesheet" href="codemirror/lib/codemirror.css">
+    	<link rel="stylesheet" href="codemirror/addon/fold/foldgutter.css">
+    	<link rel="stylesheet" href="codemirror/addon/hint/show-hint.css">
+    	<link rel="stylesheet" href="codemirror/addon/lint/lint.css">
+    	<link rel="stylesheet" href="codemirror/leetcode.css"> 
+    	<link rel="stylesheet" type="text/css" href="highlight/mono-blue.css"/>
+    	<link rel="stylesheet" href="../css/danxuan.css" />
+		<script type="text/javascript" src="../lib/jq.js" ></script>
+		<script type="text/javascript" src="../../js/main.js" ></script>
+	</head>
+	<body>
+		<div class="hold">
+			<div class="title">
+				<ol>
+					<li><a href="homepage.html">Python</a></li>
+					<li><a href="danxuan.html">考试试卷</a></li>
+					<li>题型选择</li>
+					<li>联络我们</li>
+					<li><a href="zhucedenglu.html">登录注册</a></li>
+				</ol>
+			</div>
+		</div>
+		<div id="danxuan">
+			<div class="question-box">
+				<ol>
+					<div class="question"><li id="no-list"><span id="no"></span></li></div>
+					<div class="option">
+						<form action="../php/question.php" >
+							<li><input name="xuanze1" type="radio" value="A" class="xuanxiang">A.<span class="txt" id="A"></span></li>
+							<li><input name="xuanze1" type="radio" value="B" class="xuanxiang">B.<span class="txt" id="B"></span></li>
+							<li><input name="xuanze1" type="radio" value="C" class="xuanxiang">C.<span class="txt" id="C"></span></li>
+							<li><input name="xuanze1" type="radio" value="D" class="xuanxiang">D.<span class="txt" id="D"></span></li>
+						</form>
+					</div>
+				</ol>
+			</div>
+			<div class="sumbit">
+				<button id="before">上一题</button>
+				<button id="after">下一题</button>
+				<button id="check" onclick="location.href='chakandaan.html'">提交答案</button>
+				<button id="exit" onclick="location.href='homepage.html'">退出答题</button>
+			</div>
+		</div>
+		<div id="biancheng">
+			<div class="question-box2">
+				<div class="left">
+					<div id="content">
+						<span id="no2"></span>
+					</div>
+					<div id="example">
+					
+					</div>
+					<div id="attention">
+					
+					</div>
+				</div>
+				<div class="right">
+					<textarea id="anwser1" class="editor"></textarea>
+				</div>
+		</div>
+		<div class="sumbit">
+			<button id="before2">上一题</button>
+			<button id="after2">下一题</button>
+			<button id="check2" onclick="location.href='homepage.html'">查看答案</button>
+			<button id="exit2" onclick="location.href='homepage.html'">退出答题</button>
+		</div>
+		</div>
+		
+		<div class="commit">
+			<div class="pingluntext"><textarea id="pinglun"  placeholder="我想说："></textarea></div>
+			<div id="pingluntijiao">评论</div>
+		</div>
+	</body>
+</html>
+<script src="codemirror/lib/codemirror.js"></script>
+
+<script src="codemirror/addon/comment/comment.js"></script>
+
+<script src="codemirror/addon/selection/active-line.js"></script>
+
+<script src="codemirror/keymap/sublime.js"></script>
+
+<script src="codemirror/addon/hint/show-hint.js"></script>
+<script src="codemirror/mode/python/python.js"></script> 
+
+<script src="codemirror/addon/lint/lint.js"></script>
+<script src="codemirror/addon/lint/javascript-lint.js"></script>
+
+<script src="codemirror/addon/fold/foldcode.js"></script>
+<script src="codemirror/addon/fold/foldgutter.js"></script>
+<script src="codemirror/addon/fold/brace-fold.js"></script>
+<script src="codemirror/addon/fold/indent-fold.js"></script>
+<script src="codemirror/addon/fold/comment-fold.js"></script>
+
+<script src="codemirror/addon/edit/closebrackets.js"></script>
+<script src="codemirror/addon/edit/matchbrackets.js"></script>
+
+<script src="highlight/highlight.pack.js"></script>
+
+<script type="text/javascript" src="../js/danxuan.js" ></script>
