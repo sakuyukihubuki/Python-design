@@ -1,12 +1,6 @@
 const express = require("express");
-const path = require("path");
 
-const middleware = require("./MiddleWare");
 const common = require("./common");
-
-
-
-let pagePath = path.resolve(__dirname, "../public");
 
 const router = express.Router();
 
