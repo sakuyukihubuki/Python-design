@@ -94,7 +94,7 @@ function updateDocument(dbName, cName, condition, updateStr) {
 
 function deleteDocument(dbName, cName, condition, isMany) {
     return new Promise((reslove, reject) => {
-        let deletePromise = m.connect(dbName);
+        let connectPromise = m.connect(dbName);
         connectPromise.then((client) => {
             let db = client.db(dbName);
             let collectPromise = m.collection(db, cName);
