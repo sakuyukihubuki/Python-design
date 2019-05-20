@@ -1,0 +1,21 @@
+.gerenziliao-box{
+	margin: 120px auto;
+	width: 60%;
+	height: 400px;
+	background: white;
+	opacity: 0.8;
+	border:gray 0.6px solid;
+	border-radius: 20px;
+	text-align: left;
+}
+.gerenziliao-box div{
+	width: 80%;
+	margin: 10px 0 0 50px;
+	border-bottom: gray 1px solid;
+	padding-top: 20px;
+}
+
+.gerenziliao-box #gai{
+	width: 70px;
+	margin: 20px auto;
+}

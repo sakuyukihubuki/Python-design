@@ -1,7 +1,9 @@
 [
     {
-        "username": "username1",
-        "pwd": "password1",
-        "answers": {}
+        "username": "myl123456",
+        "pwd": "myl123456",
+        "email": "773099867@qq.com",
+	"sex": "ÄÐ",
+	birthday: "1997-04-21"
     }
 ]
