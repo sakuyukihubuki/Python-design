@@ -4,7 +4,8 @@ const cookieParser = require("cookie-parser");
 const common = require("./common");
 const { exec } = require("child_process");
 const fs = require("fs");
-const { ObjectId } = require("mongodb")
+const { ObjectId } = require("mongodb");
+const { promisify } = require("util")
 
 const router = express.Router();
 
@@ -20,66 +21,7 @@ router.use(session({
         secure: false,
         maxAge: (60*60*1000)
     }
-}))
-
-// 登录
-router.post("/api/login", (req, res) => {
-    // 获取用户名和密码
-    let username = req.body.username;
-    let pwd = req.body.pwd;
-
-    // 查找数据库
-    let findPromise = common.findDocumentToArray("paper", "user", { where: {username, pwd} });
-    findPromise.then((result) => {
-        // 用户密码正确
-        if(result.length) {
-            req.session.username = username;
-            res.send(true); 
-        }else {
-            res.send(false);
-        }
-    });
-});
-
-// 注册
-router.post("/api/register", (req, res) => {
-    // 生成ObjectId
-    // let _id = objectId.toHexString();
-
-    // 获取用户账号信息
-    let username = req.body.username;
-    let pwd = req.body.pwd;
-    
-    // 注册时间
-    let registerTime = (new Date()).getTime()
-
-    // 获取用户基本信息
-
-    // 验证
-    if(!username) {
-        res.send("0");
-        return;
-    }
-    if(!pwd) {
-        res.send("1");
-        return;
-    }
-    // 查询用户名
-    let findPromise = common.findDocumentToArray("paper", "user", { where: { username } });
-    findPromise.then((result) => {
-        if(!result.length) {
-            // 存入数据库
-            let promise = common.insertDocument("paper", "user", { username, pwd, registerTime });
-            promise.then(() => {
-                res.send(true);
-            }).catch(() => {
-                res.send(false);
-            }); 
-        }else {
-            res.send("2");
-        }   
-    });
-});
+}));
 
 // discuss
 router.post("/api/discuss/commit", (req, res) => {
@@ -140,26 +82,65 @@ router.post("/api/discuss/cai", (req, res) => {
 // 运行代码
 router.post("/api/code/run", (req, res) => {
     let username = req.session.username;
+    let paperId = req.body.paperId;
+    let index = req.body.index;
     let code = req.body.code;
-    fs.writeFile(`tmpcode/code-${username}.py`, code+"\nprint(solution())", (err) => {
-        let command = "python code/code.py";
-        exec(command, (err, stdout, stdin) => {
-            if(err){
-                let reg  = /[\d\D]*(line\s\d*)[\d\D]*?(\w*(?:Error|Exception).*)/im;
-                let matchArr = reg.exec(err.message);
-                matchArr.shift();
-                res.send(matchArr.join(", "));
-            }
-            else
-                res.send(stdout);
+    const read = promisify(fs.readFile);
+    const write = promisify(fs.writeFile);
+    const unitPromise = common.findDocumentToArray("paper", "testunits", { paperId, index });
+    unitPromise.then((result) => {
+        let unit = result.units[0];
+        let input = unit.input;
+        let output = unit.output;
+        let writeStr = `input = ${input}\r\noutput = ${output}\r\n${code}\r\n`;
+        read("code/run-template.py").then((data) => {
+            data = data.toString()
+            write(`tmpcode/code-${username}.py`, writeStr+data, (err) => {
+                exec(`python tmpcode/code-${username}.py`, (err, stdout, stdin) => {
+                    if(err) {
+                        let reg  = /[\d\D]*(line\s\d*)[\d\D]*?(\w*(?:Error|Exception).*)/im;
+                        let matchArr = reg.exec(err.message);
+                        matchArr.shift();
+                        res.send(matchArr.join(", "));
+                    }else {
+                        res.send(stdout);
+                    }
+                })
+            });
         });
     });
 });
 
 // 提交代码
 router.post("/api/code/commit", (req, res) => {
-    let paperId = req.body.code;
-
+    let username = req.session.username;
+    let paperId = req.body.paperId;
+    let index = req.body.index;
+    let code = req.body.code;
+    const read = promisify(fs.readFile);
+    const write = promisify(fs.writeFile);
+    const unitPromise = common.findDocumentToArray("paper", "testunits", { paperId, index });
+    unitPromise.then((result) => {
+        let unit = result.units[0];
+        let input = unit.input;
+        let output = unit.output;
+        let writeStr = `input = ${input}\r\noutput = ${output}\r\n${code}\r\n`;
+        read("code/check-template.py").then((data) => {
+            data = data.toString()
+            write(`tmpcode/code-${username}.py`, writeStr+data, (err) => {
+                exec(`python tmpcode/code-${username}.py`, (err, stdout, stdin) => {
+                    if(err) {
+                        let reg  = /[\d\D]*(line\s\d*)[\d\D]*?(\w*(?:Error|Exception).*)/im;
+                        let matchArr = reg.exec(err.message);
+                        matchArr.shift();
+                        res.send(matchArr.join(", "));
+                    }else {
+                        res.send(stdout);
+                    }
+                })
+            });
+        });
+    });
 });
 
 // 试卷答题提交

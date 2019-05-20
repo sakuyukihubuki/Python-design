@@ -237,12 +237,9 @@ window.onload=function(ev){
 function editorInit(id) {
 	var el = document.getElementById(id);
 	var version = "# version: Python3\n\n";
-	var codeAreaTip = "# please edit your code here:\n";
-	var codeStart = "# code start\n\n";
-	var codeEnd = "# code end\n\n";
-	var codeTip = "'''\nThis function is the entry of this program and\nit must be return your answer of current question.\n'''\n";
-	var code = "def solution():\n\tpass";
-    var initValue = version + codeAreaTip + codeStart + codeEnd + codeTip + code;
+	var codeTip = "'''\nThis function is the entry of this program, \nthe args is the input params and\nit must be return your answer of current question.\n'''\n";
+	var code = "def solution(args):\n\tpass";
+    var initValue = version + codeTip + code;
     var myCodeMirror = CodeMirror.fromTextArea(el, {
         mode: "python",
         theme: "leetcode",

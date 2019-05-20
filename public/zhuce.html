@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+<<<<<<< HEAD
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
@@ -33,4 +34,64 @@
 				<button type="button">sign up</button>
 		</div>
 	</body>
+</html>
+=======
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<link rel="stylesheet" href="../css/style.css" />
+	<link rel="stylesheet" href="../css/zhucedenglu.css" />
+	<script type="text/javascript">	
+	</script>
+	<script src="../js/zhucedenglu.js"></script>
+	<script src="../lib/jq.js"></script>
+	<script src="../js/main.js"></script>
+	<link rel="stylesheet" type="text/css" href="../../css/zhuce.css" />
+	<style>
+		.error-msg {
+			color: red;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="signup">
+		<img class="title" src="../img/resizeApi.png" />
+		<form>
+			<div>
+				<span>用户名:</span>
+				<input id="user" type="text" placeholder="               Username or email" name="user" class="user"></input>
+				<div><label for="" class="error-msg"></label></div>
+			</div>
+			<div>
+				<span>密码:</span>
+				<input id="pwd" type="text" placeholder="                     password" name="password" class="psw"></input>
+				<div><label for="" class="error-msg"></label></div>
+			</div>
+			<div>
+				<span>邮箱:</span>
+				<input id="email" type="text" placeholder="                        email" name="email" class="emal"></input>
+				<div><label for="" class="error-msg"></label></div>
+			</div>
+			<div class="sex">
+				<span>性别:</span>
+				<select id="sex">
+					<option value="">-性别-</option>
+					<option value="1">男</option>
+					<option value="2">女</option>
+				</select>
+				<div><label for="" class="error-msg"></label></div>
+			</div>
+			<div class="datebox">
+				&nbsp&nbsp出生年月:&nbsp&nbsp&nbsp
+				<input type="text" name="year" class="date"></input>——
+				<input type="text" name="mon" class="date"></input>——
+				<input type="text" name="day" class="date"></input>
+			</div>
+			<br>
+			<button type="button" id="commit">sign up</button>
+	</div>
+</body>
+
 </html>

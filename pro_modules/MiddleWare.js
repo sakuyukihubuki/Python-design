@@ -52,13 +52,7 @@ function sessionHandler(basePath, public, page) {
     page = page || "login";
     page = page + ".html";
     return (req, res, next) => {
-    	var url = req.originalUrl.replace('.html', '');
-    	var publicVisit = {
-    		"/zhuce": true,
-    		"/api/login": true,
-    		"/api/register": true
-    	}
-        if(req.session.username || publicVisit[url]) {
+        if(req.session.username) {
             next();
         }else {
             res.header('Content-Type', 'text/html;charset=utf-8');

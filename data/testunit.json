@@ -1,10 +1,19 @@
 {
-    "paperId": "",
-    "index": "",
+    "paperId": "5ca06e9201257519105a7882",
+    "index": "40",
+    "mutiply": "True",
     "units": [
         {
-            "input": "input",
-            "output": "output"
+            "input": [[2, 7, 11, 15], 9],
+            "output": [0, 1]
+        },
+        {
+            "input": [[3, 5, 8, 4, 11], 14],
+            "output": [0, 4]
+        },
+        {
+            "input": [[3, 4, 8, 1, 5, 8, 9, 10], 9],
+            "output": [2, 3]
         }
     ]
 }
