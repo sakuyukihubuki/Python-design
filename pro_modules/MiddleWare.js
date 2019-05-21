@@ -52,6 +52,7 @@ function sessionHandler(basePath, public, page) {
     page = page || "login";
     page = page + ".html";
     return (req, res, next) => {
+//  	let originUrl = req.originalUrl
         if(req.session.username) {
             next();
         }else {

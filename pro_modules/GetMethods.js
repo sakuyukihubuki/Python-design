@@ -23,7 +23,6 @@ router.get("/api/paperList", (req, res) => {
     let allPromise = Promise.all([countPromise, findPromise]);
     allPromise.then((arr) => {
         let [ totalCount, result ] = arr;
-        console.log(totalCount, result)
         result.forEach((item, idx) => {
             result[idx] = {
                 _id: item._id,
@@ -52,10 +51,6 @@ router.get("/api/paperDetail", (req, res) => {
 router.get("/api/questionByType", (req, res) => {
     // 获取请求信息
     let type = req.query.type;
-    // let limit = parseInt(req.query.count);
-    // let page = req.query.page;
-
-    // let skip = (page-1) * limit;
   
     let findPromise = common.aggregateDocumentToArray("paper", "paperDetail", [
         { $unwind: "$questions" }, 
@@ -64,22 +59,13 @@ router.get("/api/questionByType", (req, res) => {
             $group: {
                 _id: { type },
                 totalCount: { $sum: 1 },
-                result: { $push: {questions: "$questions", _id: "$_id"} }
+                questions: { $push: {questions: "$questions", _id: "$_id"} }
             }
         },
-        // { $skip: skip },
-        // { $limit: limit }
     ]);
     findPromise.then((arr) => {
         let result = arr[0];
-        // result.totalPage = Math.ceil(result.totalCount/limit);
         delete result._id;
-        // delete result.totalCount;
-        // let ques = result.result;
-        // for(let i = 0; i < ques.length; i++) {
-        //     let curQues = ques[i];
-        //     ques[i] = { _id: curQues._id, ...curQues.questions };
-        // }
         res.send(result)
     });
 });
