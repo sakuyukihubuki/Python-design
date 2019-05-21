@@ -1,0 +1,14 @@
+[
+    {
+        "type": "super",
+        "username": "root",
+        "pwd": "1233211234567",
+        "time": "2019-05-10"
+    },
+    {
+        "type": "normal",
+        "username": "admin1",
+        "pwd": "admin1",
+        "time": "2019-05-11"
+    }
+]

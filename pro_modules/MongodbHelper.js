@@ -109,7 +109,7 @@ class MongodbHelper {
         }
     }
     deleteDocument(collect, where, isMany) {
-        if(where) {
+        if(!where) {
             return Promise.reject(() => {
                 throw "没有设置删除文档的匹配条件！";
             });

@@ -27,6 +27,7 @@ router.use(session({
 router.post("/api/discuss/commit", (req, res) => {
     // id 
     let discussId = (new ObjectId()).toHexString();
+    console.log(discussId)
     // username
     let username = req.session.username;
     // 注册时间
@@ -35,7 +36,7 @@ router.post("/api/discuss/commit", (req, res) => {
     let paperId = req.body.paperId;
     // index
     let index = parseInt(req.body.index);
-    // say
+    // comment
     let comment = req.body.comment;
 
     let obj = {
@@ -197,6 +198,48 @@ router.post("/api/commitAnswersByType", (req, res) => {
 
 ******************************/
 // extend
+router.post("/api/backend/login", (req, res) => {
+    let username = req.body.username;
+    let pwd = req.body.pwd;
+    let findPromise = common.findDocumentToArray("paper", "admin", { where: {username, pwd} });
+    findPromise.then((data) => {
+        req.session.username = data[0].username;
+        res.send({ result: data[0], status: true });
+    }).catch(() => {
+        res.send({ result: false });
+    })
+});
+router.post("/api/backend/addAdmin", (req, res) => {
+    let username = req.body.username;
+    let pwd = req.body.pwd;
+    let type = req.body.type;
+    let time = (new Date()).getTime()
+    let insertPromise = common.insertDocument("paper", "admin", { username, pwd, type, time });
+    insertPromise.then(() => {
+        res.send({ result: true });
+    }).catch(() => {
+        res.send({ result: false });
+    });
+});
+router.post("/api/backend/deleteAdmin", (req, res) => {
+    let username = req.body.username;
+    let deletePromise = common.deleteDocument("paper", "admin", { username }, false);
+    deletePromise.then(() => {
+        res.send({ result: true });
+    }).catch(() => {
+        res.send({ result: false });
+    });
+});
+router.post("/api/backend/rewriteAdmin", (req, res) => {
+    let username = req.body.username;
+    let pwd = req.body.pwd;
+    let updatePromise = common.updateDocument("paper", "admin", { username }, { $set: { pwd }});
+    updatePromise.then(() => {
+        res.send({ result: true });
+    }).catch(() => {
+        res.send({ result: false });
+    });
+});
 router.post("/api/backend/deleteUser", (req, res) => {
     let username = req.body.username;
     let deletePromise = common.deleteDocument("paper", "user", { username }, false);
@@ -229,7 +272,6 @@ router.post("/api/backend/rewriteUser", (req, res) => {
 
 router.post("/api/backend/deletePaper", (req, res) => {
     let _id = req.body.paperId;
-    let deletePaperList = common.deleteDocument("paper", "paperList", { _id }, false);
     let deletePaperDetail = common.deleteDocument("paper", "paperDetail", { _id }, false);
     let promise = Promise.all([ deletePaperList, deletePaperDetail ]);
     promise.then(() => {
@@ -240,14 +282,9 @@ router.post("/api/backend/deletePaper", (req, res) => {
 });
 
 router.post("/api/backend/addPaper", (req, res) => {
-    let { list, detail } = JSON.parse(req.body.obj);
-    let _id = dataCreator.createObjectId();
-    list._id = _id;
-    detail._id = _id;
-    let insertPaperList = common.insertDocument("paper", "paperList", list);
-    let insertPaperDetail = common.insertDocument("paper", "paperDetail", detail);
-    let promise = Promise.all([ insertPaperList, insertPaperDetail ]);
-    promise.then(() => {
+    let paper = JSON.parse(req.body.paper);
+    let insertPaperDetail = common.insertDocument("paper", "paperDetail", paper);
+    insertPaperDetail.then(() => {
         res.send({ result: true });
     }).catch(() => {
         res.send({ result: false });
@@ -255,11 +292,9 @@ router.post("/api/backend/addPaper", (req, res) => {
 });
 
 router.post("/api/backend/rewritePaper", (req, res) => {
-    let { _id, list, detail } = JSON.parse(req.body.obj);
-    let updatePaperList = common.updateDocument("paper", "paperList", { _id }, list);
-    let updatePaperDetail = common.updateDocument("paper", "paperDetail", { _id }, detail);
-    let promise = Promise.all([ updatePaperList, updatePaperDetail ]);
-    promise.then(() => {
+    let paper = JSON.parse(req.body.paper);
+    let updatePaperDetail = common.updateDocument("paper", "paperDetail", { _id }, paper);
+    updatePaperDetail.then(() => {
         res.send({ result: true });
     }).catch(() => {
         res.send({ result: false });

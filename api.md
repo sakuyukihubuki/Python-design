@@ -142,14 +142,146 @@ answers数组中的元素的格式应该是：
 }
 ```
 
+# 提交用户评论（排好序的-->同一题目的评论放到一起）
+接口地址：/api/discussForPaperOrderByQuestion
+请求方式：get
+参数：
+| 参数名  | 类型 | 含义 |
+| --- | --- | --- |
+| paperId | string | 试卷id |
+| isSort | string | 是否排序 | 置为'true' or 'false'
+返回值
+```json
+// 未排序的
+{
+    "_id": "1234567891011",
+    "totalCount": 3,
+    "result": [
+        {
+            "discussId": "3543543543435",
+            "index": 1,
+            "username": "myl",
+            "comment": "sdfsdf",
+            "time": "2131231",
+            "star": "12",
+            "cai": "0"
+        },
+        {
+            "discussId": "3543543543464",
+            "index": 2,
+            "username": "myl",
+            "comment": "sdfsdf",
+            "time": "2131231",
+            "star": "12",
+            "cai": "0"
+        },
+        {
+            "discussId": "3543543543434",
+            "index": 0,
+            "username": "myl",
+            "comment": "sdfsdf",
+            "time": "2131231",
+            "star": "12",
+            "cai": "0"
+        }
+    ]
+}
+// 排序的
+{
+    "_id": "1234567891011",
+    "totalCount": 3, // 评论总数
+    "result": {
+        // 第一题所有的评论
+        "0": [
+            {
+                "discussId": "3543543543434",
+                "index": 0,
+                "username": "myl",
+                "comment": "sdfsdf",
+                "time": "2131231",
+                "star": "12",
+                "cai": "0"
+            }
+        ],
+        // 第二题所有的评论
+        "1": [
+            {
+                "discussId": "3543543543435",
+                "index": 1,
+                "username": "myl",
+                "comment": "sdfsdf",
+                "time": "2131231",
+                "star": "12",
+                "cai": "0"
+            }
+        ],
+        "2": [
+            {
+                "discussId": "3543543543464",
+                "index": 2,
+                "username": "myl",
+                "comment": "sdfsdf",
+                "time": "2131231",
+                "star": "12",
+                "cai": "0"
+            }
+        ]
+    }
+}
+```
 
+# 获取特定题目的用户评论
+接口地址：/api/discussForQuestion
+请求方式：GET
+参数：
 
+| 参数名 | 类型 | 含义 |
+| --- | --- | --- |
+| paperId | string | 试卷id |
+| index | number | 题目序号 |
 
+返回值：
+```json
+[
+    {
+        "discussId": "",
+        "username": "",
+        "say": "",
+        "time": "",
+        "star": "",
+        "cai": ""
+    }
+]
+```
 
+# 提交讨论
+接口地址：/api/discuss/commit
+请求方式：post
+参数：
+| 参数名 | 类型 | 含义 |
+| --- | --- | --- |
+| paperId | string | 试卷id |
+| index | number | 题目序号 |
+| comment | string | 用户评论 |
+返回值：
+true 或者 false
 
+# 点赞
+接口地址：/api/discuss/star
+请求方式：post
+参数：
+| 参数名 | 类型 | 含义 |
+| --- | --- | --- |
+| discussId | string | 评论id |
+返回值：
+true 或者 false
 
-以下是新的接口内容 
-
----
-
-# 获取用户评论
+# 点赞
+接口地址：/api/discuss/cai
+请求方式：post
+参数：
+| 参数名 | 类型 | 含义 |
+| --- | --- | --- |
+| discussId | string | 评论id |
+返回值：
+true 或者 false

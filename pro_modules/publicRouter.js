@@ -48,7 +48,7 @@ router.post("/api/register", (req, res) => {
     let birthday = req.body.birthday;
     
     // 注册时间
-    let registerTime = (new Date()).getTime();
+    let time = (new Date()).getTime();
 
     // 获取用户基本信息
 
@@ -66,7 +66,7 @@ router.post("/api/register", (req, res) => {
     findPromise.then((result) => {
         if(!result.length) {
             // 存入数据库
-            let promise = common.insertDocument("paper", "user", { username, pwd, email, sex, birthday, registerTime });
+            let promise = common.insertDocument("paper", "user", { username, pwd, email, sex, birthday, time });
             promise.then(() => {
                 res.send(true);
             }).catch(() => {
