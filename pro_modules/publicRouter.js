@@ -49,8 +49,6 @@ router.post("/api/register", (req, res) => {
     // 注册时间
     let time = (new Date()).getTime();
 
-    // 获取用户基本信息
-
     // 验证
     if(!username) {
         res.send("0");

@@ -2,10 +2,13 @@ const express = require("express");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const common = require("./common");
-const { exec } = require("child_process");
+const child_process = require("child_process");
 const fs = require("fs");
 const { ObjectId } = require("mongodb");
 const { promisify } = require("util")
+const read = promisify(fs.readFile);
+const write = promisify(fs.writeFile);
+const exec = promisify(child_process.exec);
 
 const router = express.Router();
 
@@ -80,35 +83,57 @@ router.post("/api/discuss/cai", (req, res) => {
     });
 });
 
+// 运行一次代码的操作
+function runCode (username, tpl, paperId, index, code, isSimple) {
+    return new Promise(function(resolve, reject) {
+        const unitPromise = common.findDocumentToArray("paper", "testunits", { where: { paperId, index } });
+        unitPromise.then((result) => {
+            result = result[0];
+            let isMutiply = result.mutiply
+            let writeStr;
+            // 只检查一项
+            if(isSimple) {
+                let unit = result.units[0];
+                let input = JSON.stringify(unit.input);
+                let output = JSON.stringify(unit.output);
+                writeStr = `input = ${input}\r\noutput = ${output}\r\n`;
+            }else {
+                let units = JSON.stringify(result.units)
+                writeStr = `units = ${units}\r\n`
+            }
+            writeStr += `isMutiply = ${isMutiply}\r\n${code}\r\n`;
+            read(tpl).then((data) => {
+                data = data.toString()
+                write(`tmpcode/code-${username}.py`, writeStr+data).then(() => {
+                    exec(`python tmpcode/code-${username}.py`).then((out) => {
+                        resolve(out.stdout);
+                    }).catch(err => {
+                        let reg  = /[\d\D]*line\s(\d*)[\d\D]*?(\w*(?:Error|Exception).*)/im;
+                        let matchArr = reg.exec(err.message);
+                        matchArr.shift();
+                        matchArr[0] -= 3
+                        reject(matchArr.join(", "));
+                    })
+                }).catch(err => {
+                    reject(err)
+                });
+            }).catch(err => {
+                reject(err)
+            });
+        });
+    });
+}
+
 // 运行代码
 router.post("/api/code/run", (req, res) => {
     let username = req.session.username;
     let paperId = req.body.paperId;
-    let index = req.body.index;
+    let index = parseInt(req.body.index);
     let code = req.body.code;
-    const read = promisify(fs.readFile);
-    const write = promisify(fs.writeFile);
-    const unitPromise = common.findDocumentToArray("paper", "testunits", { paperId, index });
-    unitPromise.then((result) => {
-        let unit = result.units[0];
-        let input = unit.input;
-        let output = unit.output;
-        let writeStr = `input = ${input}\r\noutput = ${output}\r\n${code}\r\n`;
-        read("code/run-template.py").then((data) => {
-            data = data.toString()
-            write(`tmpcode/code-${username}.py`, writeStr+data, (err) => {
-                exec(`python tmpcode/code-${username}.py`, (err, stdout, stdin) => {
-                    if(err) {
-                        let reg  = /[\d\D]*(line\s\d*)[\d\D]*?(\w*(?:Error|Exception).*)/im;
-                        let matchArr = reg.exec(err.message);
-                        matchArr.shift();
-                        res.send(matchArr.join(", "));
-                    }else {
-                        res.send(stdout);
-                    }
-                })
-            });
-        });
+    runCode(username, "code/run-template.py", paperId, index, code, true).then((result) => {
+        res.send(result);
+    }).catch((err) => {
+        res.send(err);
     });
 });
 
@@ -116,31 +141,12 @@ router.post("/api/code/run", (req, res) => {
 router.post("/api/code/commit", (req, res) => {
     let username = req.session.username;
     let paperId = req.body.paperId;
-    let index = req.body.index;
+    let index = parseInt(req.body.index);
     let code = req.body.code;
-    const read = promisify(fs.readFile);
-    const write = promisify(fs.writeFile);
-    const unitPromise = common.findDocumentToArray("paper", "testunits", { paperId, index });
-    unitPromise.then((result) => {
-        let unit = result.units[0];
-        let input = unit.input;
-        let output = unit.output;
-        let writeStr = `input = ${input}\r\noutput = ${output}\r\n${code}\r\n`;
-        read("code/check-template.py").then((data) => {
-            data = data.toString()
-            write(`tmpcode/code-${username}.py`, writeStr+data, (err) => {
-                exec(`python tmpcode/code-${username}.py`, (err, stdout, stdin) => {
-                    if(err) {
-                        let reg  = /[\d\D]*(line\s\d*)[\d\D]*?(\w*(?:Error|Exception).*)/im;
-                        let matchArr = reg.exec(err.message);
-                        matchArr.shift();
-                        res.send(matchArr.join(", "));
-                    }else {
-                        res.send(stdout);
-                    }
-                })
-            });
-        });
+    runCode(username, "code/check-template.py", paperId, index, code, false).then((result) => {
+        res.send(result);
+    }).catch((err) => {
+        res.send(err);
     });
 });
 
@@ -184,7 +190,7 @@ router.post("/api/commitAnswersByType", (req, res) => {
         try {
             common.updateDocument("paper", "answer", condition, { $set: setObject });
         }catch(err) {
-            res.send({ "result": true });
+            res.send({ "result": false });
             break;
         }
     }
