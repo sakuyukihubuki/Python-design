@@ -1,3 +1,4 @@
+const common = require('./common');
 const express = require('express');
 const path = require("path");
 
@@ -44,7 +45,7 @@ router.post("/api/register", (req, res) => {
     let pwd = req.body.pwd;
     let email = req.body.email;
     let sex = req.body.sex;
-    let birthday = reqe.body.birthday;
+    let birthday = req.body.birthday;
     
     // 注册时间
     let registerTime = (new Date()).getTime();

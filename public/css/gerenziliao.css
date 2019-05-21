@@ -19,3 +19,52 @@
 	width: 70px;
 	margin: 20px auto;
 }
+#bianji{
+	position: relative;
+	font-size: 16px;
+	color: cornflowerblue;
+	top: -20px;
+	right: 10px;
+	width: 40px;
+	float: right;
+}
+a{
+	position: relative;
+	top:20px;
+	float: right;
+}
+input{
+
+	float: right;
+	width:200px;
+	background: transparent;
+}
+.tiangerenziliao-box div{
+	width: 60%;
+	margin: 30px 0 0 50px;
+	padding-top: 20px;
+}
+.tiangerenziliao-box{
+	margin: 120px auto;
+	width: 60%;
+	height: 400px;
+	background: white;
+	opacity: 0.8;
+	border:gray 0.6px solid;
+	border-radius: 10px;
+	text-align: center;
+}
+button{
+	position: relative;
+	bottom: 120px;
+	color: white;
+	outline: none;
+    border:0;
+    width:180px;
+    height:25px;
+    background:#69bbdc;
+    margin-top:10px ;
+    border-radius: 25px;
+    transition: all 1s;
+    cursor: pointer;
+}

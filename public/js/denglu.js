@@ -9,6 +9,7 @@ window.onload = function (ev) {
 			re: [/^[a-zA-Z0-9_-]{8,16}$/, "用户名必须是字母、数字和下划线组成，长度为8到16位"]
 		}
 	}, "#commit");
+	console.log(checkFrom)
 	checkFrom.initInputEvent("error-msg");
 	checkFrom.initCommitEvent(function() {
 		ajax("POST", "../api/login", {
@@ -17,7 +18,8 @@ window.onload = function (ev) {
 		}, 3000 , function (xhr) {
 				if (xhr.responseText) {
 					alert("登录成功");
-					window.location.href = 'homepage.html' + "?" + $(".user").val();
+					window.location.href = 'homepage.html';
+					localStorage.user=$(".user").val();
 				}
 				else {
 					alert("登录失败");

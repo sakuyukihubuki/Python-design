@@ -5,45 +5,76 @@ window.onload=function(ev){
 	var str=window.location.href.split('?');
 	var res=str[0];
 	var names=str[1];
-	var patt=/danxuan/;
-	zairu(counter);
-	console.log(localStorage.tixing);
+	var tixing=localStorage.tixing;
+	console.log(tixing);
+	if(tixing=='a'){
+		zairu(counter);
+	}
+	if(tixing=='b'){
+		zairu(counter);
+	}
+	if(tixing=='c'){
+		counter=40;
+		zairu(counter);
+	}
+	if(tixing=='e'){
+		zairuxuanze("select");
+	}
+	if(tixing=='f'){
+		zairuxuanze("base");
+	}
+
 	function zairu(counter){
 		ajax("GET","../api/paperDetail",{
 					"paperId":names,
 				},3000
 				,function(xhr){
 					console.log(xhr);
-					    var s = JSON.parse(xhr.responseText);
-						console.log(names);		
+					    var s = JSON.parse(xhr.responseText);	
 						obj=s;
-						console.log(obj);	
 						leg=obj.questions.length;
-						if(patt.test(res)){
-							du(counter);
-						}
-						else{
-							counter=40;
-							du2(counter);
-							console.log(counter);
-						}
+						du(counter);
+				},function(xhr){
+					alert(xhr.status+"连接失败");
+				});
+	}
+	function zairuxuanze(sa){
+		ajax("GET","../api/questionByType",{
+					"type":sa
+				},3000
+				,function(xhr){
+					    var s = JSON.parse(xhr.responseText);	
+						obj=s;
+						leg=obj.questions.length;
+						du2(counter);
+	
 				},function(xhr){
 					alert(xhr.status+"连接失败");
 				});
 	}
 	function du (counter) {
-		if(counter<=39){
+		if(counter<=39||tixing=='e'){
 			duiwei(obj["questions"][counter].content,obj["questions"][counter].options[0],obj["questions"][counter].options[1],obj["questions"][counter].options[2],obj["questions"][counter].options[3]);
 		}
 		else{
+			console.log(counter+"sad");
 			duiwei(counter,obj["questions"][counter].content,obj["questions"][counter].example[0].input,obj["questions"][counter].example[0].output);
+		}
+	}
+	function du2 (counter) {
+		console.log(obj);
+		if(leg==80){
+			duiwei(obj["questions"][counter]["questions"].content,obj["questions"][counter]["questions"].options[0],obj["questions"][counter]["questions"].options[1],obj["questions"][counter]["questions"].options[2],obj["questions"][counter]["questions"].options[3]);
+		}
+		else{
+			duiwei(counter,obj["questions"][counter]["questions"].content,obj["questions"][counter]["questions"].example[0].input,obj["questions"][counter]["questions"].example[0].output);
 		}
 	}
 
 	window.a1=new Array(leg);	
 	function duiwei(timu,ar,br,cr,dr){
 		var no,a,b,c,d;
-		if(counter<=39){
+		if((counter<=39&&tixing=='a')||tixing=='e'||tixing=='b'){
 		no = document.querySelector("#no");
 		a = document.querySelector("#A");
 		b = document.querySelector("#B");
@@ -69,7 +100,15 @@ window.onload=function(ev){
 	}
 	
 	function huanye(){
-		if(counter<39){
+		if(tixing=='e'||tixing=='b'){
+			$("#danxuan").css('display','block');
+			$("#biancheng").css('display','none');
+		}
+		else if(tixing=='f'||tixing=='c'){
+			$("#danxuan").css('display','none');
+			$("#biancheng").css('display','block');
+		}
+		else if(counter<39&&tixing=='a'){
 			$("#danxuan").css('display','block');
 			$("#biancheng").css('display','none');
 		}
@@ -86,7 +125,8 @@ window.onload=function(ev){
 	var Btnafter2=document.querySelector("#after2");
 	var Btncheck2=document.querySelector("#check2");
 	Btncheck.onclick=function(event){
-		ajax("POST","/api/commitPaper",{
+		if(tixing=='a'){
+			ajax("POST","/api/commitPaper",{
 					"paperId":obj._id,
 					"answers": JSON.stringify(a1)
 				},3000
@@ -100,13 +140,37 @@ window.onload=function(ev){
 				},function(xhr){
 					alert("shibai");
 				});
+		}
+		else if(tixing=='e'){
+			ajax("POST","/api/commitAnswersByType",{
+					"paperId":obj._id,
+					"answers": JSON.stringify(a1)
+				},3000
+				,function(xhr){
+					if(xhr.responseText){
+							alert("提交成功");	
+						}
+						else{
+							alert("提交失败");
+						}
+				},function(xhr){
+					alert("shibai");
+				});
+		}
+		
 	}
 	function xiangqian(){
-		if(counter<1){
+		if(tixing=='e'||tixing=='f'){
+			counter--;
+			du2(counter);
+			shujuchuanshu();
+			shujujiancha();
+		}
+		else if(counter<1){
 			alert("已经是第一题了！");
 			counter=0;
 		}
-		else if(counter>=leg-7&&counter<leg){
+		else if(counter>=leg-7&&counter<leg&&tixing=='a'){
 			counter--;	
 			du(counter);
 			shujuchuanshu();
@@ -119,11 +183,19 @@ window.onload=function(ev){
 		}
 	}
 	function xianghou(){
-		if(counter>leg-7&&counter<leg){
-			console.log(counter);
-			counter++;	
+		if(tixing=='e'||tixing=='f'){
+			counter++;
+			du2(counter);
+			shujuchuanshu();
+			shujujiancha();
+		}
+		else if(counter>leg-7&&counter<leg&&tixing=='a'){
+			counter++;
 			du(counter);
 			shujuchuanshu();
+		}
+		else if(counter==39&&tixing=='b'){
+			alert("已完成答题");
 		}
 		else{
 			shujuchuanshu();
@@ -149,21 +221,21 @@ window.onload=function(ev){
 		xianghou();
 	}
 	
-	var selectedtxt=document.querySelectorAll(".txt");
-	var length=selectedtxt.length;
-	for(var x=0; x<length;x++){
-			selectedtxt[x].onclick=function(ev){
-			$(this).prev().prop('checked',true);
-		}
-	}
-	
 	function shujuchuanshu(){
-		if($('input:radio[name="xuanze1"]:checked').val()!=null&&counter<=39)
+		if(($('input:radio[name="xuanze1"]:checked').val()!=null&&counter<=39&&tixing=='a')||tixing=='e')
 		{
 			a1[counter]=$('input:radio[name="xuanze1"]:checked').val();
 		}
 		else{
 			a1[counter]=$("#anwser1").val();
+		}
+	}
+	
+	var selectedtxt=document.querySelectorAll(".txt");
+	var length=selectedtxt.length;
+	for(var x=0; x<length;x++){
+			selectedtxt[x].onclick=function(ev){
+			$(this).prev().prop('checked',true);
 		}
 	}
 	
@@ -190,7 +262,6 @@ window.onload=function(ev){
 			qingchuxuanze();
 		}
 	}
-
 	var selected=document.querySelectorAll(".xuanxiang");
 	function qingchuxuanze(){
 		for(var x=0; x<length;x++){
