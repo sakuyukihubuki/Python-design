@@ -137,7 +137,43 @@ router.get("/api/discussForPaper", (req, res) => {
 });
 
 // 获取用户试卷答案
+router.get("/api/answerForPaper", (req, res) => {
+    let username = req.session.username;
+    let paperId = req.body.paperId;
+    let findPromise = common.findDocumentToArray("paper", "answer", { username });
+    findPromise.then(([result]) => {
+        res.send({result: result.answers[paperId]});
+    }).catch(() => {
+        res.send({result: false});
+    });
+});
 
+// 获取用户试卷答案
+router.get("/api/answerForQuestionType", (req, res) => {
+    let username = req.session.username;
+    // queryArray是[ { index: , paperId } ]
+    let queryArray = req.body.queryArray;
+    let formatQuery = {};
+    queryArray.forEach(queryItem => {
+        let paperId = queryItem.paperId;
+        if(formatQuery[paperId]) {
+            formatQuery.push(paperId);
+        }else {
+            formatQuery[paperId] = [ paperId ];
+        }
+    });
+    let findPromise = common.findDocumentToArray("paper", "answer", { username });
+    findPromise.then((result) => {
+        const answers = result[0].answers;
+        const sendData = {};
+        for (let key in formatQuery) {
+            sendData[key] = answers[key].filter(answer => formatQuery[key].indexOf(answer.index) >= 0);
+        }
+        res.send({result: sendData});
+    }).catch(() => {
+        res.send({result: false});
+    });
+});
 
 
 /***********************************

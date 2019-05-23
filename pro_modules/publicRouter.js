@@ -38,7 +38,7 @@ router.post("/api/login", (req, res) => {
 // 注册
 router.post("/api/register", (req, res) => {
     // 生成ObjectId
-    // let _id = objectId.toHexString();
+    let _id = objectId.toHexString();
 
     // 获取用户账号信息
     let username = req.body.username;
@@ -64,7 +64,7 @@ router.post("/api/register", (req, res) => {
     findPromise.then((result) => {
         if(!result.length) {
             // 存入数据库
-            let promise = common.insertDocument("paper", "user", { username, pwd, email, sex, birthday, time });
+            let promise = common.insertDocument("paper", "user", { _id, username, pwd, email, sex, birthday, time });
             promise.then(() => {
                 res.send(true);
             }).catch(() => {

@@ -6,7 +6,6 @@ window.onload=function(ev){
 	var res=str[0];
 	var names=str[1];
 	var tixing=localStorage.tixing;
-	console.log(tixing);
 	if(tixing=='a'){
 		zairu(counter);
 	}
@@ -308,6 +307,7 @@ window.onload=function(ev){
 
 function editorInit(id) {
 	var el = document.getElementById(id);
+	var runCodeBtn = document.getElementById("runcode");
 	var version = "# version: Python3\n\n";
 	var codeTip = "'''\nThis function is the entry of this program, \nthe args is the input params and\nit must be return your answer of current question.\n'''\n";
 	var code = "def solution(args):\n\tpass";
@@ -331,7 +331,29 @@ function editorInit(id) {
     myCodeMirror.setOption("value", initValue);
     myCodeMirror.on("keypress", function() {
         myCodeMirror.showHint(); // 注意，注释了CodeMirror库中show-hint.js第131行的代码（阻止了代码补全，同时提供智能提示）
-    });
+	});
+	runCodeBtn.addEventListener("click", function() {
+		var code = myCodeMirror.getValue();
+		runCode(code)
+	})
+	function runCode(code) {
+		var paperId = "5ca06e9201257519105a7882";
+		var index = 40;
+		$.ajax({
+			url: "/api/code/commit",
+			method: "post",
+			data: {
+				paperId: paperId, index: index, code: code
+			},
+			contentType: "application/x-www-form-urlencoded; charset=utf-8",
+			success: function(data) {
+				console.log(data)
+			},
+			error: function() {
+
+			}
+		});
+	}
 }
 
 function initCodeHighlight() {

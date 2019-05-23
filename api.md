@@ -276,7 +276,7 @@ true 或者 false
 返回值：
 true 或者 false
 
-# 点赞
+# 踩
 接口地址：/api/discuss/cai
 请求方式：post
 参数：

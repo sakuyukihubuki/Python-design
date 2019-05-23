@@ -30,7 +30,6 @@ router.use(session({
 router.post("/api/discuss/commit", (req, res) => {
     // id 
     let discussId = (new ObjectId()).toHexString();
-    console.log(discussId)
     // username
     let username = req.session.username;
     // 注册时间
@@ -106,13 +105,14 @@ function runCode (username, tpl, paperId, index, code, isSimple) {
                 data = data.toString()
                 write(`tmpcode/code-${username}.py`, writeStr+data).then(() => {
                     exec(`python tmpcode/code-${username}.py`).then((out) => {
-                        resolve(out.stdout);
+                        const result = out.stdout.split("!@#$%^&*()")
+                        resolve(result);
                     }).catch(err => {
                         let reg  = /[\d\D]*line\s(\d*)[\d\D]*?(\w*(?:Error|Exception).*)/im;
                         let matchArr = reg.exec(err.message);
                         matchArr.shift();
                         matchArr[0] -= 3
-                        reject(matchArr.join(", "));
+                        reject(JSON.stringify(matchArr.join(", ")));
                     })
                 }).catch(err => {
                     reject(err)
@@ -124,7 +124,7 @@ function runCode (username, tpl, paperId, index, code, isSimple) {
     });
 }
 
-// 运行代码
+// 运行代码（测试单个用例）
 router.post("/api/code/run", (req, res) => {
     let username = req.session.username;
     let paperId = req.body.paperId;
@@ -137,7 +137,7 @@ router.post("/api/code/run", (req, res) => {
     });
 });
 
-// 提交代码
+// 提交代码（测试所有用例）
 router.post("/api/code/commit", (req, res) => {
     let username = req.session.username;
     let paperId = req.body.paperId;
@@ -153,7 +153,8 @@ router.post("/api/code/commit", (req, res) => {
 // 试卷答题提交
 router.post("/api/commitPaper", (req, res) => {
     // 从session中获取用户名
-    let username = req.session.username;
+    // let username = req.session.username;
+    let username = "myl";
     // 获取试卷信息
     let paperId = req.body.paperId;
     // 如果可以出现用户没有填写题目的情况，不能跳过该题目答案，应将其置为undefined
@@ -161,7 +162,21 @@ router.post("/api/commitPaper", (req, res) => {
     // $set
     let setObject = {};
     let answersField = "answers." + paperId;
-    setObject[answersField] = JSON.parse(answers);
+    try{
+        setObject[answersField] = JSON.parse(answers);
+    }catch(err) {
+        setObject[answersField] = answers;
+    }
+    // 为编程题添加一个运行情况字段（run_situation）
+    setObject[answersField].forEach((item) => {
+        if(item.index >= 40) {
+            runCode(username, "code/check-template.py", paperId, item.index, item.answer, false).then((result) => {
+                item.run_situation = JSON.parse(result);
+            }).catch((err) => {
+                item.run_situation = err;
+            });
+        }
+    });
     // 将信息写入数据库
     try {
         common.updateDocument("paper", "answer", { username }, { $set: setObject });
@@ -173,28 +188,83 @@ router.post("/api/commitPaper", (req, res) => {
 
 // 类型答题提交
 router.post("/api/commitAnswersByType", (req, res) => {
+    function merge(target, source) {
+        for(key in source) {
+            if(target[key]) {
+                // 如果target存在和source一样的index（同一题目），在target中删除
+                target[key].forEach((item, idx) => {
+                    if(source[key].some(value => value.index === item.index)) {
+                        target[key].splice(idx, 1);
+                    }
+                });
+                target[key] = target[key].concat(source[key]);
+                target[key].sort((firstEl, sencodeEl) => {
+                    return firstEl.index - sencodeEl.index;
+                });
+            }else {
+                target[key] = source[key];
+                target[key].sort((firstEl, sencodeEl) => {
+                    return firstEl.index - sencodeEl.index;
+                });
+            }
+        }
+        return target;
+    }
     // 从session中获取用户名
     let username = req.session.username;
     // 获取answers
-    let answers = JSON.parse(req.body.answers);
+    let answers;
+    // 判断答题类型
+    let isCode = answers[0].index >= 40;
+    // 如果是编程题，添加一个运行后的字段run_situation
+    if (isCode) {
+        answers.forEach(item => {
+            runCode(username, "code/check-template.py", paperId, item.index, item.answer, false).then((result) => {
+                item.run_situation = JSON.parse(result);
+            }).catch((err) => {
+                item.run_situation = err;
+            });
+        });
+    }
+    try {
+        answers = JSON.parse(req.body.answers);
+    }catch(err) {
+        answers = req.body.answers;
+    }
+    let formatAnwsers = {}
     for (let i = 0; i < answers.length; i++) {
         let answer = answers[i];
         let paperId = answer.paperId;
         let index = answer.index;
         let value = answer.answer;
-        // condition
-        let condition = { username };
-        condition["answers."+paperId+".index"] = index;
-        let setObject = { };
-        setObject["answers."+paperId+".$.answer"] = value;
-        try {
-            common.updateDocument("paper", "answer", condition, { $set: setObject });
-        }catch(err) {
-            res.send({ "result": false });
-            break;
+        if (formatAnwsers[paperId]) {
+            formatAnwsers[paperId].push({ index, answer: value });
+        }else {
+            formatAnwsers[paperId] = [ { index, answer: value } ];
         }
-    }
-    res.send({ "result": true });
+    } 
+    let findPromise = common.findDocumentToArray("paper", "answer", { username });
+    findPromise.then((result) => {
+        let promise;
+        // 用户有答题记录
+        if(result.length > 0) {
+            result = result[0];
+            let answers = merge(result.answers, formatAnwsers);
+            promise = common.updateDocument("paper", "answer", { username }, { answers });
+        }
+        // 用户没有答题记录
+        else {
+            promise = common.insertDocument("paper", "answer", {
+                username,
+                answers: formatAnwsers
+            });
+        }
+        promise.then(() => {
+            res.send({ result: true });
+        }).catch(() => {
+            res.send({ result: false });
+        })
+    })
 });
 
 
@@ -257,8 +327,7 @@ router.post("/api/backend/deleteUser", (req, res) => {
 });
 
 router.post("/api/backend/addUser", (req, res) => {
-    let obj = JSON.parse(req.body.obj);
-    let insertPromise = common.insertDocument("paper", "user", obj);
+    let insertPromise = common.insertDocument("paper", "user", req.body);
     insertPromise.then(() => {
         res.send({ result: true });
     }).catch(() => {
@@ -267,8 +336,9 @@ router.post("/api/backend/addUser", (req, res) => {
 });
 
 router.post("/api/backend/rewriteUser", (req, res) => {
-    let obj = JSON.parse(req.body.obj);
-    let updatePromise = common.updateDocument("paper", "user", { username: obj.username }, obj);
+    let obj = req.body;
+    delete obj._id
+    let updatePromise = common.updateDocument("paper", "user", { username: obj.username }, { $set: obj });
     updatePromise.then(() => {
         res.send({ result: true });
     }).catch(() => {
@@ -288,9 +358,23 @@ router.post("/api/backend/deletePaper", (req, res) => {
 });
 
 router.post("/api/backend/addPaper", (req, res) => {
-    let paper = JSON.parse(req.body.paper);
+    let { selects, bases, synthesis, units } = req.body;
+    let paperId = (new ObjectId()).toHexString();
+    let paper = selects.concat(bases, [ synthesis ]);
+    paper._id = paperId;
+    let testunits = units.map((unit, idx) => {
+        let isMutiply = unit.input && unit.input.length > 2
+        return {
+            paperId,
+            index: idx + 40,
+            isMutiply,
+            units: unit
+        }
+    })
     let insertPaperDetail = common.insertDocument("paper", "paperDetail", paper);
-    insertPaperDetail.then(() => {
+    let insertTestUnits = common.insertDocument("paper", "testunits", testunits);
+    let promise = Promise.all([insertPaperDetail, insertTestUnits]);
+    promise.then(() => {
         res.send({ result: true });
     }).catch(() => {
         res.send({ result: false });

@@ -1,3 +1,5 @@
+import psutil
+import os
 units = [
     {
         "input": [1, 2],
@@ -29,3 +31,4 @@ def check(units):
     return True
 
 print(check(units), end="")
+print(str(psutil.Process(os.getpid()).memory_info().rss / 1024 / 1024)+'MB')
