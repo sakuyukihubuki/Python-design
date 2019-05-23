@@ -4,6 +4,17 @@ const common = require("./common");
 
 const router = express.Router();
 
+// 获取个人信息
+router.get("/api/userInfo", (req, res) => {
+    let username = req.session.username;
+    let findPromise = common.findDocumentToArray("paper", "user", { username });
+    findPromise.then(result => {
+        res.send({ result: result[0]} );
+    }).catch(() => {
+        res.send({ result: false });
+    })
+});
+
 // 获取试卷列表
 router.get("/api/paperList", (req, res) => {
     // 获取请求信息

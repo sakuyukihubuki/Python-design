@@ -26,6 +26,19 @@ router.use(session({
     }
 }));
 
+// rewriteUser
+router.post("/api/rewriteUser", (req, res) => {
+    let username = req.session.username;
+    let body = req.body;
+
+    let updatePromise = common.updateDocument("paper", "user", { username }, { $set: body });
+    updatePromise.then(() => {
+        res.send({ result: true });
+    }).catch(() => {
+        res.send({ result: false });
+    })
+});
+
 // discuss
 router.post("/api/discuss/commit", (req, res) => {
     // id 
