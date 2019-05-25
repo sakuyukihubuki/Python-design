@@ -1,5 +1,6 @@
 const common = require('./common');
 const express = require('express');
+const { ObjectId } = require('mongodb');
 const path = require("path");
 
 const router = express.Router();
@@ -38,7 +39,7 @@ router.post("/api/login", (req, res) => {
 // 注册
 router.post("/api/register", (req, res) => {
     // 生成ObjectId
-    let _id = objectId.toHexString();
+    let _id = (new ObjectId()).toHexString();
 
     // 获取用户账号信息
     let username = req.body.username;

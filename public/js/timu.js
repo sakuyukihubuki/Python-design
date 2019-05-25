@@ -181,7 +181,12 @@ window.onload=function(ev){
 			shujujiancha();
 		}
 	}
+	var isInitEditor = false;
 	function xianghou(){
+		if(!isInitEditor && counter === 39) {
+			editorInit("anwser1");
+			isInitEditor = true;
+		}
 		if(tixing=='e'||tixing=='f'){
 			counter++;
 			du2(counter);
@@ -301,64 +306,112 @@ window.onload=function(ev){
 
 		$(".commit").parent().append($text);
 	}
-	
-	editorInit("anwser1");
-}
-
-function editorInit(id) {
-	var el = document.getElementById(id);
-	var runCodeBtn = document.getElementById("runcode");
-	var version = "# version: Python3\n\n";
-	var codeTip = "'''\nThis function is the entry of this program, \nthe args is the input params and\nit must be return your answer of current question.\n'''\n";
-	var code = "def solution(args):\n\tpass";
-    var initValue = version + codeTip + code;
-    var myCodeMirror = CodeMirror.fromTextArea(el, {
-        mode: "python",
-        theme: "leetcode",
-        keyMap: "sublime",
-        lineNumbers: true,
-        smartIndent: true,
-        indentUnit: 4,
-        indentWithTabs: true,
-        lineWrapping: true,
-        gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter", "CodeMirror-lint-markers"],
-        foldGutter: true,
-        autofocus: true,
-        matchBrackets: true,
-        autoCloseBrackets: true,
-        styleActiveLine: true,
-    });
-    myCodeMirror.setOption("value", initValue);
-    myCodeMirror.on("keypress", function() {
-        myCodeMirror.showHint(); // 注意，注释了CodeMirror库中show-hint.js第131行的代码（阻止了代码补全，同时提供智能提示）
-	});
-	runCodeBtn.addEventListener("click", function() {
-		var code = myCodeMirror.getValue();
-		runCode(code)
-	})
-	function runCode(code) {
-		var paperId = "5ca06e9201257519105a7882";
-		var index = 40;
-		$.ajax({
-			url: "/api/code/commit",
-			method: "post",
-			data: {
-				paperId: paperId, index: index, code: code
-			},
-			contentType: "application/x-www-form-urlencoded; charset=utf-8",
-			success: function(data) {
-				console.log(data)
-			},
-			error: function() {
-
-			}
+ 
+	function editorInit(id) {
+		var el = document.getElementById(id);
+		var runCodeBtn = document.getElementById("run-code");
+		var commitCodeBtn = document.getElementById("commit-code");
+		var codeInput = document.getElementById("code-input");
+		var codeOutput = document.getElementById("code-output");
+		var codeExpect = document.getElementById("code-expect");
+		var codeTime = document.getElementById("code-time");
+		var codeSpace = document.getElementById("code-space");
+		var codeMsg = document.getElementById("code-msg");
+		var version = "# version: Python3\n\n";
+		var codeTip = "'''\nThis function is the entry of this program, \nthe args is the input params and\nit must be return your answer of current question.\n'''\n";
+		var code = "def solution(args):\n\tpass";
+		var initValue = version + codeTip + code;
+		var myCodeMirror = CodeMirror.fromTextArea(el, {
+			mode: "python",
+			theme: "leetcode",
+			keyMap: "sublime",
+			lineNumbers: true,
+			smartIndent: true,
+			indentUnit: 4,
+			indentWithTabs: true,
+			lineWrapping: true,
+			gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter", "CodeMirror-lint-markers"],
+			foldGutter: true,
+			autofocus: true,
+			matchBrackets: true,
+			autoCloseBrackets: true,
+			styleActiveLine: true,
 		});
+		myCodeMirror.setOption("value", initValue);
+		myCodeMirror.on("keypress", function() {
+			myCodeMirror.showHint(); // 注意，注释了CodeMirror库中show-hint.js第131行的代码（阻止了代码补全，同时提供智能提示）
+		});
+		runCodeBtn.addEventListener("click", function() {
+			var code = myCodeMirror.getValue();
+			runCode(code);
+		});
+		commitCodeBtn.addEventListener("click", function() {
+			var code = myCodeMirror.getValue();
+			commitCode(code);
+		});
+		function showCodeResult(data) {
+			if (typeof data === "string") {
+				// codeInput.innerText = "";
+				// codeOutput.innerText = "";
+				// codeExpect.innerText = "";
+				// codeTime.innerText = "";
+				// codeSpace.innerText = "";
+				codeMsg.innerText = data;
+			}else {
+				var input = data[0];
+				var output = data[2];
+				var expect = data[1];
+				var time = data[3];
+				var space = data[4];
+				codeInput.innerText = input;
+				codeOutput.innerText = output;
+				codeExpect.innerText = expect;
+				codeTime.innerText = time;
+				codeSpace.innerText = space;
+			}
+		}
+		function runCode(code) {
+			var paperId = names;
+			var index = counter;
+			$.ajax({
+				url: "/api/code/run",
+				method: "post",
+				data: {
+					paperId: paperId, index: index, code: code
+				},
+				contentType: "application/x-www-form-urlencoded; charset=utf-8",
+				success: function(data) {
+					showCodeResult(data);
+				},
+				error: function(err) {
+					alert(err);
+				}
+			});
+		}
+		function commitCode(code) {
+			var paperId = names;
+			var index = counter;
+			$.ajax({
+				url: "/api/code/commit",
+				method: "post",
+				data: {
+					paperId: paperId, index: index, code: code
+				},
+				contentType: "application/x-www-form-urlencoded; charset=utf-8",
+				success: function(data) {
+					showCodeResult(data);
+				},
+				error: function(err) {
+					alert(err);
+				}
+			});
+		}
 	}
-}
-
-function initCodeHighlight() {
-	var pres = document.querySelectorAll(".question-box pre")
-	pres.forEach(function(pre) {
-		hljs.highlightBlock(pre)
-	})
+	
+	function initCodeHighlight() {
+		var pres = document.querySelectorAll(".question-box pre")
+		pres.forEach(function(pre) {
+			hljs.highlightBlock(pre)
+		})
+	}
 }

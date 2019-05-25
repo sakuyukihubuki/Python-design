@@ -100,7 +100,9 @@ function runCode (username, tpl, paperId, index, code, isSimple) {
     return new Promise(function(resolve, reject) {
         const unitPromise = common.findDocumentToArray("paper", "testunits", { where: { paperId, index } });
         unitPromise.then((result) => {
+            console.log(result)
             result = result[0];
+            console.log(result)
             let isMutiply = result.mutiply
             let writeStr;
             // 只检查一项
