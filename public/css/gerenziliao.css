@@ -1,7 +1,7 @@
 .gerenziliao-box{
-	margin: 120px auto;
+	margin: 80px auto;
 	width: 60%;
-	height: 400px;
+	/* height: 400px; */
 	background: white;
 	opacity: 0.8;
 	border:gray 0.6px solid;
@@ -20,13 +20,15 @@
 	margin: 20px auto;
 }
 #bianji{
+	display: block;
 	position: relative;
 	font-size: 16px;
 	color: cornflowerblue;
-	top: -20px;
+	/* top: -20px; */
 	right: 10px;
 	width: 40px;
-	float: right;
+	/* float: right; */
+	cursor: pointer;
 }
 a{
 	position: relative;
@@ -34,8 +36,7 @@ a{
 	float: right;
 }
 input{
-
-	float: right;
+	margin: 20px 0;
 	width:200px;
 	background: transparent;
 }
