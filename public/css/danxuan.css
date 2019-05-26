@@ -85,7 +85,7 @@ img{
 	text-align: left;
 	line-height: 30px;
 	width: 94%;
-	height: 200px;
+	/* height: 200px; */
 }
 #example{
 	border-radius: 0px;
