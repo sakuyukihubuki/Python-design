@@ -153,7 +153,7 @@ router.get("/api/discussForPaper", (req, res) => {
 router.get("/api/answerForPaper", (req, res) => {
     let username = req.session.username;
     let paperId = req.body.paperId;
-    let findPromise = common.findDocumentToArray("paper", "answer", { username });
+    let findPromise = common.findDocumentToArray("paper", "answer", { where: { username } });
     findPromise.then(([result]) => {
         res.send({result: result.answers[paperId]});
     }).catch(() => {
@@ -175,7 +175,7 @@ router.get("/api/answerForQuestionType", (req, res) => {
             formatQuery[paperId] = [ paperId ];
         }
     });
-    let findPromise = common.findDocumentToArray("paper", "answer", { username });
+    let findPromise = common.findDocumentToArray("paper", "answer", { where: { username } });
     findPromise.then((result) => {
         const answers = result[0].answers;
         const sendData = {};

@@ -286,4 +286,18 @@ true 或者 false
 返回值：
 true 或者 false
 
+# 获取用户试卷提交的答案
+接口地址：/api/answerForPaper  
+请求方式：get
+参数：
+| 参数名 | 类型 | 含义 |
+| --- | --- | --- |
+| paperId | string | 试卷id |
 
+# 获取用户题目提交的答案
+接口地址：/api/answerForQuestionType
+请求方式：get
+参数：
+| 参数名 | 类型 | 含义 |
+| --- | --- | --- |
+| queryArray | array | 题目序号组成的数组, queryArray是[ { index: , paperId }, ... ] | 
