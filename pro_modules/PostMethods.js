@@ -399,8 +399,10 @@ router.post("/api/backend/addPaper", (req, res) => {
 });
 
 router.post("/api/backend/rewritePaper", (req, res) => {
-    let paper = JSON.parse(req.body.paper);
-    let updatePaperDetail = common.updateDocument("paper", "paperDetail", { _id }, paper);
+    let paper = req.body.paper;
+    let _id = paper._id;
+    delete paper._id;
+    let updatePaperDetail = common.updateDocument("paper", "paperDetail", { _id }, { $set: paper });
     updatePaperDetail.then(() => {
         res.send({ result: true });
     }).catch(() => {
