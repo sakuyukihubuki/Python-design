@@ -157,6 +157,21 @@ window.onload=function(ev){
 		}
 	}
 	
+	var obj2;
+	ajax("GET","../api/discussForPaperOrderByQuestion",{
+					"paperId":"[object Object]",
+					"isSort":"true"
+				},3000
+				,function(xhr){
+					console.log(xhr);
+					    var s = JSON.parse(xhr.responseText);	
+						obj2=s;
+							console.log(obj);
+				},function(xhr){
+					alert(xhr.status+"连接失败");
+				});
+				
+				
 	function shujuchuanshu(){
 		if($('input:radio[name="xuanze1"]:checked').val()!=null&&counter<=39)
 		{
@@ -217,13 +232,13 @@ window.onload=function(ev){
 					alert("shibai");
 				});*/
 		console.log(pinglun.value+"？"+names+"?"+counter);
-		createText();
+		createText(localStorage.user);
 	}
 	var myDate = new Date();
-	function createText(){
+	function createText(name){
 		var $text = $(  
 						"<div class=\"pinglunqu\">\n"+
-				"	<div class=\"usernames\">username:</div>\n"+
+				"	<div class=\"usernames\">"+name+":</div>\n"+
 					"	<div class=\"pinglundehua\">"+pinglun.value+"</div>\n"+
 				"	<div class=\"zancai\">"+"zan"+"&nbsp&nbsp&nbsp&nbsp"+"cai"+"</div>\n"+
 				"	<div class=\"time\">"+myDate.toLocaleString()+"</div>\n"+

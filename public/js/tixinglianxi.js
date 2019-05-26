@@ -2,58 +2,101 @@ window.onload=function(ev){
 	window.counter=0;
 	window.leg=0;
 	window.obj;
-	var str=window.location.href.split('?');
-	var res=str[0];
-	var names=str[1];
-	var tixing=localStorage.tixing;
 
-	
+window.com;
+	var tixing=localStorage.tixing;
+	var Btntixing=document.querySelector("#tixing");
+	var Btntixing2=document.querySelector("#tixing2");
+	Btntixing.onclick=function(event){
+		localStorage.tixing='e';
+	}
+	Btntixing2.onclick=function(event){
+		localStorage.tixing='f';
+	}
 	var username = document.querySelector("#username");
 	username.innerHTML=localStorage.user;
-	console.log(tixing);
-
-	if(tixing=='a'){
-		zairu(counter);
+	if(tixing=='e'){
+		zairuxuanze("select");
 	}
-	if(tixing=='b'){
-		zairu(counter);
-	}
-	if(tixing=='c'){
-		counter=40;
-		zairu(counter);
+	if(tixing=='f'){
+		zairuxuanze("base");
 	}
 
-	function zairu(counter){
-		ajax("GET","../api/paperDetail",{
-					"paperId":names,
+	function zairuxuanze(sa){
+		ajax("GET","../api/questionByType",{
+					"type":sa
 				},3000
 				,function(xhr){
-					console.log(xhr);
-					    var s = JSON.parse(xhr.responseText);	
-						obj=s;
+					    var s=JSON.parse(xhr.responseText);	
+						window.obj=s;
 						leg=obj.questions.length;
-						console.log(s);
-						du(counter);
+						du2(counter);
+					console.log(window.obj);
+						chuancanshu(window.obj);
 				},function(xhr){
 					alert(xhr.status+"连接失败");
 				});
+				
+					console.log(window.obj);
 	}
-
+	function chuancanshu(obj){
+		var biancheng=counter;
+		if(tixing=='f'){biancheng=counter+40;}
+		ajax("GET","../api/discussForQuestion",{
+					"paperId":obj["questions"][counter]["_id"],
+					"index":biancheng
+				},3000
+				,function(xhr){
+						var number=0;
+					    var s = JSON.parse(xhr.responseText);	
+					    	window.com=s;
+					    	console.log(s[number]["time"]);  
+					    	console.log(getMyDate(s[number]["time"]));
+							console.log(new Date(parseInt(s[number]["time"]) * 1000).toLocaleString().replace(/:\d{1,2}$/,' '));
+						$.each(s,function(key,value){
+							createText(null,1,s[number]["username"],s[number]["comment"],s[number]["star"],s[number]["cai"],number,getMyDate(s[number]["time"]));	
+							number++;
+						})
+		
+				},function(xhr){
+					alert(xhr.status+"连接失败");
+			});
+	}
 	
-	function du (counter) {
-		if(counter<=39||tixing=='e'){
-			duiwei(obj["questions"][counter].content,obj["questions"][counter].options[0],obj["questions"][counter].options[1],obj["questions"][counter].options[2],obj["questions"][counter].options[3]);
+function getMyDate(str){  
+   var oDate = new Date(str),  
+   oYear = oDate.getFullYear(),  
+   oMonth = oDate.getMonth()+1,  
+   oDay = oDate.getDate(),  
+   oHour = oDate.getHours(),  
+   oMin = oDate.getMinutes(),  
+   oSen = oDate.getSeconds(),  
+   oTime = oYear +'/'+ getzf(oMonth) +'/'+ getzf(oDay) +' '+ getzf(oHour) +':'+ getzf(oMin) +':'+getzf(oSen);//最后拼接时间  
+   return oTime;  
+}; 
+//补0操作
+function getzf(num){  
+	 if(parseInt(num) < 10){  
+	     num = '0'+num;  
+	 }  
+	 return num;  
+}
+
+						    
+	function du2 (counter) {
+		if(leg==80){
+			console.log(counter);
+			duiwei(obj["questions"][counter]["questions"].content,obj["questions"][counter]["questions"].options[0],obj["questions"][counter]["questions"].options[1],obj["questions"][counter]["questions"].options[2],obj["questions"][counter]["questions"].options[3]);
 		}
 		else{
-			console.log(obj);
-			duiwei(counter,obj["questions"][counter].content,obj["questions"][counter].example[0].input,obj["questions"][counter].example[0].output);
+			duiwei(counter,obj["questions"][counter]["questions"].content,obj["questions"][counter]["questions"].example[0].input,obj["questions"][counter]["questions"].example[0].output);
 		}
 	}
 
 	window.a1=new Array(leg);	
 	function duiwei(timu,ar,br,cr,dr){
 		var no,a,b,c,d;
-		if((counter<=39&&tixing=='a')){
+		if(tixing=='e'){
 		no = document.querySelector("#no");
 		a = document.querySelector("#A");
 		b = document.querySelector("#B");
@@ -79,22 +122,15 @@ window.onload=function(ev){
 	}
 	
 	function huanye(){
-		if(tixing=='e'||tixing=='b'){
+		if(tixing=='e'){
 			$("#danxuan").css('display','block');
 			$("#biancheng").css('display','none');
 		}
-		else if(tixing=='f'||tixing=='c'){
+		else if(tixing=='f'){
 			$("#danxuan").css('display','none');
 			$("#biancheng").css('display','block');
 		}
-		else if(counter<39&&tixing=='a'){
-			$("#danxuan").css('display','block');
-			$("#biancheng").css('display','none');
-		}
-		else{
-			$("#danxuan").css('display','none');
-			$("#biancheng").css('display','block');
-		}
+		$(".commith").empty();
 	}
 	huanye();
 	var Btnbefore=document.querySelector("#before");
@@ -104,23 +140,7 @@ window.onload=function(ev){
 	var Btnafter2=document.querySelector("#after2");
 	var Btncheck2=document.querySelector("#check2");
 	Btncheck.onclick=function(event){
-		if(tixing=='a'){
-			ajax("POST","/api/commitPaper",{
-					"paperId":obj._id,
-					"answers": JSON.stringify(a1)
-				},3000
-				,function(xhr){
-					if(xhr.responseText){
-							alert("提交成功");	
-						}
-						else{
-							alert("提交失败");
-						}
-				},function(xhr){
-					alert("shibai");
-				});
-		}
-		else if(tixing=='e'){
+		if(tixing=='e'){
 			ajax("POST","/api/commitAnswersByType",{
 					"paperId":obj._id,
 					"answers": JSON.stringify(a1)
@@ -139,48 +159,28 @@ window.onload=function(ev){
 		
 	}
 	function xiangqian(){
-		if(tixing=='e'||tixing=='f'){
+		if(counter<1){
+			alert("已经是第一题了！");
+			counter=0;
+		}
+		else if((tixing=='e'||tixing=='f')&&counter>=1){
 			counter--;
 			du2(counter);
 			shujuchuanshu();
 			shujujiancha();
-		}
-		else if(counter<1){
-			alert("已经是第一题了！");
-			counter=0;
-		}
-		else if(counter>=leg-7&&counter<leg&&tixing=='a'){
-			counter--;	
-			du(counter);
-			shujuchuanshu();
-		}
-		else{
-			shujuchuanshu();
-			counter--;		
-			du(counter);
-			shujujiancha();
+			chuancanshu(window.obj);
 		}
 	}
 	function xianghou(){
-		if(tixing=='e'||tixing=='f'){
+		if((tixing=='e'||tixing=='f')&&counter<=leg-2){
 			counter++;
 			du2(counter);
 			shujuchuanshu();
 			shujujiancha();
+			chuancanshu(window.obj);
 		}
-		else if(counter>leg-7&&counter<leg&&tixing=='a'){
-			counter++;
-			du(counter);
-			shujuchuanshu();
-		}
-		else if(counter==39&&tixing=='b'){
+		else if(counter==leg-1){
 			alert("已完成答题");
-		}
-		else{
-			shujuchuanshu();
-			counter++;	
-			du(counter);
-			shujujiancha();
 		}
 	}
 	Btnbefore.onclick=function(event){
@@ -248,7 +248,7 @@ window.onload=function(ev){
 		}
 	}
 	
-	var shijian = parseInt(3600);//倒计时总秒数量
+	var shijian = parseInt(3600);
 	function timer(shijian){
     window.setInterval(function(){
     var hour=0,
@@ -270,22 +270,94 @@ window.onload=function(ev){
 	$(function(){
  	   timer(shijian);
 	}); 
-	
 
-
+	var Btntijiao=document.querySelector("#pingluntijiao");
+	var pinglun=document.querySelector("#pinglun");
+	Btntijiao.onclick=function(){
+		ajax("POST","/api/discuss/commit",{
+					"paperId":obj.questions[counter]._id,
+					"index":obj.questions[counter].questions.index,
+					"comment":pinglun.value
+				},3000
+				,function(xhr){
+					if(xhr.responseText){
+							alert("提交成功");	
+						}
+						else{
+							alert("提交失败");
+						}
+				},function(xhr){
+					alert("shibai");
+				});
+		console.log(pinglun.value+"？"+localStorage.user+"?"+counter);
+		createText(localStorage.user,0,null,null,null,null,0);
+	}
 	var myDate = new Date();
-	function createText(name){
-		var $text = $(  
+	function createText(name,choose,id,commit,ding,cai,cishu,shijian){
+		if(choose==0){
+			var timestamp = Date.parse(new Date());
+			var jieguo=getMyDate(timestamp);
+			var $text = $(  
 						"<div class=\"pinglunqu\">\n"+
 				"	<div class=\"usernames\">"+name+":</div>\n"+
 					"	<div class=\"pinglundehua\">"+pinglun.value+"</div>\n"+
-				"	<div class=\"zancai\"><img src=\"img/文章详情-赞踩-01.png\">&nbsp&nbsp&nbsp&nbsp<img src=\"img/文章详情-赞踩-02.png\"></div>\n"+
-				"	<div class=\"time\">"+myDate.toLocaleString()+"</div>\n"+
+				"	<div class=\"zancai\"><img src=\"img/文章详情-赞踩-01.png\"  class=\"ding\"><span class=\"dingcai\">"+0+"</span>&nbsp&nbsp&nbsp<img src=\"img/文章详情-赞踩-02.png\" class=\"cai\">"+"<span class=\"dingcai\">"+0+"</span>"+"</div>\n"+
+				"	<div class=\"time\">"+jieguo+"</div>\n"+
 			"	</div>	")
 
-		$(".commit").parent().append($text);
+		}
+		else{
+			console.log(com);
+			console.log(counter);
+			var $text = $(  
+						"<div class=\"pinglunqu\">\n"+
+				"	<div class=\"usernames\" id="+com[cishu]["discussId"]+">"+id+":</div>\n"+
+					"	<div class=\"pinglundehua\">"+commit+"</div>\n"+
+				"	<div class=\"zancai\"><img src=\"img/文章详情-赞踩-01.png\" class=\"ding\">"+"<span class=\"dingcai\">"+ding+"</span>"+"&nbsp&nbsp&nbsp<img src=\"img/文章详情-赞踩-02.png\" class=\"cai\">"+"<span class=\"dingcai\">"+cai+"</span>"+"</div>\n"+
+				"	<div class=\"time\">"+shijian+"</div>\n"+
+			"	</div>	")
+		}
+		
+		$(".commith").prepend($text);
 	}
-	
+	$(".commith").delegate(".ding","click",function(){
+		var shuliang=parseInt($(this).next().text());
+		console.log($(this).next().next().next().css("color"));
+		if($(this).next().css("color")=="rgb(255, 0, 0)"||$(this).next().next().next().css("color")=="rgb(255, 0, 0)"){alert("您已经评论!")}
+		else{					
+				shuliang++;
+				console.log(shuliang);
+				$(this).next().text(shuliang);
+				$(this).next().css("color","red");
+			ajax("POST","/api/discuss/star",{
+					"discussId":$(this).parent().prev().prev().attr("id")
+				},3000
+				,function(xhr){
+
+				},function(xhr){
+					alert("404");
+				});
+		}
+	})
+	$(".commith").delegate(".cai","click",function(){
+		var shuliang=parseInt($(this).next().text());
+		console.log($(this).prev().prev());
+		if($(this).next().css("color")=="rgb(255, 0, 0)"||$(this).prev().css("color")=="rgb(255, 0, 0)"){alert("您已经评论!")}
+		else{					
+				shuliang++;
+				console.log(shuliang);
+				$(this).next().text(shuliang);
+				$(this).next().css("color","red");
+			ajax("POST","/api/discuss/cai",{
+					"discussId":$(this).parent().prev().prev().attr("id")
+				},3000
+				,function(xhr){
+
+				},function(xhr){
+					alert("404");
+				});
+		}
+	})
 	editorInit("anwser1");
 }
 

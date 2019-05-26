@@ -143,7 +143,7 @@ answers数组中的元素的格式应该是：
 ```
 
 # 提交用户评论（排好序的-->同一题目的评论放到一起）
-接口地址：/api/discussForPaperOrderByQuestion
+接口地址：/api/discussForPaper
 请求方式：get
 参数：
 | 参数名  | 类型 | 含义 |

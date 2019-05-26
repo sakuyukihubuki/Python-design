@@ -105,6 +105,7 @@ router.get("/api/discussForQuestion", (req, res) => {
 router.get("/api/discussForPaper", (req, res) => {
     const paperId = req.query.paperId;
     const isSort = req.query.isSort === 'true'
+    console.log(paperId, isSort)
     const aggregatePromise = common.aggregateDocumentToArray("paper", "discuss", [
         { $match: { paperId } },
         {
@@ -141,7 +142,8 @@ router.get("/api/discussForPaper", (req, res) => {
         return data
     }
     aggregatePromise.then(result => {
-        res.send(isSort ? convert(result[0]) : result[0])
+    	console.log(result)
+        res.send(isSort ? convert(result[0]) : result[0] || [])
     }).catch(() => {
         res.send(false)
     });

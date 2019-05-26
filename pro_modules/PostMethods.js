@@ -49,10 +49,12 @@ router.post("/api/discuss/commit", (req, res) => {
     let time = (new Date()).getTime();
     // paperId
     let paperId = req.body.paperId;
+    console.log(paperId)
     // index
     let index = parseInt(req.body.index);
     // comment
     let comment = req.body.comment;
+    console.log(username, index)
 
     let obj = {
         paperId,
