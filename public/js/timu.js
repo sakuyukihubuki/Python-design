@@ -6,6 +6,12 @@ window.onload=function(ev){
 	var res=str[0];
 	var names=str[1];
 	var tixing=localStorage.tixing;
+
+	
+	var username = document.querySelector("#username");
+	username.innerHTML=localStorage.user;
+	console.log(tixing);
+
 	if(tixing=='a'){
 		zairu(counter);
 	}
@@ -15,12 +21,6 @@ window.onload=function(ev){
 	if(tixing=='c'){
 		counter=40;
 		zairu(counter);
-	}
-	if(tixing=='e'){
-		zairuxuanze("select");
-	}
-	if(tixing=='f'){
-		zairuxuanze("base");
 	}
 
 	function zairu(counter){
@@ -32,48 +32,28 @@ window.onload=function(ev){
 					    var s = JSON.parse(xhr.responseText);	
 						obj=s;
 						leg=obj.questions.length;
+						console.log(s);
 						du(counter);
 				},function(xhr){
 					alert(xhr.status+"连接失败");
 				});
 	}
-	function zairuxuanze(sa){
-		ajax("GET","../api/questionByType",{
-					"type":sa
-				},3000
-				,function(xhr){
-					    var s = JSON.parse(xhr.responseText);	
-						obj=s;
-						leg=obj.questions.length;
-						du2(counter);
+
 	
-				},function(xhr){
-					alert(xhr.status+"连接失败");
-				});
-	}
 	function du (counter) {
 		if(counter<=39||tixing=='e'){
 			duiwei(obj["questions"][counter].content,obj["questions"][counter].options[0],obj["questions"][counter].options[1],obj["questions"][counter].options[2],obj["questions"][counter].options[3]);
 		}
 		else{
-			console.log(counter+"sad");
+			console.log(obj);
 			duiwei(counter,obj["questions"][counter].content,obj["questions"][counter].example[0].input,obj["questions"][counter].example[0].output);
-		}
-	}
-	function du2 (counter) {
-		console.log(obj);
-		if(leg==80){
-			duiwei(obj["questions"][counter]["questions"].content,obj["questions"][counter]["questions"].options[0],obj["questions"][counter]["questions"].options[1],obj["questions"][counter]["questions"].options[2],obj["questions"][counter]["questions"].options[3]);
-		}
-		else{
-			duiwei(counter,obj["questions"][counter]["questions"].content,obj["questions"][counter]["questions"].example[0].input,obj["questions"][counter]["questions"].example[0].output);
 		}
 	}
 
 	window.a1=new Array(leg);	
 	function duiwei(timu,ar,br,cr,dr){
 		var no,a,b,c,d;
-		if((counter<=39&&tixing=='a')||tixing=='e'||tixing=='b'){
+		if((counter<=39&&tixing=='a')){
 		no = document.querySelector("#no");
 		a = document.querySelector("#A");
 		b = document.querySelector("#B");
@@ -95,7 +75,7 @@ window.onload=function(ev){
 		no.innerHTML="&nbsp&nbsp&nbsp&nbsp"+ccount+"."+ar;
 		b.innerHTML="example:  "+"</br>"+"input:"+br+"</br>"+"output:"+cr;
 		}
-		initCodeHighlight()
+		initCodeHighlight();
 	}
 	
 	function huanye(){
@@ -273,34 +253,38 @@ window.onload=function(ev){
 		}
 	}
 	
-	var Btntijiao=document.querySelector("#pingluntijiao");
-	var pinglun=document.querySelector("#pinglun");
-	Btntijiao.onclick=function(){
-		/*ajax("POST","/api/discuss/commit",{
-					"paperId":obj._id,
-					"index": counter,
-					"comment":pinglun.value
-				},3000
-				,function(xhr){
-					if(xhr.responseText){
-							alert("提交成功");	
-						}
-						else{
-							alert("提交失败");
-						}
-				},function(xhr){
-					alert("shibai");
-				});*/
-		console.log(pinglun.value+"？"+names+"?"+counter);
-		createText();
-	}
+	var shijian = parseInt(3600);//倒计时总秒数量
+	function timer(shijian){
+    window.setInterval(function(){
+    var hour=0,
+        minute=0,
+        second=0;//时间默认值        
+    if(shijian > 0){
+        hour = Math.floor(shijian / (60 * 60));
+        minute = Math.floor(shijian / 60) - (hour * 60);
+        second = Math.floor(shijian)  - (hour * 60 * 60) - (minute * 60);
+    }
+    if (minute <= 9) minute = '0' + minute;
+    if (second <= 9) second = '0' + second;
+    $('#hour_show').html('<s id="h"></s>'+hour+'时');
+    $('#minute_show').html('<s></s>'+minute+'分');
+    $('#second_show').html('<s></s>'+second+'秒');
+    shijian--;
+   	 }, 1000);
+	} 
+	$(function(){
+ 	   timer(shijian);
+	}); 
+	
+
+
 	var myDate = new Date();
-	function createText(){
+	function createText(name){
 		var $text = $(  
 						"<div class=\"pinglunqu\">\n"+
-				"	<div class=\"usernames\">username:</div>\n"+
+				"	<div class=\"usernames\">"+name+":</div>\n"+
 					"	<div class=\"pinglundehua\">"+pinglun.value+"</div>\n"+
-				"	<div class=\"zancai\">"+"zan"+"&nbsp&nbsp&nbsp&nbsp"+"cai"+"</div>\n"+
+				"	<div class=\"zancai\"><img src=\"img/文章详情-赞踩-01.png\">&nbsp&nbsp&nbsp&nbsp<img src=\"img/文章详情-赞踩-02.png\"></div>\n"+
 				"	<div class=\"time\">"+myDate.toLocaleString()+"</div>\n"+
 			"	</div>	")
 

@@ -170,6 +170,7 @@ textarea{
 	padding: 10px 15px;
 }
 .pinglunqu{
+	margin-top:10px;
 	width: 600px;
 	height: 100px;
 	background: white;
@@ -184,12 +185,26 @@ textarea{
 }
 .pinglundehua{
 	text-align: left;
+	margin-left:24px ;
 	width: 560px;
-	height: 54px;
+	height: 44px;
+	border-bottom: 0.3px solid;
 }
 .usernames{
 	text-align: left;
+	width:40px;
+	margin-left:20px;
+	padding-top: 6px;
 }
 .time{
 	width: 200px;
+}
+img{
+	width:26px;
+	cursor: pointer;
+}
+.dingcai{
+	display: inline-block;
+	position: relative;
+	bottom: 4px;
 }
