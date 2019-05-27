@@ -164,28 +164,49 @@ router.get("/api/answerForPaper", (req, res) => {
 // 获取用户试卷答案
 router.get("/api/answerForQuestionType", (req, res) => {
     let username = req.session.username;
+    let type = req.query.type;
     // queryArray是[ { index: , paperId } ]
-    let queryArray = req.query.queryArray;
-    let formatQuery = {};
-    queryArray.forEach(queryItem => {
-        let paperId = queryItem.paperId;
-        if(formatQuery[paperId]) {
-            formatQuery.push(paperId);
+    // let queryArray = req.query.queryArray;
+    // let formatQuery = {};
+    // queryArray.forEach(queryItem => {
+    //     let paperId = queryItem.paperId;
+    //     if(formatQuery[paperId]) {
+    //         formatQuery.push(paperId);
+    //     }else {
+    //         formatQuery[paperId] = [ paperId ];
+    //     }
+    // });
+    // let findPromise = common.findDocumentToArray("paper", "answer", { where: {username} });
+    // findPromise.then((result) => {
+    //     const answers = result[0].answers;
+    //     const sendData = {};
+    //     for (let key in formatQuery) {
+    //         sendData[key] = answers[key].filter(answer => formatQuery[key].indexOf(answer.index) >= 0);
+    //     }
+    //     res.send({result: sendData});
+    // }).catch(() => {
+    //     res.send({result: false});
+    // });
+    function judgeType (index) {
+        if(index < 40) {
+            return "select";
+        }else if(index < 45) {
+            return "base";
         }else {
-            formatQuery[paperId] = [ paperId ];
+            return "synthesis";
         }
-    });
-    let findPromise = common.findDocumentToArray("paper", "answer", { where: {username} });
+    }
+    let findPromise = common.findDocumentToArray("paper", "answer", { where: { username } })
     findPromise.then((result) => {
         const answers = result[0].answers;
-        const sendData = {};
-        for (let key in formatQuery) {
-            sendData[key] = answers[key].filter(answer => formatQuery[key].indexOf(answer.index) >= 0);
+        const sendData = []
+        for (let key in answers) {
+            sendData = sendData.concat(answers[key].filter(item => judgeType(item.index) === type));
         }
-        res.send({result: sendData});
+        res.send({ result: sendData });
     }).catch(() => {
-        res.send({result: false});
-    });
+        res.send({ result: false });
+    })
 });
 
 
