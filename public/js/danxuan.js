@@ -118,7 +118,12 @@ window.onload=function(ev){
 			shujujiancha();
 		}
 	}
+	var isInitEditor = false;
 	function xianghou(){
+		if(!isInitEditor && counter === 39) {
+			editorInit("anwser1");
+			isInitEditor = true;
+		}
 		if(counter>leg-7&&counter<leg){
 			console.log(counter);
 			counter++;	
@@ -246,11 +251,8 @@ window.onload=function(ev){
 
 		$(".commit").parent().append($text);
 	}
-	
-	editorInit("anwser1");
-}
 
-function editorInit(id) {
+	function editorInit(id) {
 	var el = document.getElementById(id);
 	var version = "# version: Python3\n\n";
 	var codeTip = "'''\nThis function is the entry of this program, \nthe args is the input params and\nit must be return your answer of current question.\n'''\n";
@@ -283,4 +285,5 @@ function initCodeHighlight() {
 	pres.forEach(function(pre) {
 		hljs.highlightBlock(pre)
 	})
+}
 }

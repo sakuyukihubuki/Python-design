@@ -29,6 +29,7 @@ router.post("/api/login", (req, res) => {
         // 用户密码正确
         if(result.length) {
             req.session.username = username;
+            console.log(username)
             res.send(true); 
         }else {
             res.send(false);

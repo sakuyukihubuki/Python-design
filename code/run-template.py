@@ -9,9 +9,9 @@ def test(input, output):
     try:
         if not isMutiply:
             input = [ input ]
-        start = time.clock()
+        start = time.perf_counter()
         user_output = solution(input)
-        end = time.clock()
+        end = time.perf_counter()
         return [input, output, user_output, user_output == output]
     except:
         print(input)

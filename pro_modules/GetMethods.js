@@ -7,7 +7,7 @@ const router = express.Router();
 // 获取个人信息
 router.get("/api/userInfo", (req, res) => {
     let username = req.session.username;
-    let findPromise = common.findDocumentToArray("paper", "user", { username });
+    let findPromise = common.findDocumentToArray("paper", "user", { where: {username} });
     findPromise.then(result => {
         res.send({ result: result[0]} );
     }).catch(() => {
@@ -152,8 +152,8 @@ router.get("/api/discussForPaper", (req, res) => {
 // 获取用户试卷答案
 router.get("/api/answerForPaper", (req, res) => {
     let username = req.session.username;
-    let paperId = req.body.paperId;
-    let findPromise = common.findDocumentToArray("paper", "answer", { username });
+    let paperId = req.query.paperId;
+    let findPromise = common.findDocumentToArray("paper", "answer", { where: {username} });
     findPromise.then(([result]) => {
         res.send({result: result.answers[paperId]});
     }).catch(() => {
@@ -165,7 +165,7 @@ router.get("/api/answerForPaper", (req, res) => {
 router.get("/api/answerForQuestionType", (req, res) => {
     let username = req.session.username;
     // queryArray是[ { index: , paperId } ]
-    let queryArray = req.body.queryArray;
+    let queryArray = req.query.queryArray;
     let formatQuery = {};
     queryArray.forEach(queryItem => {
         let paperId = queryItem.paperId;
@@ -175,7 +175,7 @@ router.get("/api/answerForQuestionType", (req, res) => {
             formatQuery[paperId] = [ paperId ];
         }
     });
-    let findPromise = common.findDocumentToArray("paper", "answer", { username });
+    let findPromise = common.findDocumentToArray("paper", "answer", { where: {username} });
     findPromise.then((result) => {
         const answers = result[0].answers;
         const sendData = {};

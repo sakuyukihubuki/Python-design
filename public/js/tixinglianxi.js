@@ -2,8 +2,8 @@ window.onload=function(ev){
 	window.counter=0;
 	window.leg=0;
 	window.obj;
-
-window.com;
+	window.com;
+	var myCodeMirror;
 	var tixing=localStorage.tixing;
 	var Btntixing=document.querySelector("#tixing");
 	var Btntixing2=document.querySelector("#tixing2");
@@ -20,6 +20,7 @@ window.com;
 	}
 	if(tixing=='f'){
 		zairuxuanze("base");
+		editorInit("anwser1");
 	}
 
 	function zairuxuanze(sa){
@@ -29,14 +30,15 @@ window.com;
 				,function(xhr){
 					    var s=JSON.parse(xhr.responseText);	
 						window.obj=s;
-						leg=obj.questions.length;
+						window.leg=obj.questions.length;
 						du2(counter);
 					console.log(window.obj);
 						chuancanshu(window.obj);
+							console.log(window.leg);
+							chushihua(leg);
 				},function(xhr){
 					alert(xhr.status+"连接失败");
 				});
-				
 					console.log(window.obj);
 	}
 	function chuancanshu(obj){
@@ -49,10 +51,7 @@ window.com;
 				,function(xhr){
 						var number=0;
 					    var s = JSON.parse(xhr.responseText);	
-					    	window.com=s;
-					    	console.log(s[number]["time"]);  
-					    	console.log(getMyDate(s[number]["time"]));
-							console.log(new Date(parseInt(s[number]["time"]) * 1000).toLocaleString().replace(/:\d{1,2}$/,' '));
+					    window.com=s;
 						$.each(s,function(key,value){
 							createText(null,1,s[number]["username"],s[number]["comment"],s[number]["star"],s[number]["cai"],number,getMyDate(s[number]["time"]));	
 							number++;
@@ -63,37 +62,42 @@ window.com;
 			});
 	}
 	
-function getMyDate(str){  
-   var oDate = new Date(str),  
-   oYear = oDate.getFullYear(),  
-   oMonth = oDate.getMonth()+1,  
-   oDay = oDate.getDate(),  
-   oHour = oDate.getHours(),  
-   oMin = oDate.getMinutes(),  
-   oSen = oDate.getSeconds(),  
-   oTime = oYear +'/'+ getzf(oMonth) +'/'+ getzf(oDay) +' '+ getzf(oHour) +':'+ getzf(oMin) +':'+getzf(oSen);//最后拼接时间  
-   return oTime;  
-}; 
-//补0操作
-function getzf(num){  
-	 if(parseInt(num) < 10){  
-	     num = '0'+num;  
-	 }  
-	 return num;  
-}
-
+	function getMyDate(str){  
+  	var oDate = new Date(str),  
+  		oYear = oDate.getFullYear(),  
+   		oMonth = oDate.getMonth()+1,  
+   		oDay = oDate.getDate(),  
+   		oHour = oDate.getHours(),  
+   		oMin = oDate.getMinutes(),  
+   		oSen = oDate.getSeconds(),  
+   		oTime = oYear +'/'+ getzf(oMonth) +'/'+ getzf(oDay) +' '+ getzf(oHour) +':'+ getzf(oMin) +':'+getzf(oSen);//最后拼接时间  
+   		return oTime;  
+	}; 
+	function getzf(num){  
+		if(parseInt(num) < 10){  
+	    	num = '0'+num;  
+		}  
+	 		return num;  
+	}
 						    
 	function du2 (counter) {
 		if(leg==80){
-			console.log(counter);
 			duiwei(obj["questions"][counter]["questions"].content,obj["questions"][counter]["questions"].options[0],obj["questions"][counter]["questions"].options[1],obj["questions"][counter]["questions"].options[2],obj["questions"][counter]["questions"].options[3]);
 		}
 		else{
 			duiwei(counter,obj["questions"][counter]["questions"].content,obj["questions"][counter]["questions"].example[0].input,obj["questions"][counter]["questions"].example[0].output);
 		}
 	}
+	
+	function chushihua(leg){
 
 	window.a1=new Array(leg);	
+		for(var shu=0;shu<leg;shu++){
+		a1[shu]={answer:'',paperId:'',index:''};//a1数组的初始化
+		}
+	}
+	
+	chushihua();
 	function duiwei(timu,ar,br,cr,dr){
 		var no,a,b,c,d;
 		if(tixing=='e'){
@@ -140,14 +144,15 @@ function getzf(num){
 	var Btnafter2=document.querySelector("#after2");
 	var Btncheck2=document.querySelector("#check2");
 	Btncheck.onclick=function(event){
+		console.log(a1);
 		if(tixing=='e'){
 			ajax("POST","/api/commitAnswersByType",{
-					"paperId":obj._id,
-					"answers": JSON.stringify(a1)
+					"answers":JSON.stringify(a1)
 				},3000
 				,function(xhr){
 					if(xhr.responseText){
 							alert("提交成功");	
+							window.location.href="result.html"+"?"+1;
 						}
 						else{
 							alert("提交失败");
@@ -164,18 +169,18 @@ function getzf(num){
 			counter=0;
 		}
 		else if((tixing=='e'||tixing=='f')&&counter>=1){
+			shujuchuanshu();
 			counter--;
 			du2(counter);
-			shujuchuanshu();
 			shujujiancha();
 			chuancanshu(window.obj);
 		}
 	}
 	function xianghou(){
 		if((tixing=='e'||tixing=='f')&&counter<=leg-2){
+			shujuchuanshu();	
 			counter++;
 			du2(counter);
-			shujuchuanshu();
 			shujujiancha();
 			chuancanshu(window.obj);
 		}
@@ -184,16 +189,20 @@ function getzf(num){
 		}
 	}
 	Btnbefore.onclick=function(event){
+				console.log(a1);
 		huanye();
 		xiangqian();
+		console.log(a1);
 	}
 	Btnbefore2.onclick=function(event){
 		huanye();
 		xiangqian();
 	}
 	Btnafter.onclick=function(event){
+				console.log(a1);
 		huanye();
 		xianghou();
+		console.log(a1);
 	}
 	Btnafter2.onclick=function(event){
 		huanye();
@@ -201,12 +210,15 @@ function getzf(num){
 	}
 	
 	function shujuchuanshu(){
-		if(($('input:radio[name="xuanze1"]:checked').val()!=null&&counter<=39&&tixing=='a')||tixing=='e')
-		{
-			a1[counter]=$('input:radio[name="xuanze1"]:checked').val();
+		if($('input:radio[name="xuanze1"]:checked').val()!=null)
+		{console.log(a1);
+			a1[counter].answer=$('input:radio[name="xuanze1"]:checked').val();//这里是answer数组的赋值
+			a1[counter].paperId=obj["questions"][counter]["_id"];
+			a1[counter].index=obj["questions"][counter]["questions"].index;
+			
 		}
 		else{
-			a1[counter]=$("#anwser1").val();
+			a1[counter].answer=myCodeMirror.getValue(); // 这里是获取文本框内容！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
 		}
 	}
 	
@@ -219,18 +231,19 @@ function getzf(num){
 	}
 	
 	function shujujiancha(){
-		if(a1[counter]!=null){
+		console.log(counter);
+		if(a1[counter].answer!=null&&a1[counter].answer!=''){
 			var shu=10;
-			if(a1[counter]=='A'){
+			if(a1[counter].answer=='A'){
 				shu=0;
 			}
-			if(a1[counter]=='B'){
+			if(a1[counter].answer=='B'){
 				shu=1;
 			}
-			if(a1[counter]=='C'){
+			if(a1[counter].answer=='C'){
 				shu=2;
 			}
-			if(a1[counter]=='D'){
+			if(a1[counter].answer=='D'){
 				shu=3;
 			}
 			if(shu!=10){
@@ -307,8 +320,6 @@ function getzf(num){
 
 		}
 		else{
-			console.log(com);
-			console.log(counter);
 			var $text = $(  
 						"<div class=\"pinglunqu\">\n"+
 				"	<div class=\"usernames\" id="+com[cishu]["discussId"]+">"+id+":</div>\n"+
@@ -322,11 +333,9 @@ function getzf(num){
 	}
 	$(".commith").delegate(".ding","click",function(){
 		var shuliang=parseInt($(this).next().text());
-		console.log($(this).next().next().next().css("color"));
 		if($(this).next().css("color")=="rgb(255, 0, 0)"||$(this).next().next().next().css("color")=="rgb(255, 0, 0)"){alert("您已经评论!")}
 		else{					
 				shuliang++;
-				console.log(shuliang);
 				$(this).next().text(shuliang);
 				$(this).next().css("color","red");
 			ajax("POST","/api/discuss/star",{
@@ -358,63 +367,115 @@ function getzf(num){
 				});
 		}
 	})
-	editorInit("anwser1");
-}
 
-function editorInit(id) {
-	var el = document.getElementById(id);
-	var runCodeBtn = document.getElementById("runcode");
-	var version = "# version: Python3\n\n";
-	var codeTip = "'''\nThis function is the entry of this program, \nthe args is the input params and\nit must be return your answer of current question.\n'''\n";
-	var code = "def solution(args):\n\tpass";
-    var initValue = version + codeTip + code;
-    var myCodeMirror = CodeMirror.fromTextArea(el, {
-        mode: "python",
-        theme: "leetcode",
-        keyMap: "sublime",
-        lineNumbers: true,
-        smartIndent: true,
-        indentUnit: 4,
-        indentWithTabs: true,
-        lineWrapping: true,
-        gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter", "CodeMirror-lint-markers"],
-        foldGutter: true,
-        autofocus: true,
-        matchBrackets: true,
-        autoCloseBrackets: true,
-        styleActiveLine: true,
-    });
-    myCodeMirror.setOption("value", initValue);
-    myCodeMirror.on("keypress", function() {
-        myCodeMirror.showHint(); // 注意，注释了CodeMirror库中show-hint.js第131行的代码（阻止了代码补全，同时提供智能提示）
-	});
-	runCodeBtn.addEventListener("click", function() {
-		var code = myCodeMirror.getValue();
-		runCode(code)
-	})
-	function runCode(code) {
-		var paperId = "5ca06e9201257519105a7882";
-		var index = 40;
-		$.ajax({
-			url: "/api/code/commit",
-			method: "post",
-			data: {
-				paperId: paperId, index: index, code: code
-			},
-			contentType: "application/x-www-form-urlencoded; charset=utf-8",
-			success: function(data) {
-				console.log(data)
-			},
-			error: function() {
-
-			}
+	function editorInit(id) {
+		var el = document.getElementById(id);
+		var runCodeBtn = document.getElementById("run-code");
+		var commitCodeBtn = document.getElementById("commit-code");
+		var codeInput = document.getElementById("code-input");
+		var codeOutput = document.getElementById("code-output");
+		var codeExpect = document.getElementById("code-expect");
+		var codeTime = document.getElementById("code-time");
+		var codeSpace = document.getElementById("code-space");
+		var codeMsg = document.getElementById("code-msg");
+		var version = "# version: Python3\n\n";
+		var codeTip = "'''\nThis function is the entry of this program, \nthe args is the input params and\nit must be return your answer of current question.\n'''\n";
+		var code = "def solution(args):\n\tpass";
+		var initValue = version + codeTip + code;
+		myCodeMirror = CodeMirror.fromTextArea(el, {
+			mode: "python",
+			theme: "leetcode",
+			keyMap: "sublime",
+			lineNumbers: true,
+			smartIndent: true,
+			indentUnit: 4,
+			indentWithTabs: true,
+			lineWrapping: true,
+			gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter", "CodeMirror-lint-markers"],
+			foldGutter: true,
+			autofocus: true,
+			matchBrackets: true,
+			autoCloseBrackets: true,
+			styleActiveLine: true,
 		});
+		myCodeMirror.setOption("value", initValue);
+		myCodeMirror.on("keypress", function() {
+			myCodeMirror.showHint(); // 注意，注释了CodeMirror库中show-hint.js第131行的代码（阻止了代码补全，同时提供智能提示）
+		});
+		runCodeBtn.addEventListener("click", function() {
+			var code = myCodeMirror.getValue();
+			runCode(code);
+		});
+		commitCodeBtn.addEventListener("click", function() {
+			var code = myCodeMirror.getValue();
+			commitCode(code);
+		});
+		function showCodeResult(data) {
+			if (typeof data === "string") {
+				 codeInput.innerText = "";
+				 codeOutput.innerText = "";
+				 codeExpect.innerText = "";
+				 codeTime.innerText = "";
+				 codeSpace.innerText = "";
+				codeMsg.innerText = data;
+			}else {
+				var input = data[0];
+				var output = data[2];
+				var expect = data[1];
+				var time = data[4];
+				var space = data[5];
+				codeMsg.innerText = "";
+				codeInput.innerText = input;
+				codeOutput.innerText = output;
+				codeExpect.innerText = expect;
+				codeTime.innerText = time;
+				codeSpace.innerText = space;
+			}
+		}
+		function runCode(code) {
+			var paperId = names;
+			var index = counter;
+			$.ajax({
+				url: "/api/code/run",
+				method: "post",
+				data: {
+					paperId: paperId, index: index, code: code
+				},
+				contentType: "application/x-www-form-urlencoded; charset=utf-8",
+				success: function(data) {
+					showCodeResult(data);
+				},
+				error: function(err) {
+					alert(err);
+				}
+			});
+		}
+		function commitCode(code) {
+			var paperId = names;
+			var index = counter;
+			$.ajax({
+				url: "/api/code/commit",
+				method: "post",
+				data: {
+					paperId: paperId, index: index, code: code
+				},
+				contentType: "application/x-www-form-urlencoded; charset=utf-8",
+				success: function(data) {
+					showCodeResult(data);
+				},
+				error: function(err) {
+					alert(err);
+				}
+			});
+		}
+	}
+	
+	function initCodeHighlight() {
+		var pres = document.querySelectorAll(".question-box pre")
+		pres.forEach(function(pre) {
+			hljs.highlightBlock(pre)
+		})
 	}
 }
 
-function initCodeHighlight() {
-	var pres = document.querySelectorAll(".question-box pre")
-	pres.forEach(function(pre) {
-		hljs.highlightBlock(pre)
-	})
-}
+

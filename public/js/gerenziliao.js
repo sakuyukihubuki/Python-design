@@ -9,6 +9,24 @@ window.onload = function() {
     }
     var inputMem = {};
     var isEdit = false;
+    loadData()
+    function loadData() {
+    	$.ajax({
+    		url: "/api/userInfo",
+    		method: "GET",
+    		success: function(data) {
+    			var result = data.result, key;
+    			for(key in result) {
+    				if(spanMem[key]) {
+    					spanMem[key].innerText = result[key];
+    				}	
+    			}
+    		},
+    		error: function(err) {
+    			console.log(err)
+    		}
+    	})
+    }
     btn.addEventListener("click", function() {
         var key, spanTextObj = {};
         isEdit = !isEdit;
@@ -25,6 +43,7 @@ window.onload = function() {
             }
             $.ajax({
                 url: "/api/rewriteUser",
+                method: "POST",
                 data: spanTextObj,
                 success: function(data) {
                     console.log(data);

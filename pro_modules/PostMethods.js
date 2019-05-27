@@ -30,7 +30,7 @@ router.use(session({
 router.post("/api/rewriteUser", (req, res) => {
     let username = req.session.username;
     let body = req.body;
-
+    delete body.username;
     let updatePromise = common.updateDocument("paper", "user", { username }, { $set: body });
     updatePromise.then(() => {
         res.send({ result: true });
@@ -54,7 +54,6 @@ router.post("/api/discuss/commit", (req, res) => {
     let index = parseInt(req.body.index);
     // comment
     let comment = req.body.comment;
-    console.log(username, index)
 
     let obj = {
         paperId,
@@ -100,11 +99,9 @@ router.post("/api/discuss/cai", (req, res) => {
 // 运行一次代码的操作
 function runCode (username, tpl, paperId, index, code, isSimple) {
     return new Promise(function(resolve, reject) {
-        const unitPromise = common.findDocumentToArray("paper", "testunits", { where: { paperId, index } });
+        const unitPromise = common.findDocumentToArray("paper", "testunit", { where: { paperId, index } });
         unitPromise.then((result) => {
-            console.log(result)
             result = result[0];
-            console.log(result)
             let isMutiply = result.mutiply
             let writeStr;
             // 只检查一项
@@ -147,6 +144,7 @@ router.post("/api/code/run", (req, res) => {
     let paperId = req.body.paperId;
     let index = parseInt(req.body.index);
     let code = req.body.code;
+    console.log(username, paperId, index, code)
     runCode(username, "code/run-template.py", paperId, index, code, true).then((result) => {
         res.send(result);
     }).catch((err) => {
@@ -170,20 +168,23 @@ router.post("/api/code/commit", (req, res) => {
 // 试卷答题提交
 router.post("/api/commitPaper", (req, res) => {
     // 从session中获取用户名
-    // let username = req.session.username;
-    let username = "myl";
+    let username = req.session.username;
     // 获取试卷信息
     let paperId = req.body.paperId;
     // 如果可以出现用户没有填写题目的情况，不能跳过该题目答案，应将其置为undefined
-    let answers = req.body.answers; 
+    let answers;
+    try {
+    	answers = JSON.parse(req.body.answers)
+    }catch(err) {
+    	answers = req.body.answers
+    }
     // $set
     let setObject = {};
     let answersField = "answers." + paperId;
-    try{
-        setObject[answersField] = JSON.parse(answers);
-    }catch(err) {
-        setObject[answersField] = answers;
-    }
+    answers.forEach((answer, index, array) => {
+        array[index] = { index, answer }
+    })
+    setObject[answersField] = answers;
     // 为编程题添加一个运行情况字段（run_situation）
     setObject[answersField].forEach((item) => {
         if(item.index >= 40) {
@@ -231,22 +232,20 @@ router.post("/api/commitAnswersByType", (req, res) => {
     let username = req.session.username;
     // 获取answers
     let answers;
-    // 判断答题类型
+    try {
+        answers = JSON.parse(req.body.answers);
+    }catch(err) {
+        answers = req.body.answers;
+    }
     let isCode = answers[0].index >= 40;
-    // 如果是编程题，添加一个运行后的字段run_situation
     if (isCode) {
         answers.forEach(item => {
-            runCode(username, "code/check-template.py", paperId, item.index, item.answer, false).then((result) => {
+            runCode(username, "code/check-template.py", item.paperId, item.index, item.answer, false).then((result) => {
                 item.run_situation = JSON.parse(result);
             }).catch((err) => {
                 item.run_situation = err;
             });
         });
-    }
-    try {
-        answers = JSON.parse(req.body.answers);
-    }catch(err) {
-        answers = req.body.answers;
     }
     let formatAnwsers = {}
     for (let i = 0; i < answers.length; i++) {
@@ -260,14 +259,14 @@ router.post("/api/commitAnswersByType", (req, res) => {
             formatAnwsers[paperId] = [ { index, answer: value } ];
         }
     } 
-    let findPromise = common.findDocumentToArray("paper", "answer", { username });
+    let findPromise = common.findDocumentToArray("paper", "answer", { where: {username} });
     findPromise.then((result) => {
         let promise;
         // 用户有答题记录
         if(result.length > 0) {
             result = result[0];
             let answers = merge(result.answers, formatAnwsers);
-            promise = common.updateDocument("paper", "answer", { username }, { answers });
+            promise = common.updateDocument("paper", "answer", { username }, { $set: { answers } });
         }
         // 用户没有答题记录
         else {

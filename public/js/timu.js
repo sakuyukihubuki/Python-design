@@ -6,8 +6,7 @@ window.onload=function(ev){
 	var res=str[0];
 	var names=str[1];
 	var tixing=localStorage.tixing;
-
-	
+	var myCodeMirror;
 	var username = document.querySelector("#username");
 	username.innerHTML=localStorage.user;
 	console.log(tixing);
@@ -104,6 +103,8 @@ window.onload=function(ev){
 	var Btnafter2=document.querySelector("#after2");
 	var Btncheck2=document.querySelector("#check2");
 	Btncheck.onclick=function(event){
+		localStorage.shijuan=names;
+		console.log(localStorage.shijuan);
 		if(tixing=='a'){
 			ajax("POST","/api/commitPaper",{
 					"paperId":obj._id,
@@ -112,6 +113,7 @@ window.onload=function(ev){
 				,function(xhr){
 					if(xhr.responseText){
 							alert("提交成功");	
+							window.location.href="result.html"+"?"+0;
 						}
 						else{
 							alert("提交失败");
@@ -119,24 +121,9 @@ window.onload=function(ev){
 				},function(xhr){
 					alert("shibai");
 				});
-		}
-		else if(tixing=='e'){
-			ajax("POST","/api/commitAnswersByType",{
-					"paperId":obj._id,
-					"answers": JSON.stringify(a1)
-				},3000
-				,function(xhr){
-					if(xhr.responseText){
-							alert("提交成功");	
-						}
-						else{
-							alert("提交失败");
-						}
-				},function(xhr){
-					alert("shibai");
-				});
-		}
+				
 		
+		}
 	}
 	function xiangqian(){
 		if(tixing=='e'||tixing=='f'){
@@ -167,12 +154,6 @@ window.onload=function(ev){
 			editorInit("anwser1");
 			isInitEditor = true;
 		}
-		if(tixing=='e'||tixing=='f'){
-			counter++;
-			du2(counter);
-			shujuchuanshu();
-			shujujiancha();
-		}
 		else if(counter>leg-7&&counter<leg&&tixing=='a'){
 			counter++;
 			du(counter);
@@ -187,6 +168,7 @@ window.onload=function(ev){
 			du(counter);
 			shujujiancha();
 		}
+		console.log(a1);
 	}
 	Btnbefore.onclick=function(event){
 		huanye();
@@ -206,12 +188,15 @@ window.onload=function(ev){
 	}
 	
 	function shujuchuanshu(){
-		if(($('input:radio[name="xuanze1"]:checked').val()!=null&&counter<=39&&tixing=='a')||tixing=='e')
+		if($('input:radio[name="xuanze1"]:checked').val()!=null&&counter<=39&&tixing=='a')
 		{
 			a1[counter]=$('input:radio[name="xuanze1"]:checked').val();
 		}
+		else if($('input:radio[name="xuanze1"]:checked').val()==null&&counter<=39&&tixing=='a'){
+			a1[counter]='';
+		}
 		else{
-			a1[counter]=$("#anwser1").val();
+			a1[counter]=myCodeMirror.getValue()// 这里是获取文本框内容！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
 		}
 	}
 	
@@ -224,7 +209,7 @@ window.onload=function(ev){
 	}
 	
 	function shujujiancha(){
-		if(a1[counter]!=null){
+		if(a1[counter]!=null&&a1[counter]!=''){
 			var shu=10;
 			if(a1[counter]=='A'){
 				shu=0;
@@ -305,7 +290,7 @@ window.onload=function(ev){
 		var codeTip = "'''\nThis function is the entry of this program, \nthe args is the input params and\nit must be return your answer of current question.\n'''\n";
 		var code = "def solution(args):\n\tpass";
 		var initValue = version + codeTip + code;
-		var myCodeMirror = CodeMirror.fromTextArea(el, {
+		myCodeMirror = CodeMirror.fromTextArea(el, {
 			mode: "python",
 			theme: "leetcode",
 			keyMap: "sublime",
@@ -335,18 +320,19 @@ window.onload=function(ev){
 		});
 		function showCodeResult(data) {
 			if (typeof data === "string") {
-				// codeInput.innerText = "";
-				// codeOutput.innerText = "";
-				// codeExpect.innerText = "";
-				// codeTime.innerText = "";
-				// codeSpace.innerText = "";
+				 codeInput.innerText = "";
+				 codeOutput.innerText = "";
+				 codeExpect.innerText = "";
+				 codeTime.innerText = "";
+				 codeSpace.innerText = "";
 				codeMsg.innerText = data;
 			}else {
 				var input = data[0];
 				var output = data[2];
 				var expect = data[1];
-				var time = data[3];
-				var space = data[4];
+				var time = data[4];
+				var space = data[5];
+				codeMsg.innerText = "";
 				codeInput.innerText = input;
 				codeOutput.innerText = output;
 				codeExpect.innerText = expect;
