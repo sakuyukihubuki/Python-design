@@ -20,7 +20,7 @@
     "chance": "^1.0.18",
     "express": "^4.16.4",
     "express-session": "^1.15.6",
-    "jquery": "^3.4.0",
+    "jquery": "^3.5.0",
     "mongodb": "^3.1.10"
   }
 }
